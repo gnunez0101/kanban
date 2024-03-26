@@ -1,0 +1,190 @@
+.menu {
+  --width-menu: 240px;
+  width: 100%;
+  
+  .menu-opt {
+    transform-origin: left;
+    margin-right: 20px;
+    overflow: visible;
+    border-top-right-radius :    24px;
+    border-bottom-right-radius : 24px;
+  }
+  
+  .menu-opt.all-boards {
+    font-size:      var(--fs-Heading-S);
+    font-weight:    var(--fw-Heading-S);
+    letter-spacing: var(--fk-Heading-S);
+    color: var(--text-secondary);
+    padding-left:   24px;
+    padding-top:    16px;
+    padding-bottom: 19px;
+  }
+
+  .menu-options {
+    
+    .menu-opt.items {
+      display: flex;
+      align-items: center;
+      padding-left:  24px;
+      padding-block: 15px;
+      width: var(--width-menu);
+      color: var(--text-secondary);
+
+      .menu-opt-icon {
+        width:  16px;
+        height: 16px;
+        margin-right: 12px;
+        background-color: var(--text-secondary);
+        mask: url('../assets/icon-board.svg') no-repeat center;
+      }
+
+      .menu-opt-name {
+        color: var(--text-secondary);
+        font-size:   var(--fs-Heading-M);
+        font-weight: var(--fw-Heading-M);
+        line-height: var(--fl-Heading-M);
+      }
+
+      &.selected {
+        background-color: var(--primary);
+        color: var(--text-button-primary);
+
+        .menu-opt-icon { background-color: currentColor; }
+        .menu-opt-name { color: currentColor; }
+      }
+
+      &:not(.selected):hover {
+        color: var(--primary);
+        background-color: var(--hover-secondary);
+        cursor: pointer;
+
+        .menu-opt-icon { background-color: currentColor; }
+        .menu-opt-name { color: currentColor; }
+      }
+    }
+  }
+
+  .menu-opt.create-board {
+    display: flex;
+    width: var(--width-menu);
+    padding-left: 24px;
+    padding-block: 15px;
+    border: none;
+    background-color: transparent;
+    color: var(--primary); 
+    font-size:   var(--fs-Heading-M);
+    font-weight: var(--fw-Heading-M);
+    line-height: var(--fl-Heading-M);
+    cursor: pointer;
+
+    &::before {
+      align-items: center;
+      content: '';
+      width:  16px;
+      height: 16px;
+      margin-right: 12px;
+      background-color: var(--primary);
+      mask: url('../assets/icon-board.svg') no-repeat center;
+    }
+
+    &:hover {
+      color: var(--hover-secondary);
+      background-color: var(--hover-primary);
+      transform-origin: center;
+
+      &::before {
+        background-color: var(--hover-secondary);
+      }
+    }
+  }
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  width: 100%;
+
+  .toggle-dark {
+    align-self: center;
+    padding: 13px;
+
+    .toggle-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 235px;
+      height: 48px;
+      padding-inline: 57px;
+      padding-block:  14px;
+      background-color: var(--background-secondary);
+      border-radius: 6px;
+      transform-origin: left;
+
+      & [class^="icon"] {
+        display: flex;
+        background-color: var(--text-secondary);
+        width:  20px;
+        height: 20px;
+      }
+
+      .icon-sun {
+        mask: url('../assets/icon-light-theme.svg') no-repeat center;
+      }
+
+      .icon-moon {
+        mask: url('../assets/icon-dark-theme.svg') no-repeat center;
+      }
+    }
+  }
+  
+  .hide-desktop-sidebar { display: none; }
+}
+
+@media (width > 375px) {
+
+  .nav-menu {
+
+    .hide-desktop-sidebar {
+      display: flex;
+      align-items: center;
+      width: 240px;
+      height: 48px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+      background-color: transparent;
+      border: none;
+      border-top-right-radius:    24px;
+      border-bottom-right-radius: 24px;
+      transform-origin: left;
+
+      .icon-hide-sidebar {
+        display: flex;
+        background-color: var(--text-secondary);
+        width:  18px;
+        height: 16px;
+        mask: url('../assets/icon-hide-sidebar.svg') no-repeat center;
+      }
+
+      .msg-hide-sidebar {
+        padding-left: 10px;
+        font-size:   var(--fs-Heading-M);
+        font-weight: var(--fw-Heading-M);
+        color: inherit;
+      }
+
+      &:hover {
+        background-color: var(--hover-secondary);
+        cursor: pointer;
+        
+        .icon-hide-sidebar {
+          background-color: var(--primary);
+        }
+
+        .msg-hide-sidebar {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}
