@@ -2,8 +2,8 @@ import './App.css'
 import Sidebar     from './components/Sidebar'
 import Header      from './components/Headers'
 import EmptyBoards from './components/EmptyBoards'
-import showSideBar from './assets/icon-show-sidebar.svg'
 import Board       from './components/Board'
+import showSideBar from './assets/icon-show-sidebar.svg'
 import { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
@@ -88,9 +88,7 @@ function App() {
           }
         </AnimatePresence>
       }
-      <div className="dialogs">
-        
-      </div>
+      <div className="dialogs"></div>
     </main>
   )
 }
