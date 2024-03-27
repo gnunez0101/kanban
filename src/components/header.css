@@ -118,7 +118,7 @@
         .board-name {
 
           > .title {
-            padding-left: 16px;
+            padding-left: 24px;
           }
 
         > .toggle-menu {
@@ -155,6 +155,8 @@
   }
 }
 
-@media (width > 768) {
-
+@media (width > 768px) {
+  .header {
+    height: 96px;
+  }
 }

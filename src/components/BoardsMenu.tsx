@@ -78,9 +78,11 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
 
         <div className="toggle-dark">
           <div className="toggle-box">
-            <div className='icon-sun'></div>
-            <Toggle isToggled={darkMode} onToggle={()=>setDarkMode(!darkMode)} />
-            <div className='icon-moon'></div>
+            <div className="toggle-items">
+              <div className='icon-sun'></div>
+              <Toggle isToggled={darkMode} onToggle={()=>setDarkMode(!darkMode)} />
+              <div className='icon-moon'></div>
+            </div>
           </div>
         </div>
         

@@ -13,7 +13,8 @@ import { useMediaQuery } from 'react-responsive'
 function Header({boardName, setShowMenu, showMenu, darkMode} : 
                 {boardName: string, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
 
-  const isTablet = useMediaQuery({ query: '( width > 375px )' })
+  const isTablet  = useMediaQuery({ query: '( width > 375px )' })
+  const isDesktop = useMediaQuery({ query: '( width > 768px )' })
   
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
@@ -23,13 +24,24 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
     setShowMenu(!showMenu)
   }
 
-  const logoDesktopVariants = {
+  const logoTabletVariants = {
     show: {
       width: 261, borderBottom: "1px solid currentColor",
       transition: { ease: "backInOut", duration: 0.5 }
     },
     hide: { 
       width: 201, 
+      transition: { ease: "backInOut", duration: 0.5 }
+    }
+  }
+
+  const logoDesktopVariants = {
+    show: {
+      width: 300, borderBottom: "1px solid currentColor",
+      transition: { ease: "backInOut", duration: 0.5 }
+    },
+    hide: { 
+      width: 210, 
       transition: { ease: "backInOut", duration: 0.5 }
     }
   }
@@ -50,7 +62,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
           </div>
           :
           <motion.div className="logo-header-desktop"
-            variants = { logoDesktopVariants }
+            variants = { isDesktop ? logoDesktopVariants : logoTabletVariants }
             initial  = { false }
             animate  = { showMenu ? "show" : "hide" }
           >

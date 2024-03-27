@@ -18,8 +18,14 @@ const sidebarMobileVariants = {
 }
 
 const sidebarDesktopVariants = {
-  show: {
-    width: 261, opacity: 1,
+  showTablet: {
+    width: 261, 
+    opacity: 1,
+    transition: { ease: "backInOut", duration: 0.5 }
+  },
+  showDesktop: {
+    width: 300, 
+    opacity: 1,
     transition: { ease: "backInOut", duration: 0.5 }
   },
   hide: { 
@@ -33,7 +39,8 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
                    { boards: any, showMenu: boolean, setShowMenu?:any, darkMode: boolean, setDarkMode: any, selected: number, setSelected: any }
                   ) {
   
-  const isTablet = useMediaQuery({ query: '( width > 375px )' })
+  const isTablet  = useMediaQuery({ query: '( width > 375px )' })
+  const isDesktop = useMediaQuery({ query: '( width > 768px )' })
 
   return (
     <>
@@ -69,7 +76,7 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
         <motion.aside className = "sidebar-desktop"
           variants = { sidebarDesktopVariants }
           initial  = { false }
-          animate  = { showMenu ? "show" : "hide" }
+          animate  = { showMenu ? (isDesktop ? "showDesktop" : "showTablet") : "hide" }
         >
           {/* Show menu contents of boards ==================================================== */}
           <BoardsMenu 

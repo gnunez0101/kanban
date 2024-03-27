@@ -43,3 +43,9 @@
     * { overflow: visible; }
   }
 }
+
+@media (width > 768px) {
+  .sidebar-desktop {
+    width: 300px;
+  }
+}

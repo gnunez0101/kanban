@@ -54,13 +54,6 @@
       color:       var(--text-secondary);
     }
 
-    &:hover {
-      scale: 102%;
-      cursor: pointer;
-    }
-
-    &:active {
-      scale: 98%;
-    }
+    &:hover { cursor: pointer; }
   }
 }

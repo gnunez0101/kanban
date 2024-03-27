@@ -1,10 +1,9 @@
 .menu {
-  --width-menu: 240px;
   width: 100%;
+  padding-right: 24px;
   
   .menu-opt {
     transform-origin: left;
-    margin-right: 20px;
     overflow: visible;
     border-top-right-radius :    24px;
     border-bottom-right-radius : 24px;
@@ -27,7 +26,6 @@
       align-items: center;
       padding-left:  24px;
       padding-block: 15px;
-      width: var(--width-menu);
       color: var(--text-secondary);
 
       .menu-opt-icon {
@@ -66,7 +64,7 @@
 
   .menu-opt.create-board {
     display: flex;
-    width: var(--width-menu);
+    width: 100%;
     padding-left: 24px;
     padding-block: 15px;
     border: none;
@@ -102,38 +100,48 @@
 .nav-menu {
   display: flex;
   flex-direction: column;
-  align-self: center;
   width: 100%;
 
   .toggle-dark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     align-self: center;
-    padding: 13px;
-
+    width: 100%;
+    padding-block:  13px;
+    padding-inline: 24px;
+    
     .toggle-box {
+      flex: 1;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      width: 235px;
       height: 48px;
-      padding-inline: 57px;
       padding-block:  14px;
       background-color: var(--background-secondary);
       border-radius: 6px;
       transform-origin: left;
-
-      & [class^="icon"] {
+      
+      .toggle-items {
         display: flex;
-        background-color: var(--text-secondary);
-        width:  20px;
-        height: 20px;
-      }
+        justify-content: space-between;
+        align-items: center;
+        width: 121px;
 
-      .icon-sun {
-        mask: url('../assets/icon-light-theme.svg') no-repeat center;
-      }
-
-      .icon-moon {
-        mask: url('../assets/icon-dark-theme.svg') no-repeat center;
+        & [class^="icon"] {
+          display: flex;
+          background-color: var(--text-secondary);
+          width:  20px;
+          height: 20px;
+        }
+  
+        .icon-sun {
+          mask: url('../assets/icon-light-theme.svg') no-repeat center;
+        }
+  
+        .icon-moon {
+          mask: url('../assets/icon-dark-theme.svg') no-repeat center;
+        }
       }
     }
   }
@@ -148,7 +156,7 @@
     .hide-desktop-sidebar {
       display: flex;
       align-items: center;
-      width: 240px;
+      width: calc(100% - 24px);
       height: 48px;
       padding-left: 24px;
       color: var(--text-secondary);

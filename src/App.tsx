@@ -88,6 +88,9 @@ function App() {
           }
         </AnimatePresence>
       }
+      <div className="dialogs">
+        
+      </div>
     </main>
   )
 }
