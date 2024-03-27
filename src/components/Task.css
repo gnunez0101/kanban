@@ -25,11 +25,11 @@
   }
 
   &:hover {
-    scale: 104%;
+    /* scale: 104%; */
     cursor: pointer;
   }
 
   &:active {
-    scale: 98%;
+    /* scale: 98%; */
   }
 }
