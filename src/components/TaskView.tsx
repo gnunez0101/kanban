@@ -5,7 +5,6 @@ import Select from 'react-select';
 
 function TaskView({ showModal } : { showModal: boolean }) {
 
-  const [showViewModal, setShowViewModal] = useState(false)
   const showTaskViewRef = useRef<HTMLDialogElement>(null)
 
   const task = {
@@ -34,7 +33,8 @@ function TaskView({ showModal } : { showModal: boolean }) {
     { value: 'Done',  label: 'Done'  },
   ]
 
-  if(showModal) showTaskViewRef.current?.showModal()
+  if (showModal) showTaskViewRef.current?.showModal()
+  else showTaskViewRef.current?.close()
 
   return (
     <dialog className="taskview" ref={showTaskViewRef}>
@@ -67,7 +67,11 @@ function TaskView({ showModal } : { showModal: boolean }) {
           Current Status
         </div>
         <div className="taskview__current-status--items">
-          <Select options={columns} classNamePrefix="taskview__current-status-select" />
+          <Select options={columns} 
+            className='taskview__current-status-select' 
+            classNamePrefix="taskview__current-status-select" 
+            value={{ value: 'Doing', label: 'Doing' }}
+          />
         </div>
       </section>
     </dialog>

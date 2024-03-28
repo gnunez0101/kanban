@@ -90,7 +90,7 @@ function App() {
         </AnimatePresence>
       }
       <div className="dialogs">
-        <TaskView showModal={true}/>
+        <TaskView showModal={showMenu}/>
       </div>
     </main>
   )

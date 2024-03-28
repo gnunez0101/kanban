@@ -1,4 +1,4 @@
-.taskview {
+.taskview[open] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,9 +13,15 @@
   border-radius: 6px;
   padding: 32px;
   background-color: var(--background-primary);
+  overflow: visible;
 
   * {
     overflow: visible;
+  }
+
+  &::backdrop {
+    background-color: black;
+    opacity: 0.8;
   }
 
   .taskview__title {
@@ -99,7 +105,6 @@
 
   .taskview__current-status {
     width: 100%;
-    overflow: visible;
 
     .taskview__current-status--title {
       font-size:   var(--fs-Heading-S);
@@ -110,20 +115,32 @@
     }
 
     .taskview__current-status--items {
-      .taskview__current-status-select__control {
-        height: 40px;
-        background-color: transparent;
-        border-color: var(--text-secondary);
-      }
 
-      .taskview__current-status-select__menu {
-        background-color: var(--background-primary);
-      }
+      .taskview__current-status-select {
 
-      .taskview__current-status-select__option {
-        background-color: var(--background-primary);
-      }
+        .taskview__current-status-select__control {
+          height: 40px;
+          background-color: transparent;
+          border-color: var(--text-secondary);
+        }
 
+        .taskview__current-status-select__single-value {
+          color: var(--text-primary);
+        }
+
+        .taskview__current-status-select__menu {
+          background-color: var(--background-secondary);
+        }
+
+        .taskview__current-status-select__option {
+          color: var(--text-primary);
+          background-color: var(--background-secondary);
+        }
+
+        .taskview__current-status-select__indicator-separator {
+          width: 0;
+        }
+      }
     }
   }
 }
