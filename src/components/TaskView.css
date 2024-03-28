@@ -1,0 +1,135 @@
+.taskview {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px;
+  left:  16px;
+  right: 16px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  border-radius: 6px;
+  padding: 32px;
+  background-color: var(--background-primary);
+
+  * {
+    overflow: visible;
+  }
+
+  .taskview__title {
+    display: flex;
+    justify-content: space-between;
+
+    .taskview__title--text {
+      display: flex;
+      font-size:   var(--fs-Heading-L);
+      font-weight: var(--fw-Heading-L);
+      line-height: var(--fl-Heading-L);
+      color: var(--text-primary);
+    }
+
+    .taskview__title--ellipsis {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 32px;
+      min-height: 32px;
+
+      & img {
+        height: 20px;
+      }
+    }
+  }
+
+  .taskview__description {
+    font-size:   var(--fs-Body-L);
+    font-weight: var(--fw-Body-L);
+    line-height: var(--fl-Body-L);
+    color: var(--text-secondary);
+  }
+
+  .taskview__subtasks {
+
+    .taskview__subtasks--title {
+      font-size:   var(--fs-Heading-S);
+      font-weight: var(--fw-Heading-S);
+      line-height: var(--fl-Heading-S);
+      color: var(--text-primary);
+      padding-bottom: 16px;
+    }
+
+    .taskview__subtasks--items {
+      flex-direction: column;
+      display: flex;
+      gap: 8px;
+
+      .taskview__subtasks--items__subtask {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 4px;
+        padding-block: 13px;
+        padding-right: 16px;
+        background-color: var(--background-secondary);
+
+        > input {
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 12px;
+          margin-right: 16px;
+          height: 16px;
+          width: 16px;
+          accent-color: var(--primary);
+        }
+
+        > p {
+          font-size:   var(--fs-Body-M);
+          font-weight: var(--fw-Body-M);
+          line-height: var(--fl-Body-M);
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+
+  .taskview__current-status {
+    width: 100%;
+    overflow: visible;
+
+    .taskview__current-status--title {
+      font-size:   var(--fs-Heading-S);
+      font-weight: var(--fw-Heading-S);
+      line-height: var(--fl-Heading-S);
+      color: var(--text-primary);
+      padding-bottom: 8px;
+    }
+
+    .taskview__current-status--items {
+      .taskview__current-status-select__control {
+        height: 40px;
+        background-color: transparent;
+        border-color: var(--text-secondary);
+      }
+
+      .taskview__current-status-select__menu {
+        background-color: var(--background-primary);
+      }
+
+      .taskview__current-status-select__option {
+        background-color: var(--background-primary);
+      }
+
+    }
+  }
+}
+
+@media (width > 375px) {
+  .taskview {
+    max-width: 480px;
+  }
+}

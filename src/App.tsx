@@ -3,6 +3,7 @@ import Sidebar     from './components/Sidebar'
 import Header      from './components/Headers'
 import EmptyBoards from './components/EmptyBoards'
 import Board       from './components/Board'
+import TaskView    from './components/TaskView'
 import showSideBar from './assets/icon-show-sidebar.svg'
 import { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
@@ -88,17 +89,20 @@ function App() {
           }
         </AnimatePresence>
       }
-      <div className="dialogs"></div>
+      <div className="dialogs">
+        <TaskView showModal={true}/>
+      </div>
     </main>
   )
 }
 export default App
 
 function Attribution() {
+  const Space = <span>&nbsp;</span>
   return (
     <div className="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="https://linkedin.com/in/gnunez0101"> Gonzalo M. Núñez</a>.
+    Challenge by{Space}<a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by{Space}<a href="https://linkedin.com/in/gnunez0101">Gonzalo M. Núñez</a>.
   </div>
   )
 }

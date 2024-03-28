@@ -22,24 +22,24 @@
   --fs-Heading-L:  18px;
   --fs-Heading-M:  15px;
   --fs-Heading-S:  12px;
-  --fs-Body-M:     13px;
-  --fs-Body-S:     12px;
+  --fs-Body-L:     13px;
+  --fs-Body-M:     12px;
 
   /* Font Weights in weight units */
   --fw-Heading-XL: bold;
   --fw-Heading-L:  bold;
   --fw-Heading-M:  bold;
   --fw-Heading-S:  bold;
-  --fw-Body-M:     normal;
-  --fw-Body-S:     bold;
+  --fw-Body-L:     normal;
+  --fw-Body-M:     bold;
 
   /* Font line heights in PX */
   --fl-Heading-XL: 30px;
   --fl-Heading-L:  23px;
   --fl-Heading-M:  18px;
   --fl-Heading-S:  15px;
-  --fl-Body-M:     23px;
-  --fl-Body-S:     15px;
+  --fl-Body-L:     23px;
+  --fl-Body-M:     15px;
 
   /* Font Kerning in PX */
   --fk-Heading-S:  2.4px;
