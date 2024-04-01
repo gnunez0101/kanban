@@ -3,7 +3,7 @@ import './Board.css'
 import Column from './Column';
 import EmptyColumns from './EmptyColumns';
 
-function Board({board} : {board: any}) {
+function Board({board, pos} : {board: any, pos: number}) {
 
   return (
     <>
@@ -12,7 +12,7 @@ function Board({board} : {board: any}) {
         :
         <section className="board">
           { board.columns.map( (item: any, index: number) => 
-            <Column column = {item} pos={index} key={index}/>
+            <Column board = {pos} column = {item} pos={index} key={index}/>
           )}
           <motion.section className="column new"
             initial = {{ scale: 1}}

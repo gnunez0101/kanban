@@ -1,7 +1,7 @@
 import './Column.css'
 import Task from './Task'
 
-function Column({column, pos} : {column: any, pos: number}) {
+function Column({board, column, pos} : {board: number, column: any, pos: number}) {
   const count = column.tasks.length
 
   const colors = [ "#49C4E5", "#8471F2", "#67E2AE" ]
@@ -23,7 +23,7 @@ function Column({column, pos} : {column: any, pos: number}) {
         <span className="text">{`${column.name} (${count})`}</span>
       </div>
       { column.tasks.map( (item: any, index: number) => 
-        <Task task = {item} key={index} />
+        <Task board = {board} column = {pos} task = {item} taskPos={index} key={index} />
       )}
     </section>
   );
