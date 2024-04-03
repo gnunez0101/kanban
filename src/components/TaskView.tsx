@@ -1,54 +1,37 @@
 import { useRef, useState } from 'react';
 import { Checkbox } from './Toggle';
 import './TaskView.css'
-import ellipsis    from '../assets/icon-vertical-ellipsis.svg'
+import ellipsis from '../assets/icon-vertical-ellipsis.svg'
 import Select from 'react-select';
 import { motion } from 'framer-motion';
+import useDatabase from '../hooks/useDatabase';
 
-function TaskView({ showModal } : { showModal: boolean }) {
+function TaskView( { board, column, task, showModal }: { board: number, column: number, task: number, showModal: boolean } ) {
 
+  const { database } = useDatabase()
+
+  const taskData = database.boards[board].columns[column].tasks[task]
   const [showMenu, setShowMenu] = useState(false)
   const [editing, setEditing] = useState(false)
 
   const showTaskViewRef = useRef<HTMLDialogElement>(null)
 
-  const task = {
-    "title": "Research pricing points of various competitors and trial different business models",
-    "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-    "status": "Doing",
-    "subtasks": [
-      {
-        "title": "Research competitor pricing and business models",
-        "isCompleted": true
-      },
-      {
-        "title": "Outline a business model that works for our solution",
-        "isCompleted": true
-      },
-      {
-        "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
-        "isCompleted": false
-      }
-    ]
-  }
-
-  const columns = [
-    { value: 'Todo',  label: 'Todo'  },
-    { value: 'Doing', label: 'Doing' },
-    { value: 'Done',  label: 'Done'  },
-  ]
+  const columns = database.boards[board].columns.map((column: any) => {
+    return { value: column.name, label: column.name }
+  })
 
   if (showModal) showTaskViewRef.current?.showModal()
   else showTaskViewRef.current?.close()
 
-  const countCompleted = task.subtasks.filter((c: any) => c.isCompleted).length
+  const countCompleted = taskData.subtasks.filter((c: any) => c.isCompleted).length
 
   return (
     <dialog className="taskview" ref={showTaskViewRef} onClick={() => setShowMenu(false)}>
       <section className="taskview__title">
-        <textarea className="taskview__title--text" spellCheck={false} 
+        <textarea className="taskview__title--text" spellCheck={false}
+          placeholder='Write a title...'
           readOnly = {!editing}
-          defaultValue = {task.title}
+          defaultValue = {taskData.title}
         />
         <div className="taskview__title--ellipsis">
           <motion.div className="taskview__title--ellipsis-toggle"
@@ -86,17 +69,18 @@ function TaskView({ showModal } : { showModal: boolean }) {
         </div>
       </section>
       <div className="taskview__description">
-        <textarea spellCheck={false} 
+        <textarea spellCheck={false}
+          placeholder='Write a description...'
           readOnly = {!editing} 
-          defaultValue = {task.description}
+          defaultValue = {taskData.description}
         />
       </div>
       <section className="taskview__subtasks">
         <div className="taskview__subtasks--title">
-          Subtasks {`(${countCompleted} of ${task.subtasks.length})`}
+          Subtasks {`(${countCompleted} of ${taskData.subtasks.length})`}
         </div>
         <div className="taskview__subtasks--items">
-          { task.subtasks.map((subtask: any, index: number) => 
+          { taskData.subtasks.map((subtask: any, index: number) => 
             <div className={`taskview__subtasks--items__subtask ${editing ? "edit" : ""}`} key={index}>
               <Checkbox className="taskview__subtasks--items__completed"
                 checked  = { subtask.isCompleted }
@@ -115,7 +99,7 @@ function TaskView({ showModal } : { showModal: boolean }) {
           <Select options={columns} isDisabled={!editing}
             className='taskview__current-status-select' 
             classNamePrefix="taskview__current-status-select" 
-            value={{ value: task.status, label: task.status }}
+            value={{ value: taskData.status, label: taskData.status }}
           />
         </div>
       </section>

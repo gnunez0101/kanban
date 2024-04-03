@@ -3,18 +3,17 @@ import Sidebar     from './components/Sidebar'
 import Header      from './components/Headers'
 import EmptyBoards from './components/EmptyBoards'
 import Board       from './components/Board'
-import TaskView    from './components/TaskView'
+// import TaskView    from './components/TaskView'
 import showSideBar from './assets/icon-show-sidebar.svg'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
-import { ContextDatabase, StoreProvider } from './components/Store'
+import useDatabase from './hooks/useDatabase'
 // const data = { "boards" : [] }
 
 function App() {
-  const database = useContext(ContextDatabase)
-  // const [setDialog] = useContext(ContextDialogs)
-
+  const { database } = useDatabase()
+  // console.log(database)
   const [darkMode, setDarkMode] = useState(true)
   const [showMenu, setShowMenu] = useState(false)
   const [selectedBoard, setSelectedBoard] = useState(0)
@@ -48,62 +47,60 @@ function App() {
 
   return (
     
-    <StoreProvider>
-      <main className = {`main ${theme}`}>
+    <main className = {`main ${theme}`}>
 
-        <Header 
-          boardName   = {boardTitle}
-          setShowMenu = {setShowMenu}
-          showMenu    = {showMenu}
-          darkMode    = {darkMode}
-        />
+      <Header 
+        boardName   = {boardTitle}
+        setShowMenu = {setShowMenu}
+        showMenu    = {showMenu}
+        darkMode    = {darkMode}
+      />
 
-        { database && <div className="app-container">
-            <Sidebar 
-              boards      = {database}            
-              showMenu    = {showMenu}
-              setShowMenu = {setShowMenu}
-              darkMode    = {darkMode}
-              setDarkMode = {setDarkMode}
-              selected    = {selectedBoard}
-              setSelected = {setSelectedBoard}
-            />
+      { database && <div className="app-container">
+          <Sidebar 
+            boards      = {database}            
+            showMenu    = {showMenu}
+            setShowMenu = {setShowMenu}
+            darkMode    = {darkMode}
+            setDarkMode = {setDarkMode}
+            selected    = {selectedBoard}
+            setSelected = {setSelectedBoard}
+          />
 
-            <div className="board-container">
-              <div className="board-body">
-                { database.boards.length == 0 ?
-                  <EmptyBoards />
-                  :
-                  <Board board = { database.boards[selectedBoard] } pos = {selectedBoard} />
-                }
-              </div>
-              <Attribution />
+          <div className="board-container">
+            <div className="board-body">
+              { database.boards.length == 0 ?
+                <EmptyBoards />
+                :
+                <Board board = {selectedBoard} />
+              }
             </div>
+            <Attribution />
           </div>
-        }
-
-        { isTablet &&
-          <AnimatePresence mode='wait'>
-            { !showMenu &&
-              <motion.button className="show-sidebar"
-                type='button' key="show-sidebar"
-                variants   = {buttonVariants}
-                initial    = "hidden"
-                animate    = "show"
-                exit       = "hidden"
-                whileHover = {{ scale: [1, 1.2, 1, 1.1, 1] }}
-                whileTap   = {{ scale: 0.9 }}
-                onClick    = {() => setShowMenu(true)}>
-                <img src={showSideBar} alt="show" />
-              </motion.button>
-            }
-          </AnimatePresence>
-        }
-        <div className="dialogs">
-          <TaskView showModal={showMenu}/>
         </div>
-      </main>
-    </StoreProvider>
+      }
+
+      { isTablet &&
+        <AnimatePresence mode='wait'>
+          { !showMenu &&
+            <motion.button className="show-sidebar"
+              type='button' key="show-sidebar"
+              variants   = {buttonVariants}
+              initial    = "hidden"
+              animate    = "show"
+              exit       = "hidden"
+              whileHover = {{ scale: [1, 1.2, 1, 1.1, 1] }}
+              whileTap   = {{ scale: 0.9 }}
+              onClick    = {() => setShowMenu(true)}>
+              <img src={showSideBar} alt="show" />
+            </motion.button>
+          }
+        </AnimatePresence>
+      }
+      <div className="dialogs">
+        {/* <TaskView showModal = { showMenu }/> */}
+      </div>
+    </main>
   )
 }
 export default App

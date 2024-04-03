@@ -150,6 +150,7 @@
   }
 
   .taskview__subtasks {
+    width: 100%;
 
     .taskview__subtasks--title {
       font-size:   var(--fs-Heading-S);

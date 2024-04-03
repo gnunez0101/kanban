@@ -1,5 +1,6 @@
-import React, { useReducer } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 import data from '../assets/data.json'
+import TaskView from '../components/TaskView'
 
 type typeData = { 
   boards: { 
@@ -19,18 +20,25 @@ type typeData = {
   }[]
 }
 
-export const ContextDatabase = React.createContext<typeData>(data);
-export const ContextDialogs  = React.createContext<any | null>(null);
-
+type typeValueData = {
+  database: typeData,
+  boardAdmin?:   (command: string, coord: []) => void,
+  columnAdmin?:  (command: string, coord: []) => void,
+  taskAdmin?:    (command: string, coord: []) => void,
+  subtaskAdmin?: (command: string, coord: []) => void
+}
 
 type StoreProps = { children: React.ReactNode }
 
+export const ContextDatabase = createContext<typeValueData | null>(null)
+export const ContextDialogs  = createContext<any | null>(null)
+
 export const StoreProvider = ( props: StoreProps ) => {
-    // const [ setDialog ]       = useState<any>(null);
-    const [database, dispatch] = useReducer(dataReducer, data);
+    // const [ setDialog ]       = useState<any>(null)
+    const [database, dispatch] = useReducer(dataReducer, data)
 
     function boardAdmin(command: string, coord: []) {
-      
+      dispatch( { type: 'boardAdd', name: 'Board de Prueba' } )
     }
 
     function columnAdmin(command: string, coord: []) {
@@ -45,29 +53,66 @@ export const StoreProvider = ( props: StoreProps ) => {
 
     }
 
+    const databaseValue: typeValueData = {
+      database:     data,
+      boardAdmin:   boardAdmin,
+      columnAdmin:  columnAdmin,
+      taskAdmin:    taskAdmin,
+      subtaskAdmin: subtaskAdmin
+    }
+
+    function taskDialog( board: number, column: number, task: number, show: boolean ) {
+      console.log(board, column, task, show)
+      // return (
+      //   <TaskView 
+      //     board     = {board} 
+      //     column    = {column}
+      //     task      = {task} 
+      //     showModal = {show}
+      //   />
+      // )
+    }
+        
+    type typeDialogs = {
+      dialogTask?: (board: number, column: number, task: number, show: boolean) => void
+    }
+    
+    const dialogsValue: typeDialogs = {
+      dialogTask: taskDialog
+    }
+
     return (
-        <ContextDatabase.Provider value = { database }>
-        <ContextDialogs.Provider  value = { setDialog }>
-          { props.children }
-        </ContextDialogs.Provider>
+        <ContextDatabase.Provider   value = { databaseValue }>
+          <ContextDialogs.Provider  value = { dialogsValue }>
+            { props.children }
+          </ContextDialogs.Provider>
         </ContextDatabase.Provider>
-    );
-};
-
-
-type typeAction =  
-| { type: 'boardAdd', name: string }
-| { type: 'boardEdit', index: number, name: string }
-| { type: 'boardDelete', index: number }
-| { type: 'columnAdd', name: string }
-| { type: 'columnEdit', index: number, name: string }
-| { type: 'columnDelete', index: number }
-
-function dataReducer(state: typeData, action: typeAction) {
-  
-  return state
+    )
 }
 
-function setDialog ( ) {
+type typeAction =  
+| { type: 'boardAdd',      name: string }
+| { type: 'boardEdit',     index: number, name: string }
+| { type: 'boardDelete',   index: number }
+| { type: 'columnAdd',     name: string }
+| { type: 'columnEdit',    index: number, name: string }
+| { type: 'columnDelete',  index: number }
+| { type: 'taskAdd',       name: string }
+| { type: 'taskEdit',      index: number, name: string }
+| { type: 'taskDelete',    index: number }
+| { type: 'subtaskAdd',    name: string }
+| { type: 'subtaskEdit',   index: number, name: string }
+| { type: 'subtaskDelete', index: number }
 
+function dataReducer(state: typeData, action: typeAction): typeData {
+  
+  switch (action.type) {
+
+    case 'boardAdd' : {
+      return state
+    }
+
+    default:
+      return state
+  }
 }

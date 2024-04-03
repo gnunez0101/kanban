@@ -2,17 +2,19 @@ import { motion } from 'framer-motion';
 import './Board.css'
 import Column from './Column';
 import EmptyColumns from './EmptyColumns';
+import useDatabase from '../hooks/useDatabase';
 
-function Board({board, pos} : {board: any, pos: number}) {
+function Board({board} : {board: number}) {
+  const { database } = useDatabase()
 
   return (
     <>
-      { board.columns.length == 0 ?
+      { database.boards[board].columns.length == 0 ?
         <EmptyColumns />
         :
         <section className="board">
-          { board.columns.map( (item: any, index: number) => 
-            <Column board = {pos} column = {item} pos={index} key={index}/>
+          { database.boards[board].columns.map( (item: any, index: number) => 
+            <Column board = {board} column = {index} key={index}/>
           )}
           <motion.section className="column new"
             initial = {{ scale: 1}}
