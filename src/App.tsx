@@ -5,14 +5,17 @@ import EmptyBoards from './components/EmptyBoards'
 import Board       from './components/Board'
 // import TaskView    from './components/TaskView'
 import showSideBar from './assets/icon-show-sidebar.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
 import useDatabase from './hooks/useDatabase'
+import useDialogs from './hooks/useDialogs'
+import TaskView from './components/TaskView'
 // const data = { "boards" : [] }
 
 function App() {
-  const { database } = useDatabase()
+  const { database }    = useDatabase()
+  const { dialogsData } = useDialogs()
   // console.log(database)
   const [darkMode, setDarkMode] = useState(true)
   const [showMenu, setShowMenu] = useState(false)
@@ -98,7 +101,11 @@ function App() {
         </AnimatePresence>
       }
       <div className="dialogs">
-        {/* <TaskView showModal = { showMenu }/> */}
+        <AnimatePresence>
+          { dialogsData && dialogsData[0] == 'taskView' && 
+              <TaskView board={dialogsData[1]} column={dialogsData[2]} task={dialogsData[3]} />
+          }
+        </AnimatePresence>
       </div>
     </main>
   )

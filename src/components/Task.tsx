@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import './Task.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase';
-import TaskView from './TaskView';
 
 function Task({board, column, task} : {board: number, column: number, task: number}) {
   const { database }   = useDatabase()
@@ -15,6 +14,12 @@ function Task({board, column, task} : {board: number, column: number, task: numb
   const countSubTasks  = taskData.subtasks.length
   const countCompleted = taskData.subtasks.filter((c: any) => c.isCompleted).length
 
+  useEffect(() => {
+    if (showDialog) {
+      dialogTask(board, column, task, showDialog)
+      setShowDialog(false)
+    }
+  }, [showDialog])
 
   return (
     <motion.section className = "task"
@@ -27,13 +32,6 @@ function Task({board, column, task} : {board: number, column: number, task: numb
       <div className="subtasks">
         {`${countCompleted} of ${countSubTasks} subtasks`}
       </div>
-      { dialogTask(board, column, task, showDialog) }
-      {/* <TaskView 
-        board  = { board  }
-        column = { column }
-        task   = { task   }
-        showModal = { showDialog }
-      /> */}
     </motion.section>
   );
 }

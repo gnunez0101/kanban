@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 import data from '../assets/data.json'
-import TaskView from '../components/TaskView'
 
 type typeData = { 
   boards: { 
@@ -36,6 +35,7 @@ export const ContextDialogs  = createContext<any | null>(null)
 export const StoreProvider = ( props: StoreProps ) => {
     // const [ setDialog ]       = useState<any>(null)
     const [database, dispatch] = useReducer(dataReducer, data)
+    const [dialogsData, setDialogsData] = useState<any>(null)
 
     function boardAdmin(command: string, coord: []) {
       dispatch( { type: 'boardAdd', name: 'Board de Prueba' } )
@@ -62,23 +62,19 @@ export const StoreProvider = ( props: StoreProps ) => {
     }
 
     function taskDialog( board: number, column: number, task: number, show: boolean ) {
-      console.log(board, column, task, show)
-      // return (
-      //   <TaskView 
-      //     board     = {board} 
-      //     column    = {column}
-      //     task      = {task} 
-      //     showModal = {show}
-      //   />
-      // )
+      setDialogsData(["taskView", board, column, task, show])
     }
         
     type typeDialogs = {
-      dialogTask?: (board: number, column: number, task: number, show: boolean) => void
+      dialogTask?: (board: number, column: number, task: number, show: boolean) => void,
+      dialogsData?: [dialog: string, board: number, column: number, task: number],
+      setDialogsData: ([]) => void
     }
     
     const dialogsValue: typeDialogs = {
-      dialogTask: taskDialog
+      dialogTask: taskDialog,
+      dialogsData: dialogsData,
+      setDialogsData: setDialogsData
     }
 
     return (
