@@ -3,9 +3,8 @@ import Sidebar     from './components/Sidebar'
 import Header      from './components/Headers'
 import EmptyBoards from './components/EmptyBoards'
 import Board       from './components/Board'
-// import TaskView    from './components/TaskView'
 import showSideBar from './assets/icon-show-sidebar.svg'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
 import useDatabase from './hooks/useDatabase'
@@ -16,10 +15,13 @@ import TaskView from './components/TaskView'
 function App() {
   const { database }    = useDatabase()
   const { dialogsData } = useDialogs()
-  // console.log(database)
   const [darkMode, setDarkMode] = useState(true)
+  const [theme, setTheme] = useState('')
   const [showMenu, setShowMenu] = useState(false)
   const [selectedBoard, setSelectedBoard] = useState(0)
+
+  const [switching, setSwitching] = useState(false)
+  const timer = useRef<number | undefined>(undefined)
 
   const isTablet = useMediaQuery({ query: '( width > 375px )' })
   
@@ -38,11 +40,27 @@ function App() {
     },
   }
 
-  let theme = darkMode ? "dark-mode" : "light-mode";
+  useEffect(() => {
+    setDarkMode(localStorage.getItem("dark-mode") === "enabled");  // Check and set dark mode
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("dark-mode", darkMode ? "enabled" : "disabled");
+    if (timer.current != undefined) {
+      clearTimeout(timer.current)
+      timer.current = undefined
+    }
+    setSwitching(true)
+    setTheme(darkMode ? "dark-mode" : "light-mode")
+    timer.current = setTimeout(() => {setSwitching(false)}, 500)
+
+    return () => clearTimeout(timer.current)
+  }, [darkMode])
 
   let boardTitle = "No Boards!"
   if (database) {
-    if (database.boards.length > 0) boardTitle = database.boards[selectedBoard].name
+    if (database.boards.length > 0) 
+      boardTitle = database.boards[selectedBoard].name
   }
   else {
     boardTitle = "Loading database..."
@@ -50,7 +68,7 @@ function App() {
 
   return (
     
-    <main className = {`main ${theme}`}>
+    <main className = {`main ${theme}${switching ? " switching" : ""}`}>
 
       <Header 
         boardName   = {boardTitle}

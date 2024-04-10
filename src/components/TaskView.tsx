@@ -3,7 +3,7 @@ import { Checkbox } from './Toggle';
 import './TaskView.css'
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
 import Select from 'react-select';
-import { easeIn, motion } from 'framer-motion';
+import { AnimatePresence, easeIn, motion } from 'framer-motion';
 import useDatabase from '../hooks/useDatabase';
 import useDialogs from '../hooks/useDialogs';
 import Backdrop from './Backdrop';
@@ -32,8 +32,8 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   const countCompleted = taskData.subtasks.filter((c: any) => c.isCompleted).length
 
   const dialogVariant = {
-    hide: { scale: 0 },
-    show: { scale: 1, transition: { type: "spring", damping: 22, stiffness: 700 }  },
+    hide: { scale: 0, opacity: 0 },
+    show: { scale: 1, opacity: 1, transition: { type: "spring", damping: 22, stiffness: 700 }  },
     exit: { scale: 0, opacity: 0, transition: { ease: "backOut" } },
   }
 
@@ -63,10 +63,12 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
             >
               <img src={ellipsis} alt="ellipsis" />
             </motion.div>
+            <AnimatePresence>
             { showMenu && 
               <motion.div className="taskview__title--ellipsis-menu"
                 initial = {{ scaleY: 0 }}
                 animate = {{ scaleY: 1 }}
+                exit    = {{ scaleY: 0 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="taskview__title--ellipsis-menu__option edit"
@@ -85,6 +87,7 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
                 >Delete Task</div>
               </motion.div>
             }
+            </AnimatePresence>
           </div>
         </section>
         <div className="taskview__description">
