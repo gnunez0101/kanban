@@ -18,7 +18,6 @@ export function Checkbox({ className, checked, disabled = false, readOnly = fals
       checked   = { isChecked }
       disabled  = { disabled }
       readOnly  = { readOnly }
-      // onClick   = { onClick }
     />
   )
 }

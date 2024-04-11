@@ -52,6 +52,13 @@
         & a { 
           font-size: inherit;
           color: var(--primary);
+          transition: all 150ms ease-in;
+
+          &:hover {
+            transform: translateY(-5%);
+            scale: 102%;
+            font-weight: bold;
+          }
         }
       }
     }
@@ -85,6 +92,14 @@
 
       &:hover {
         background-color: var(--hover-primary);
+      }
+    }
+
+    .app-container {
+      .board-container {
+        .attribution {
+          font-size: 0.8rem;
+        }
       }
     }
   }

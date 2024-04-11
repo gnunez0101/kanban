@@ -61,19 +61,19 @@ export const StoreProvider = ( props: StoreProps ) => {
       subtaskAdmin: subtaskAdmin
     }
 
-    function taskDialog( board: number, column: number, task: number, show: boolean ) {
-      setDialogsData(["taskView", board, column, task, show])
+    function launchDialog(dialog: string, board: number, column: number, task: number ) {
+      setDialogsData( [dialog, board, column, task] )
     }
         
     type typeDialogs = {
-      dialogTask?: (board: number, column: number, task: number, show: boolean) => void,
-      dialogsData?: [dialog: string, board: number, column: number, task: number],
+      dialogLaunch?: (dialog: string, board: number, column: number, task: number) => void,
+      dialogsData?:  [dialog: string, board: number, column: number, task: number],
       setDialogsData: ([]) => void
     }
     
     const dialogsValue: typeDialogs = {
-      dialogTask: taskDialog,
-      dialogsData: dialogsData,
+      dialogLaunch:   launchDialog,
+      dialogsData:    dialogsData,
       setDialogsData: setDialogsData
     }
 

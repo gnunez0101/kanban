@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
 import useDatabase from './hooks/useDatabase'
 import useDialogs from './hooks/useDialogs'
-import TaskView from './components/TaskView'
+import DialogLaunch from './components/DialogLaunch'
 // const data = { "boards" : [] }
 
 function App() {
@@ -40,8 +40,12 @@ function App() {
     },
   }
 
+  let firstTime = true  // To avoid double execution from <React.StrictMode>
   useEffect(() => {
-    setDarkMode(localStorage.getItem("dark-mode") === "enabled");  // Check and set dark mode
+    if (firstTime) {
+      setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
+      firstTime = false
+    }
   }, [])
 
   useEffect(() => {
@@ -53,7 +57,6 @@ function App() {
     setSwitching(true)
     setTheme(darkMode ? "dark-mode" : "light-mode")
     timer.current = setTimeout(() => {setSwitching(false)}, 500)
-
     return () => clearTimeout(timer.current)
   }, [darkMode])
 
@@ -120,9 +123,7 @@ function App() {
       }
       <div className="dialogs">
         <AnimatePresence>
-          { dialogsData && dialogsData[0] == 'taskView' && 
-              <TaskView board={dialogsData[1]} column={dialogsData[2]} task={dialogsData[3]} />
-          }
+          { dialogsData && <DialogLaunch data={dialogsData} /> }
         </AnimatePresence>
       </div>
     </main>

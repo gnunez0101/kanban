@@ -13,7 +13,8 @@
   width: clamp(343px, 480px, 480px);
   border: none;
   border-radius: 6px;
-  padding: 32px;
+  padding: 24px;
+  margin-inline: 16px;
   background-color: var(--background-primary);
   overflow: visible;
 
@@ -183,7 +184,7 @@
           margin-left: 12px;
           margin-right: 16px;
           height: 16px;
-          width: 16px;
+          width:  16px;
           appearance: none;
           background-color: var(--background-primary);
           border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
@@ -239,6 +240,7 @@
     }
 
     .taskview__current-status--items {
+      margin-bottom: 8px;
 
       .taskview__current-status-select {
 
@@ -292,6 +294,7 @@
 
 @media (width > 375px) {
   .taskview {
+    padding: 32px;
     /* max-width: 480px; */
   }
 }

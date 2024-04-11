@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Checkbox } from './Toggle';
 import './TaskView.css'
+import { useMemo, useState } from 'react';
+import { Checkbox } from './Toggle';
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
 import Select from 'react-select';
-import { AnimatePresence, easeIn, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import useDatabase from '../hooks/useDatabase';
-import useDialogs from '../hooks/useDialogs';
+import useDialogs  from '../hooks/useDialogs';
 import Backdrop from './Backdrop';
 
 function TaskView( { board, column, task }: { board: number, column: number, task: number } ) {
@@ -14,22 +14,18 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   const { setDialogsData } = useDialogs()
 
   const taskData = database.boards[board].columns[column].tasks[task]
-  const [showDialog, setShowDialog] = useState(true)
   const [showMenu, setShowMenu]     = useState(false)
   const [editing, setEditing]       = useState(false)
-
-  // const showTaskViewRef = useRef<HTMLDialogElement>(null)
 
   const columns = database.boards[board].columns.map((column: any) => {
     return { value: column.name, label: column.name }
   })
 
   function closeDialog() {
-    setShowDialog(false)
     setDialogsData(null)
   }
 
-  const countCompleted = taskData.subtasks.filter((c: any) => c.isCompleted).length
+  const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )
 
   const dialogVariant = {
     hide: { scale: 0, opacity: 0 },
