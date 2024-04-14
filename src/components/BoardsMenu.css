@@ -44,7 +44,7 @@
       }
 
       &.selected {
-        background-color: var(--primary);
+        background-color: var(--button-primary);
         color: var(--text-button-primary);
 
         .menu-opt-icon { background-color: currentColor; }
@@ -52,7 +52,7 @@
       }
 
       &:not(.selected):hover {
-        color: var(--primary);
+        color: var(--button-primary);
         background-color: var(--hover-secondary);
         cursor: pointer;
 
@@ -69,7 +69,7 @@
     padding-block: 15px;
     border: none;
     background-color: transparent;
-    color: var(--primary); 
+    color: var(--button-primary); 
     font-size:   var(--fs-Heading-M);
     font-weight: var(--fw-Heading-M);
     line-height: var(--fl-Heading-M);
@@ -81,7 +81,7 @@
       width:  16px;
       height: 16px;
       margin-right: 12px;
-      background-color: var(--primary);
+      background-color: var(--button-primary);
       mask: url('../assets/icon-board.svg') no-repeat center;
     }
 
@@ -186,11 +186,11 @@
         cursor: pointer;
         
         .icon-hide-sidebar {
-          background-color: var(--primary);
+          background-color: var(--button-primary);
         }
 
         .msg-hide-sidebar {
-          color: var(--primary);
+          color: var(--button-primary);
         }
       }
     }

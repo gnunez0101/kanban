@@ -6,7 +6,7 @@ import useDatabase from '../hooks/useDatabase';
 
 function Task({board, column, task} : {board: number, column: number, task: number}) {
   const { database }     = useDatabase()
-  const { dialogLaunch } = useDialogs() 
+  const { dialogLaunch } = useDialogs()
   
   const taskData    = database.boards[board].columns[column].tasks[task]
   const subTaskData = taskData.subtasks

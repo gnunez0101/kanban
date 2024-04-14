@@ -43,8 +43,8 @@ function App() {
   let firstTime = true  // To avoid double execution from <React.StrictMode>
   useEffect(() => {
     if (firstTime) {
-      setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
       firstTime = false
+      setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
     }
   }, [])
 
@@ -75,6 +75,7 @@ function App() {
 
       <Header 
         boardName   = {boardTitle}
+        boardNum    = {selectedBoard}
         setShowMenu = {setShowMenu}
         showMenu    = {showMenu}
         darkMode    = {darkMode}

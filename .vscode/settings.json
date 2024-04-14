@@ -6,8 +6,5 @@
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.guides.bracketPairs": true,
   "editor.linkedEditing": true,
-  "workbench.colorCustomizations": {
-    "tab.activeBorder": "#0000ff",
-  },
   "reactSnippets.settings.importReactOnTop": false
 }

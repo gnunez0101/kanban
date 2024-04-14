@@ -1,5 +1,5 @@
 import './TaskView.css'
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Checkbox } from './Toggle';
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
 import Select from 'react-select';
@@ -17,9 +17,16 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   const [showMenu, setShowMenu]     = useState(false)
   const [editing, setEditing]       = useState(false)
 
-  const columns = database.boards[board].columns.map((column: any) => {
-    return { value: column.name, label: column.name }
-  })
+  let columns: any = []
+  let firstTime = true
+  useEffect(() => {
+    if (firstTime) {
+      columns = database.boards[board].columns.map((column: any) => {
+        return { value: column.name, label: column.name }
+      })
+      firstTime = false
+    }
+  }, [])
 
   function closeDialog() {
     setDialogsData(null)

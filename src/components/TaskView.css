@@ -4,10 +4,6 @@
   justify-content: center;
   align-items: flex-start;
   gap: 24px;
-  left:  16px;
-  right: 16px;
-  top:  50%;
-  left: 50%;
   transform-origin: center;
   min-width: 343px;
   width: clamp(343px, 480px, 480px);
@@ -52,7 +48,7 @@
       padding-bottom: 4px;
 
       &:focus {
-        outline: 1px solid var(--primary);
+        outline: 1px solid var(--button-primary);
       }
     }
 
@@ -100,7 +96,7 @@
 
           &:hover {
             transform-origin: left;
-            text-shadow: 1px 1px 3px var(--primary);
+            text-shadow: 1px 1px 3px var(--button-primary);
             scale: 110%;
             cursor: pointer;
           }
@@ -140,7 +136,7 @@
       padding-bottom: 4px;
 
       &:focus {
-        outline: 1px solid var(--primary);
+        outline: 1px solid var(--button-primary);
       }
     }
   }
@@ -172,7 +168,7 @@
 
         &.edit:has(input:not(:checked)) {
           background-color: color-mix(in oklab, 
-            var(--primary) 25%, transparent 100%);
+            var(--button-primary) 25%, transparent 100%);
         }
 
         > input[type="checkbox"] {
@@ -201,8 +197,8 @@
           }
 
           &:checked {
-            background-color: var(--primary);
-            border-color: var(--primary);
+            background-color: var(--button-primary);
+            border-color: var(--button-primary);
           }
 
           &:not(:checked) {
@@ -250,7 +246,7 @@
           border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
 
           &.taskview__current-status-select__control--is-focused {
-            border-color: var(--primary);
+            border-color: var(--button-primary);
           }
         }
 
@@ -275,7 +271,7 @@
           }
 
           &.taskview__current-status-select__option--is-selected {
-            background-color: var(--primary);
+            background-color: var(--button-primary);
             color: var(--text-button-primary);
           }
         }
@@ -285,7 +281,7 @@
         }
 
         .taskview__current-status-select__indicator {
-          color: var(--primary);
+          color: var(--button-primary);
         }
       }
     }

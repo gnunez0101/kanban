@@ -44,6 +44,10 @@
   /* Font Kerning in PX */
   --fk-Heading-S:  2.4px;
 
+  /* Font Sizes for Buttons */
+  --fs-button-L:   var(--fs-Heading-M);
+  --fs-button-S:   13px;
+
   /* Colors */
   color-scheme: light dark;
 
@@ -75,39 +79,48 @@
 }
 
 .dark-mode {
-  --background-primary:   var(--Dark-Grey);
-  --background-secondary: var(--Very-Dark-Grey);
-  --primary:              var(--Main-Purple);
-  --secondary:            var(--Main-Purple-Hover);
-  --text-primary:         var(--White);
-  --text-secondary:       var(--Medium-Grey);
-  --text-terciary:        var(--White);
-  --text-button-primary:  var(--White);
-  --text-button-secondary:var(--Main-Purple);
-  --check-button:         var(--White);
-  --check-background:     var(--Main-Purple);
-  --Lines:                var(--Lines-Dark);
-  --hover-primary:        var(--Main-Purple-Hover);
-  --hover-secondary:      var(--White);
-  --gradient-1:           var(--linear-1);
-  --opacity-gradient:     0.25;
+  --background-primary:     var(--Dark-Grey);
+  --background-secondary:   var(--Very-Dark-Grey);
+  --button-primary:         var(--Main-Purple);
+  --button-primary-hover:   var(--Main-Purple-Hover);
+  --button-secondary:       var(--White);
+  --button-secondary-hover: var(--White);
+  --button-destruct:        var(--Destructive);
+  --button-destruct-hover:  var(--Destructive-Hover);
+  --text-primary:           var(--White);
+  --text-secondary:         var(--Medium-Grey);
+  --text-terciary:          var(--White);
+  --text-button-primary:    var(--White);
+  --text-button-secondary:  var(--Main-Purple);
+  --check-button:           var(--White);
+  --check-background:       var(--Main-Purple);
+  --Lines:                  var(--Lines-Dark);
+  --hover-primary:          var(--Main-Purple-Hover);
+  --hover-secondary:        var(--White);
+  --gradient-1:             var(--linear-1);
+  --opacity-gradient:       0.25;
 }
 
 .light-mode {
-  --background-primary:   var(--White);
-  --background-secondary: var(--Light-Grey-Light-bg);
-  --primary:              var(--Main-Purple);
-  --text-primary:         var(--Black);
-  --text-secondary:       var(--Medium-Grey);
-  --text-terciary:        var(--Medium-Grey);
-  --text-button-primary:  var(--White);
-  --text-button-secondary:var(--Main-Purple);
-  --check-button:         var(--White);
-  --check-background:     var(--Main-Purple);
-  --Lines:                var(--Lines-Light);
-  --hover-primary:        var(--Main-Purple-Hover);
-  --hover-secondary:      color-mix( in oklab, var(--Main-Purple) 10%, white );
-  --gradient-1:           var(--linear-2);
-  --opacity-gradient:     1;
+  --background-primary:     var(--White);
+  --background-secondary:   var(--Light-Grey-Light-bg);
+  --button-primary:         var(--Main-Purple);
+  --button-primary-hover:   var(--Main-Purple-Hover);
+  --button-secondary:       color-mix(in oklab, var(--Main-Purple) 10%, white);
+  --button-secondary-hover: color-mix(in oklab, var(--Main-Purple) 25%, white);
+  --button-destruct:        var(--Destructive);
+  --button-destruct-hover:  var(--Destructive-Hover);
+  --text-primary:           var(--Black);
+  --text-secondary:         var(--Medium-Grey);
+  --text-terciary:          var(--Medium-Grey);
+  --text-button-primary:    var(--White);
+  --text-button-secondary:  var(--Main-Purple);
+  --check-button:           var(--White);
+  --check-background:       var(--Main-Purple);
+  --Lines:                  var(--Lines-Light);
+  --hover-primary:          var(--Main-Purple-Hover);
+  --hover-secondary:        color-mix( in oklab, var(--Main-Purple) 10%, white );
+  --gradient-1:             var(--linear-2);
+  --opacity-gradient:       1;
 }
 

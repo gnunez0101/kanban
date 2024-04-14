@@ -51,7 +51,7 @@
       
         & a { 
           font-size: inherit;
-          color: var(--primary);
+          color: var(--buttom-primary);
           transition: all 150ms ease-in;
 
           &:hover {
@@ -80,7 +80,7 @@
       width: calc(var(--design-width) * 2);
       height: 48px;
       padding-left: calc(var(--design-width) + 18px);
-      background-color: var(--primary);
+      background-color: var(--button-primary);
       border: none;
       border-top-right-radius: 24px;
       border-bottom-right-radius: 24px;

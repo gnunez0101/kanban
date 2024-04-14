@@ -1,29 +1,41 @@
 import './TaskAdd.css'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useDatabase from '../hooks/useDatabase'
 import useDialogs  from '../hooks/useDialogs'
 import Backdrop from './Backdrop'
+import crossIcon from '../assets/icon-cross.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Checkbox } from './Toggle'
-import Select from 'react-select/base'
+import Select from 'react-select'
 
-function TaskAdd( { board, column }: { board: number, column: number } ) {
+function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
   const { database }       = useDatabase()
   const { setDialogsData } = useDialogs()
 
-  const taskData = database.boards[board].columns[column]
-  const [showMenu, setShowMenu]     = useState(false)
-  const [editing, setEditing]       = useState(false)
+  // const taskData = database.boards[board].columns[column]
+  const [showMenu, setShowMenu] = useState(false)
+  const [editing, setEditing]   = useState(false)
+  const [subtasks, setSubtasks] = useState<any[]>([
+    { text: '', placeholder: 'e.g. Make Coffee' },
+    { text: '', placeholder: 'e.g. Drink coffee & smile' },
+  ])
 
-  const columns = database.boards[board].columns.map((column: any) => {
-    return { value: column.name, label: column.name }
-  })
+  const [columns, setColumns] = useState<any>([])
+
+  let firstTime = true
+  useEffect(() => {
+    if (firstTime) {
+      firstTime = false
+      let cols = database.boards[board].columns.map((column: any) => {
+        return { value: column.name, label: column.name }
+      })
+      setColumns(cols)
+    }
+  }, [])
 
   function closeDialog() {
     setDialogsData(null)
   }
-
-  const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )
 
   const dialogVariant = {
     hide: { scale: 0, opacity: 0 },
@@ -33,94 +45,90 @@ function TaskAdd( { board, column }: { board: number, column: number } ) {
 
   return (
     <Backdrop onClick={closeDialog}>
-      <motion.div className="taskview"
+      <motion.div className="taskadd"
         onClick={(e) => e.stopPropagation()}
         variants={dialogVariant}
         initial="hide"
         animate="show"
         exit   ="exit"
       >
-        <section className="taskview__title">
-          <textarea className="taskview__title--text" spellCheck={false}
-            placeholder='Write a title...'
-            readOnly = {!editing}
-            defaultValue = {taskData.title}
-          />
-          <div className="taskview__title--ellipsis">
-            <motion.div className="taskview__title--ellipsis-toggle"
-              onClick={(e) => {
-                e.stopPropagation()
-                setShowMenu(!showMenu)
-              }}
-              whileHover = {{ scale: [1, 1.4, 1, 1.2, 1] }}
-              whileTap   = {{ scale: 0.9 }}
-            >
-              <img src={ellipsis} alt="ellipsis" />
-            </motion.div>
-            <AnimatePresence>
-            { showMenu && 
-              <motion.div className="taskview__title--ellipsis-menu"
-                initial = {{ scaleY: 0 }}
-                animate = {{ scaleY: 1 }}
-                exit    = {{ scaleY: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="taskview__title--ellipsis-menu__option edit"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setEditing(true)
-                    setShowMenu(false)
-                  }}
-                >Edit Task
-                </div>
-                <div className="taskview__title--ellipsis-menu__option delete"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowMenu(false)
-                  }}
-                >Delete Task</div>
-              </motion.div>
-            }
-            </AnimatePresence>
-          </div>
+        <section className="taskadd__dialog--title">
+          {`${add ? "Add New Task" : "Edit Task"}`}
         </section>
-        <div className="taskview__description">
-          <textarea spellCheck={false}
-            placeholder='Write a description...'
-            readOnly = {!editing} 
-            defaultValue = {taskData.description}
-          />
-        </div>
-        <section className="taskview__subtasks">
-          <div className="taskview__subtasks--title">
-            Subtasks {`(${countCompleted} of ${taskData.subtasks.length})`}
-          </div>
-          <div className="taskview__subtasks--items">
-            { taskData.subtasks.map((subtask: any, index: number) => 
-              <div className={`taskview__subtasks--items__subtask ${editing ? "edit" : ""}`} key={index}>
-                <Checkbox className="taskview__subtasks--items__completed"
-                  checked  = { subtask.isCompleted }
-                  readOnly = { !editing }
-                />
-                <p className="taskview__subtasks--items__title">{subtask.title}</p>
-              </div>
-            )}
-          </div>
-        </section>
-        <section className="taskview__current-status">
-          <div className="taskview__current-status--title">
-            Current Status
-          </div>
-          <div className="taskview__current-status--items">
-            <Select options={columns} isDisabled={!editing}
-              className='taskview__current-status-select' 
-              classNamePrefix="taskview__current-status-select" 
-              value={{ value: taskData.status, label: taskData.status }}
+        <section className="taskadd__title">
+          <div className="taskadd__-title">Title</div>
+          <div className="taskadd__-text">
+            <textarea spellCheck={false}
+              placeholder='e.g. Take coffee break'
+              defaultValue = {""}
             />
           </div>
+        </section>
+        <section className="taskadd__description">
+          <div className="taskadd__-title">Description</div>
+          <div className="taskadd__-text">
+            <textarea spellCheck={false}
+              placeholder='e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little.'
+              defaultValue = {""}
+              style={{minHeight: "112px"}}
+            />
+          </div>
+        </section>
+        <section className="taskadd__subtasks">
+          <div className="taskadd__-title">Subtasks</div>
+          <div className="taskadd__items">
+            { subtasks.map((subtask: typeSubtask, index: number) => 
+              <Subtask data={subtask} key={index}/>
+            )}
+          </div>
+          <motion.button className="taskadd__btn-add"
+            initial   ={{ scale: 1 }}
+            whileHover={{ scale: [1, 1.05, 1, 1.025, 1] }}
+            whileTap  ={{ scale: 0.98 }}
+          >
+            + Add New Subtask
+          </motion.button>
+        </section>
+        <section className="taskadd__status">
+          <div className="taskadd__-title">Status</div>
+          <div className="taskadd__current-status--items">
+            <Select options={columns}
+              className='taskadd__current-status-select' 
+              classNamePrefix='taskadd__current-status-select'
+              value={columns[0]}
+            />
+          </div>
+        </section>
+        <section className="taskadd__create">
+          <motion.button className="taskadd__btn-create"
+              initial   ={{ scale: 1 }}
+              whileHover={{ scale: [1, 1.05, 1, 1.025, 1] }}
+              whileTap  ={{ scale: 0.98 }}
+            >
+              {`${add ? "Create Task" : "Save Changes"}`}
+            </motion.button>
         </section>
       </motion.div>
     </Backdrop>
   )
 }
 export default TaskAdd
+
+type typeSubtask = {
+  text: string,
+  placeholder: string
+}
+
+function Subtask( {data} : {data: typeSubtask}) {
+  return (
+    <div className="taskadd__-text">
+      <textarea spellCheck={false}
+        placeholder={data.placeholder}
+        defaultValue = {data.text}
+      />
+      <div className="taskadd__delete">
+        <img src={crossIcon} alt="delete" />
+      </div>
+    </div>
+  )
+}

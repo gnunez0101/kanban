@@ -1,23 +1,26 @@
+import './header.css'
 import logoMobile       from '../assets/logo-mobile.svg'
 import logoDesktopDark  from '../assets/logo-dark.svg'
 import logoDesktopLight from '../assets/logo-light.svg'
 import chevronDown from '../assets/icon-chevron-down.svg'
 import plusSign    from '../assets/icon-add-task-mobile.svg'
 import ellipsis    from '../assets/icon-vertical-ellipsis.svg'
-import './header.css'
 import { motion, stagger, useAnimate } from "framer-motion";
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import useDialogs from '../hooks/useDialogs'
 
 
-function Header({boardName, setShowMenu, showMenu, darkMode} : 
-                {boardName: string, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
+function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} : 
+                {boardName: string, boardNum: number, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
 
   const isTablet  = useMediaQuery({ query: '( width > 375px )' })
   const isDesktop = useMediaQuery({ query: '( width > 768px )' })
   
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
+
+  const { dialogLaunch } = useDialogs()
 
   const handleMenu = () => {
     setRotate(showMenu ? 0 : 180)
@@ -96,6 +99,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
           <motion.button className="add" type="button"
             whileHover={{ scale: [1, 1.1, 1, 1.05, 1] }}
             whileTap   = {{ scale: 0.9 }}
+            onClick={ () => dialogLaunch("taskAdd", boardNum) }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>
