@@ -20,19 +20,23 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
     { text: '', placeholder: 'e.g. Drink coffee & smile' },
   ])
 
-  const [columns, setColumns] = useState<any>([])
+  type typeColumns = {
+    value: string,
+    label: string
+  }
+  const [columns, setColumns] = useState<typeColumns[]>()
 
   let firstTime = true
   useEffect(() => {
     if (firstTime) {
       firstTime = false
-      let cols = database.boards[board].columns.map((column: any) => {
+      let cols: typeColumns[] = database.boards[board].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
     }
   }, [])
-
+  
   function closeDialog() {
     setDialogsData(null)
   }
@@ -92,11 +96,14 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
         <section className="taskadd__status">
           <div className="taskadd__-title">Status</div>
           <div className="taskadd__current-status--items">
-            <Select options={columns}
+            { columns &&
+            <Select 
+              defaultValue={columns[0]}
+              options={columns}
               className='taskadd__current-status-select' 
               classNamePrefix='taskadd__current-status-select'
-              value={columns[0]}
             />
+            }
           </div>
         </section>
         <section className="taskadd__create">

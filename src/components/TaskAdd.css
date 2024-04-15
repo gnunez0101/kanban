@@ -29,7 +29,6 @@
   .taskadd__title, .taskadd__description, 
   .taskadd__subtasks, .taskadd__status, .taskadd__create {
     width: 100%;
-    line-height: 0;
   }
 
   .taskadd__subtasks {

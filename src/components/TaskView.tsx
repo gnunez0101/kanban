@@ -16,15 +16,16 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   const taskData = database.boards[board].columns[column].tasks[task]
   const [showMenu, setShowMenu]     = useState(false)
   const [editing, setEditing]       = useState(false)
+  const [columns, setColumns] = useState<any>([])
 
-  let columns: any = []
   let firstTime = true
   useEffect(() => {
     if (firstTime) {
-      columns = database.boards[board].columns.map((column: any) => {
+      firstTime = false
+      let cols = database.boards[board].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
-      firstTime = false
+      setColumns(cols)
     }
   }, [])
 
@@ -124,7 +125,7 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
             <Select options={columns} isDisabled={!editing}
               className='taskview__current-status-select' 
               classNamePrefix="taskview__current-status-select" 
-              value={{ value: taskData.status, label: taskData.status }}
+              defaultValue={{ value: taskData.status, label: taskData.status }}
             />
           </div>
         </section>
