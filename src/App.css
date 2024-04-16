@@ -51,7 +51,7 @@
       
         & a { 
           font-size: inherit;
-          color: var(--buttom-primary);
+          color: var(--button-primary);
           transition: all 150ms ease-in;
 
           &:hover {

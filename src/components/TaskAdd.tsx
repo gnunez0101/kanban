@@ -97,12 +97,12 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
           <div className="taskadd__-title">Status</div>
           <div className="taskadd__current-status--items">
             { columns &&
-            <Select 
-              defaultValue={columns[0]}
-              options={columns}
-              className='taskadd__current-status-select' 
-              classNamePrefix='taskadd__current-status-select'
-            />
+              <Select 
+                defaultValue={columns[0]}
+                options={columns}
+                className='taskadd__current-status-select' 
+                classNamePrefix='taskadd__current-status-select'
+              />
             }
           </div>
         </section>

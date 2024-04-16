@@ -5,7 +5,7 @@ import logoDesktopLight from '../assets/logo-light.svg'
 import chevronDown from '../assets/icon-chevron-down.svg'
 import plusSign    from '../assets/icon-add-task-mobile.svg'
 import ellipsis    from '../assets/icon-vertical-ellipsis.svg'
-import { motion, stagger, useAnimate } from "framer-motion";
+import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion";
 import { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import useDialogs from '../hooks/useDialogs'
@@ -19,7 +19,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
   
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
-
+  const [showMenuEllipsis, setShowMenuEllipsis] = useState(false)
   const { dialogLaunch } = useDialogs()
 
   const handleMenu = () => {
@@ -98,18 +98,49 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
         <nav className="nav">
           <motion.button className="add" type="button"
             whileHover={{ scale: [1, 1.1, 1, 1.05, 1] }}
-            whileTap   = {{ scale: 0.9 }}
+            whileTap  ={{ scale: 0.9 }}
             onClick={ () => dialogLaunch("taskAdd", boardNum) }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>
           </motion.button>
+
           <motion.button className="ellipsis" type="button"
             whileHover={{ scale: [1, 1.5, 1, 1.3, 1] }}
-            whileTap   = {{ scale: 0.9 }}
+            whileTap  ={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowMenuEllipsis(!showMenuEllipsis)
+            }}
           >
             <img src={ellipsis} alt='ellipsis' />
           </motion.button>
+          <AnimatePresence>
+            { showMenuEllipsis && 
+              <motion.div className="ellipsis-menu"
+                initial = {{ scaleY: 0 }}
+                animate = {{ scaleY: 1 }}
+                exit    = {{ scaleY: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="ellipsis-menu__option edit"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    // setEditing(true)
+                    setShowMenuEllipsis(false)
+                  }}
+                >Edit Board
+                </div>
+                <div className="ellipsis-menu__option delete"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setShowMenuEllipsis(false)
+                  }}
+                >Delete Board
+                </div>
+              </motion.div>
+            }
+          </AnimatePresence>
         </nav>
       </div>
 

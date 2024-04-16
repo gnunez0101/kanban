@@ -6,6 +6,10 @@
   width: 100dvw;
   height: 64px;
   background-color: var(--background-primary);
+  overflow: visible;
+  z-index: 1;
+
+  * { overflow: visible; }
 
   .header-logo {
     display: flex;
@@ -49,6 +53,7 @@
     }
 
     .nav {
+      position: relative;
       display: flex;
       align-items: center;
       height: 100%;
@@ -82,6 +87,37 @@
         
         &:hover { 
           cursor: pointer; 
+        }
+      }
+      
+      .ellipsis-menu {
+        position: absolute;
+        top:   90px;
+        right: 24px;
+        width: 192px;
+        border-radius: 8px;
+        background-color: var(--background-secondary);
+        transform-origin: top right;
+        
+        .ellipsis-menu__option {
+          padding:  17px;
+          font-size: var(--fs-Body-L);
+          line-height: 1;
+          
+          &.edit {
+            color: var(--text-secondary);
+          }
+
+          &.delete {
+            color: var(--Destructive);
+          }
+
+          &:hover {
+            transform-origin: left;
+            text-shadow: 1px 1px 3px var(--button-primary);
+            scale: 110%;
+            cursor: pointer;
+          }
         }
       }
     }

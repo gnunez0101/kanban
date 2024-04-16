@@ -35,7 +35,7 @@
     position: relative;
     padding-bottom: 0;
     
-    > .backdrop {
+    > .backdrop__new-column {
       position: absolute;
       inset: 39px 12px 0px 12px;
       border-radius: 6px;
