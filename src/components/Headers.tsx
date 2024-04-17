@@ -6,8 +6,9 @@ import chevronDown from '../assets/icon-chevron-down.svg'
 import plusSign    from '../assets/icon-add-task-mobile.svg'
 import ellipsis    from '../assets/icon-vertical-ellipsis.svg'
 import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion";
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import { useClickAway } from 'simple-react-clickaway';
 import useDialogs from '../hooks/useDialogs'
 
 
@@ -116,30 +117,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
             <img src={ellipsis} alt='ellipsis' />
           </motion.button>
           <AnimatePresence>
-            { showMenuEllipsis && 
-              <motion.div className="ellipsis-menu"
-                initial = {{ scaleY: 0 }}
-                animate = {{ scaleY: 1 }}
-                exit    = {{ scaleY: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="ellipsis-menu__option edit"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    // setEditing(true)
-                    setShowMenuEllipsis(false)
-                  }}
-                >Edit Board
-                </div>
-                <div className="ellipsis-menu__option delete"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowMenuEllipsis(false)
-                  }}
-                >Delete Board
-                </div>
-              </motion.div>
-            }
+            { showMenuEllipsis && <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis}/> }
           </AnimatePresence>
         </nav>
       </div>
@@ -148,4 +126,45 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
   )
 }
 export default Header
+
+
+function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
+  
+  const refMenu = useRef(null)
+  const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
+  
+  useEffect(() => {
+    enable()
+    return () => disable() 
+  }, [])
+
+  return (
+    <>
+      <motion.div className="ellipsis-menu" ref={refMenu}
+        initial    = {{ scale: 0 }}
+        animate    = {{ scale: 1 }}
+        exit       = {{ scale: 0 }}
+        transition = {{ duration: 0.2 }}
+      >
+  
+        <div className="ellipsis-menu__option edit"
+          onClick={(e) => {
+            e.stopPropagation()
+            setShowMenuEllipsis(false)
+          }}
+          >Edit Board
+        </div>
+  
+        <div className="ellipsis-menu__option delete"
+          onClick={(e) => {
+            e.stopPropagation()
+            setShowMenuEllipsis(false)
+          }}
+          >Delete Board
+        </div>
+  
+      </motion.div>
+    </>
+  )
+}
 

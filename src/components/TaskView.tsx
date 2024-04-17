@@ -1,5 +1,5 @@
 import './TaskView.css'
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Checkbox } from './Toggle';
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
 import Select from 'react-select';
@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import useDatabase from '../hooks/useDatabase';
 import useDialogs  from '../hooks/useDialogs';
 import Backdrop from './Backdrop';
+import { useClickAway } from 'simple-react-clickaway';
 
 function TaskView( { board, column, task }: { board: number, column: number, task: number } ) {
 
@@ -68,29 +69,7 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
               <img src={ellipsis} alt="ellipsis" />
             </motion.div>
             <AnimatePresence>
-            { showMenu && 
-              <motion.div className="taskview__title--ellipsis-menu"
-                initial = {{ scaleY: 0 }}
-                animate = {{ scaleY: 1 }}
-                exit    = {{ scaleY: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="taskview__title--ellipsis-menu__option edit"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setEditing(true)
-                    setShowMenu(false)
-                  }}
-                >Edit Task
-                </div>
-                <div className="taskview__title--ellipsis-menu__option delete"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setShowMenu(false)
-                  }}
-                >Delete Task</div>
-              </motion.div>
-            }
+              { showMenu && <MenuEllipsis setShowMenuEllipsis={setShowMenu}/> }
             </AnimatePresence>
           </div>
         </section>
@@ -133,4 +112,39 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
     </Backdrop>
   )
 }
-export default TaskView;
+export default TaskView
+
+function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
+  const refMenu = useRef(null)
+  const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
+  
+  useEffect(() => {
+    enable()
+    return () => disable() 
+  }, [])
+
+  return (
+    <motion.div className="taskview__title--ellipsis-menu"
+      initial    = {{ scaleY: 0 }}
+      animate    = {{ scaleY: 1 }}
+      exit       = {{ scaleY: 0 }}
+      transition = {{ duration: 0.2 }}
+      ref={refMenu}
+    >
+      <div className="taskview__title--ellipsis-menu__option edit"
+        onClick={(e) => {
+          e.stopPropagation()
+          // setEditing(true)
+          setShowMenuEllipsis(false)
+        }}
+      >Edit Task
+      </div>
+      <div className="taskview__title--ellipsis-menu__option delete"
+        onClick={(e) => {
+          e.stopPropagation()
+          setShowMenuEllipsis(false)
+        }}
+      >Delete Task</div>
+    </motion.div>
+  )
+}

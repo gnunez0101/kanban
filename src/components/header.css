@@ -97,7 +97,7 @@
         width: 192px;
         border-radius: 8px;
         background-color: var(--background-secondary);
-        transform-origin: top right;
+        transform-origin: right top;
         
         .ellipsis-menu__option {
           padding:  17px;
