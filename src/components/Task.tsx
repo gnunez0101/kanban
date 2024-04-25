@@ -1,8 +1,8 @@
 import './Task.css'
-import { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useMemo } from 'react'
+import { motion } from 'framer-motion'
 import useDialogs  from '../hooks/useDialogs'
-import useDatabase from '../hooks/useDatabase';
+import useDatabase from '../hooks/useDatabase'
 
 function Task({board, column, task} : {board: number, column: number, task: number}) {
   const { database }     = useDatabase()
@@ -13,9 +13,36 @@ function Task({board, column, task} : {board: number, column: number, task: numb
   const completed    = useMemo(() => { return subTaskData.filter((c: any) => c.isCompleted).length }, [board, column, task])
   const subTaskCount = subTaskData.length
 
+  const variantTask = {
+    initial: {
+      scale: 0.5,
+      y: 50,
+      opacity: 0,
+    },
+    animate: {
+      scale: 1,
+      y: 0,
+      opacity: 1,
+    },
+    transition: {
+      type: "spring",
+      mass: 3,
+      stiffness: 400,
+      damping: 50,
+    }
+  }
+
   return (
     <motion.section className = "task"
-      initial    = {{ scale: 1}}
+      variants   = {variantTask}
+      initial    = "initial"
+      animate    = "animate"
+      transition = {{ 
+        type: "spring",
+        mass: 3,
+        stiffness: 400,
+        damping: 50,
+      }}
       whileHover = {{ scale: [1.05, 1, 1.02], transition: {duration: 0.5} }}
       whileTap   = {{ scale: 0.98 }}
       onClick    = { () => dialogLaunch("taskView", board, column, task) }
@@ -25,6 +52,6 @@ function Task({board, column, task} : {board: number, column: number, task: numb
         {`${completed} of ${subTaskCount} subtasks`}
       </div>
     </motion.section>
-  );
+  )
 }
 export default Task;

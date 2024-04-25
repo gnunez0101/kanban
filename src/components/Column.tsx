@@ -1,6 +1,7 @@
 import './Column.css'
 import Task from './Task'
 import useDatabase from '../hooks/useDatabase'
+import { motion } from 'framer-motion'
 
 function Column({ board, column } : {board: number, column: number }) {
   const { database } = useDatabase()
@@ -20,15 +21,19 @@ function Column({ board, column } : {board: number, column: number }) {
   }
 
   return (
-    <section className="column">
+    <motion.section className="column"
+      initial    = "initial"
+      animate    = "animate"
+      transition = {{ staggerChildren: 1 }}
+    >
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
         <span className="text">{`${database.boards[board].columns[column].name} (${count})`}</span>
       </div>
       { boardData.columns[column].tasks.map( (item: any, index: number) => 
-        <Task board = {board} column = {column} task = {index} key={index} />
+        <Task board={board} column={column} task={index} key={index} />
       )}
-    </section>
-  );
+    </motion.section>
+  )
 }
 export default Column;

@@ -1,0 +1,74 @@
+.toggle-switch {
+  width:  40px;
+  height: 20px;
+
+  & input[type="checkbox"].toggle {
+    opacity: 0;
+    position: absolute;
+    left: -9000px;
+    top:  -9000px;
+
+    /* Label */
+    + label {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      cursor: pointer;
+
+      /* The two pieces of the check box */
+
+      /* ::before: Body of the Check Box */
+      &::before {
+        content: "";
+        width:  100%;
+        height: 100%;
+        background-color: var(--check-background);
+        border-radius: 1em;
+        transition: background-color 200ms ease-in-out;
+      }
+
+      /* ::after: Switch of the Check Box */
+      &::after {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        content: "";
+        font-size: 0.5em;
+        width:  1.8em;
+        height: 1.8em;
+        left:   0.45em;
+        background-color: var(--check-button);
+        color: white;
+        border-radius: 1em;
+        transition: background-color 200ms ease-in-out, 
+                    transform        200ms ease-in-out;
+      }
+    }
+
+    /* Focus style */
+    &:focus + label::before { outline: none; }
+
+    /* Checked styles */
+    &:checked + label {
+      &::before {
+        background-color: var(--check-background);
+      }
+
+      &::after {
+        content: "";
+        background-color: var(--check-button);
+        transform: translateX(140%);
+      }
+    }
+
+    /* Disabled styles */
+    &:disabled + label {
+      color: #777;
+      &::before { background-color: #CCC; }
+      &::after  { background-color: #777; }
+    }
+  }
+}
