@@ -9,21 +9,20 @@ import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useClickAway } from 'simple-react-clickaway';
-import useDialogs  from '../hooks/useDialogs'
-import useDatabase from '../hooks/useDatabase'
+import useDialogs from '../hooks/useDialogs'
+import { Button } from './Button'
 
-function Header({setShowMenu, showMenu, darkMode} : 
-                {setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
+
+function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} : 
+                {boardName: string, boardNum: number, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
 
   const isTablet  = useMediaQuery({ query: '( width > 375px )' })
   const isDesktop = useMediaQuery({ query: '( width > 768px )' })
   
-  const [boardNum, setBoardNum] = useState(-1)
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
   const [showMenuEllipsis, setShowMenuEllipsis] = useState(false)
-  const { dialogLaunch, dialogsData } = useDialogs()
-  const { database }     = useDatabase()
+  const { dialogLaunch } = useDialogs()
 
   const handleMenu = () => {
     setRotate(showMenu ? 0 : 180)
@@ -53,23 +52,8 @@ function Header({setShowMenu, showMenu, darkMode} :
   }
 
   useEffect(() => {
-    if (dialogsData) {
-      setBoardNum(dialogsData[1])
-    }
-  }, [])
-  
-  
-  let boardName: string | null = null
-  useEffect(() => {
-    if (boardNum < 0) {
-      boardName = "No Boards!"
-    }
-    else {
-      boardName = database.boards[boardNum].name
-      // animateTitle( ".letter", { scale: [1, 1.3, 1] }, { duration: 0.3, delay: stagger(0.05) } )
-    }
-    console.log("Nombre:", boardName)
-  }, [boardNum])
+    animateTitle( ".letter", { scale: [1, 1.3, 1] }, { duration: 0.3, delay: stagger(0.05) } )
+  }, [boardName])
 
   const space = <>&nbsp;</>
 
@@ -96,7 +80,7 @@ function Header({setShowMenu, showMenu, darkMode} :
         <div className="board-name" ref={scopeTitle}>
 
           <motion.h1 className="title">
-            { boardName && [...boardName].map((letter: string, i: number) => 
+            {[...boardName].map((letter: string, i: number) => 
               <motion.span key={i} className="letter"
               >
                 { letter != ' ' ? letter : space }
@@ -114,14 +98,12 @@ function Header({setShowMenu, showMenu, darkMode} :
         </div>
 
         <nav className="nav">
-          <motion.button className="add" type="button"
-            whileHover={{ scale: [1, 1.1, 1, 1.05, 1] }}
-            whileTap  ={{ scale: 0.9 }}
+          <Button className="add button primary large"
             onClick={ () => dialogLaunch("taskAdd", boardNum) }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>
-          </motion.button>
+          </Button>
 
           <motion.button className="ellipsis" type="button"
             whileHover={{ scale: [1, 1.5, 1, 1.3, 1] }}
@@ -149,11 +131,9 @@ function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
   
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
-  const { dialogLaunch, dialogsData } = useDialogs()
   
   useEffect(() => {
     enable()
-    console.log(dialogsData)
     return () => disable() 
   }, [])
 
@@ -170,7 +150,6 @@ function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
           onClick={(e) => {
             e.stopPropagation()
             setShowMenuEllipsis(false)
-            // dialogLaunch("taskAdd", boardNum)
           }}
           >Edit Board
         </div>

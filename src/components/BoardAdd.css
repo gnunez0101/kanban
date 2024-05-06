@@ -1,4 +1,4 @@
-.taskadd {
+.boardadd {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,7 +16,7 @@
 
   * { overflow: visible; }
 
-  .taskadd__dialog--title {
+  .boardadd__dialog--title {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -26,16 +26,16 @@
     color: var(--text-primary);
   }
 
-  .taskadd__title, .taskadd__description, 
-  .taskadd__subtasks, .taskadd__status, .taskadd__create {
+  .boardadd__title, .boardadd__description, 
+  .boardadd__subtasks, .boardadd__status, .boardadd__create {
     width: 100%;
   }
 
-  .taskadd__subtasks {
+  .boardadd__subtasks {
     display: flex;
     flex-direction: column;
     
-    .taskadd__items {
+    .boardadd__items {
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -43,16 +43,16 @@
     }
   }
 
-  .taskadd__create {
+  .boardadd__create {
     display: flex;
     flex-direction: column;
   }
 
-  .taskadd__btn-add, .taskadd__btn-create {
+  .boardadd__btn-add, .boardadd__btn-create {
     height: 40px;
   }
 
-  .taskadd__-title {
+  .boardadd__-title {
     font-size:   var(--fs-Heading-S);
     font-weight: var(--fw-Heading-S);
     line-height: var(--fl-Heading-S);
@@ -61,7 +61,7 @@
     line-height: 1;
   }
 
-  .taskadd__-text {
+  .boardadd__-text {
     display: flex;
     flex-direction: row;
     line-height: 0;
@@ -85,7 +85,7 @@
       overflow-y: auto;
     }
 
-    .taskadd__delete {
+    .boardadd__delete {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -102,53 +102,53 @@
     }
   }
 
-  .taskadd__status {
+  .boardadd__status {
 
-    .taskadd__current-status--items {
+    .boardadd__current-status--items {
   
-      .taskadd__current-status-select {
+      .boardadd__current-status-select {
   
-        .taskadd__current-status-select__control {
+        .boardadd__current-status-select__control {
           height: 40px;
           background-color: transparent;
           border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
   
-          &.taskadd__current-status-select__control--is-focused {
+          &.boardadd__current-status-select__control--is-focused {
             border-color: var(--button-primary);
           }
         }
   
-        .taskadd__current-status-select__single-value {
+        .boardadd__current-status-select__single-value {
           color: var(--text-primary);
           font-size: var(--fs-Body-L);
           padding-left: 5px;
         }
   
-        .taskadd__current-status-select__menu {
+        .boardadd__current-status-select__menu {
           background-color: var(--background-secondary);
         }
   
-        .taskadd__current-status-select__option {
+        .boardadd__current-status-select__option {
           color: var(--text-primary);
           background-color: var(--background-secondary);
           font-size: var(--fs-Body-L);
           padding-left: 16px;
   
-          &.taskadd__current-status-select__option--is-focused {
+          &.boardadd__current-status-select__option--is-focused {
             background-color: var(--background-primary);
           }
   
-          &.taskadd__current-status-select__option--is-selected {
+          &.boardadd__current-status-select__option--is-selected {
             background-color: var(--button-primary);
             color: var(--text-button-primary);
           }
         }
   
-        .taskadd__current-status-select__indicator-separator {
+        .boardadd__current-status-select__indicator-separator {
           width: 0;
         }
   
-        .taskadd__current-status-select__indicator {
+        .boardadd__current-status-select__indicator {
           color: var(--button-primary);
         }
       }
@@ -157,7 +157,7 @@
 }
   
   @media (width > 375px) {
-    .taskadd {
+    .boardadd {
       padding: 32px;
     }
   }

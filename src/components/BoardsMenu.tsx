@@ -3,12 +3,15 @@ import Toggle from "./Toggle";
 import { motion, useAnimate, stagger } from "framer-motion";
 import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
+import DialogLaunch from './DialogLaunch';
+import useDialogs from '../hooks/useDialogs';
 
 function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, selected, setSelected }
                      : 
                     { boards: any, darkMode: boolean, setDarkMode: any, showMenu?: boolean, setShowMenu?: any, selected: number, setSelected: any }) {
 
   const boardsCount = boards.boards.length
+  const { dialogLaunch } = useDialogs()
 
   const [scopeMenu, animateMenu] = useAnimate()
   const [scopeNav,  animateNav ] = useAnimate()
@@ -67,6 +70,7 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
 
         </section>
         <motion.button className="menu-opt create-board" type="button"
+          onClick    = { () => dialogLaunch("boardAdd") }
           whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
           whileTap   = {{ scale: 0.9 }}
         >

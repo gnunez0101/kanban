@@ -1,5 +1,5 @@
 import BoardsMenu from './BoardsMenu';
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from 'react-responsive';
 import './Sidebar.css'
 
@@ -45,7 +45,8 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
   return (
     <>
       {/* Sidebar for mobile screens ======================================================== */}
-      { !isTablet &&
+      <AnimatePresence mode='wait'>
+      { !isTablet && showMenu &&
         <motion.div className="sidebar-mobile-backdrop"
           key        = "sidebar-mobile"
           variants   = { backdropVariants }
@@ -56,21 +57,23 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
           <motion.aside className="sidebar-body"
             key       = "sidebar-mobile-body"
             variants  = { sidebarMobileVariants }
-            initial   = { false }
-            animate   = { showMenu ? "show" : "hide" }
+            initial   = "hide"
+            animate   = "show"
+            exit      = "hide"
             onClick   = { (e) => e.stopPropagation() }
           >
             <BoardsMenu 
-              boards      = { boards } 
-              darkMode    = { darkMode } 
+              boards      = { boards }
+              darkMode    = { darkMode }
               setDarkMode = { setDarkMode }
               showMenu    = { showMenu }
               selected    = { selected }
-              setSelected = { setSelected } 
+              setSelected = { setSelected }
             />
           </motion.aside>
         </motion.div>
       }
+      </AnimatePresence>
       {/* Sidebar for desktop screens ======================================================= */}
       { isTablet &&
         <motion.aside className = "sidebar-desktop"

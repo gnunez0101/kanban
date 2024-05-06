@@ -60,21 +60,10 @@
       padding-left: 15px;
 
       .add {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width:  48px;
         height: 32px;
-        border: none;
-        border-radius: 24px;
-        background-color: var(--button-primary);
-
-        &:hover { 
-          background-color: var(--hover-primary);
-          cursor: pointer; 
-        }
-
-        & p { display: none; }
+        
+        & p { display: none; } 
       }
 
       .ellipsis {
@@ -175,9 +164,6 @@
 
           & p {
             display: block;
-            font-size: var(--fs-Heading-M);
-            font-weight: var(--fw-Heading-M);
-            color: var(--text-button-primary);
           }
         }
 

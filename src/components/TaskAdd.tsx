@@ -7,10 +7,12 @@ import crossIcon from '../assets/icon-cross.svg'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Checkbox } from './Toggle'
 import Select from 'react-select'
+import { Button } from './Button'
+import DialogLaunch from './DialogLaunch'
 
-function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
+function TaskAdd( { board, add = false }: { board?: number, add?: boolean } ) {
   const { database }       = useDatabase()
-  const { setDialogsData } = useDialogs()
+  const { dialogsData, setDialogsData } = useDialogs()
 
   // const taskData = database.boards[board].columns[column]
   const [showMenu, setShowMenu] = useState(false)
@@ -30,15 +32,16 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
   useEffect(() => {
     if (firstTime) {
       firstTime = false
-      let cols: typeColumns[] = database.boards[board].columns.map((column: any) => {
+      let cols: typeColumns[] = database.boards[board!].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
+      console.log(dialogsData)
     }
   }, [])
   
   function closeDialog() {
-    setDialogsData(null)
+    setDialogsData("", board, 0, 0)
   }
 
   const dialogVariant = {
@@ -85,13 +88,9 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
               <Subtask data={subtask} key={index}/>
             )}
           </div>
-          <motion.button className="taskadd__btn-add"
-            initial   ={{ scale: 1 }}
-            whileHover={{ scale: [1, 1.05, 1, 1.025, 1] }}
-            whileTap  ={{ scale: 0.98 }}
-          >
+          <Button className="taskadd__btn-add secondary">
             + Add New Subtask
-          </motion.button>
+          </Button>
         </section>
         <section className="taskadd__status">
           <div className="taskadd__-title">Status</div>
@@ -107,13 +106,9 @@ function TaskAdd( { board, add = false }: { board: number, add?: boolean } ) {
           </div>
         </section>
         <section className="taskadd__create">
-          <motion.button className="taskadd__btn-create"
-              initial   ={{ scale: 1 }}
-              whileHover={{ scale: [1, 1.05, 1, 1.025, 1] }}
-              whileTap  ={{ scale: 0.98 }}
-            >
-              {`${add ? "Create Task" : "Save Changes"}`}
-            </motion.button>
+          <Button className="taskadd__btn-create primary">
+            {`${add ? "Create Task" : "Save Changes"}`}
+          </Button>
         </section>
       </motion.div>
     </Backdrop>

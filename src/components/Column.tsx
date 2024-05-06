@@ -24,7 +24,7 @@ function Column({ board, column } : {board: number, column: number }) {
     <motion.section className="column"
       initial    = "initial"
       animate    = "animate"
-      transition = {{ staggerChildren: 1 }}
+      transition = {{ staggerChildren: 0.05 }}
     >
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>

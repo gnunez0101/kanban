@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase'
 
-function Task({board, column, task} : {board: number, column: number, task: number}) {
+function Task( {board, column, task} : {board: number, column: number, task: number} ) {
   const { database }     = useDatabase()
   const { dialogLaunch } = useDialogs()
   
@@ -13,35 +13,19 @@ function Task({board, column, task} : {board: number, column: number, task: numb
   const completed    = useMemo(() => { return subTaskData.filter((c: any) => c.isCompleted).length }, [board, column, task])
   const subTaskCount = subTaskData.length
 
-  const variantTask = {
-    initial: {
-      scale: 0.5,
-      y: 50,
-      opacity: 0,
-    },
-    animate: {
-      scale: 1,
-      y: 0,
-      opacity: 1,
-    },
-    transition: {
-      type: "spring",
-      mass: 3,
-      stiffness: 400,
-      damping: 50,
-    }
-  }
-
   return (
     <motion.section className = "task"
-      variants   = {variantTask}
-      initial    = "initial"
-      animate    = "animate"
-      transition = {{ 
-        type: "spring",
-        mass: 3,
-        stiffness: 400,
-        damping: 50,
+      variants={{
+        initial: {
+          scale: 0.5,
+          y: 50,
+          opacity: 0,
+        },
+        animate: {
+          scale: 1,
+          y: 0,
+          opacity: 1,
+        },
       }}
       whileHover = {{ scale: [1.05, 1, 1.02], transition: {duration: 0.5} }}
       whileTap   = {{ scale: 0.98 }}

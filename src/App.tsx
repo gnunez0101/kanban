@@ -1,6 +1,6 @@
 import './App.css'
 import Sidebar     from './components/Sidebar'
-import Header      from './components/Headers'
+import Header      from './components/Header'
 import EmptyBoards from './components/EmptyBoards'
 import Board       from './components/Board'
 import showSideBar from './assets/icon-show-sidebar.svg'
@@ -8,13 +8,14 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { useMediaQuery } from 'react-responsive'
 import useDatabase from './hooks/useDatabase'
-import useDialogs from './hooks/useDialogs'
+import useDialogs  from './hooks/useDialogs'
 import DialogLaunch from './components/DialogLaunch'
 // const data = { "boards" : [] }
 
 function App() {
   const { database }    = useDatabase()
-  const { dialogsData } = useDialogs()
+  const { dialogsData, setDialogsData } = useDialogs()
+
   const [darkMode, setDarkMode] = useState(true)
   const [theme, setTheme] = useState('')
   const [showMenu, setShowMenu] = useState(false)
@@ -45,6 +46,7 @@ function App() {
     if (firstTime) {
       firstTime = false
       setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
+      setDialogsData("", 0, 0, 0)
     }
   }, [])
 
@@ -110,7 +112,7 @@ function App() {
           { !showMenu &&
             <motion.button className="show-sidebar"
               type='button' key="show-sidebar"
-              variants   = {buttonVariants}
+              variants   = {buttonVariants}            
               initial    = "hidden"
               animate    = "show"
               exit       = "hidden"
@@ -124,7 +126,7 @@ function App() {
       }
       <div className="dialogs">
         <AnimatePresence>
-          { dialogsData && <DialogLaunch data={dialogsData} /> }
+          { dialogsData && dialogsData[0] && <DialogLaunch data={dialogsData} /> }
         </AnimatePresence>
       </div>
     </main>

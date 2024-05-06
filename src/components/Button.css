@@ -1,0 +1,46 @@
+/* Buttons ============================================================ */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 100vh; /* For perfectly rounded borders */
+  font-size: var(--fs-Heading-M);
+  font-weight: var(--fw-Heading-M);
+  width:  100%;   /* Default Width */
+  height: 40px;  /* Default Height */
+  
+  &.primary {
+    background-color: var(--button-primary);
+    color: var(--text-button-primary);
+  }
+
+  &.secondary {
+    background-color: var(--button-secondary);
+    color: var(--text-button-secondary);
+  }
+
+  &.large {
+    font-size: var(--fs-Heading-M);
+    font-weight: var(--fw-Heading-M);
+  }
+
+  &.small {
+    font-size: var(--fs-Body-L);
+    font-weight: var(--fw-Body-M);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:is(.primary):hover { 
+    background-color: var(--button-primary-hover);
+  }
+
+  &:is(.secondary):hover {
+    background-color: var(--button-secondary-hover);
+  }
+
+  & p { color: inherit; }
+}

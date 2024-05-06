@@ -9,12 +9,12 @@ import useDialogs  from '../hooks/useDialogs';
 import Backdrop from './Backdrop';
 import { useClickAway } from 'simple-react-clickaway';
 
-function TaskView( { board, column, task }: { board: number, column: number, task: number } ) {
+function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
   const { database }       = useDatabase()
   const { setDialogsData } = useDialogs()
 
-  const taskData = database.boards[board].columns[column].tasks[task]
+  const taskData = database.boards[board!].columns[column!].tasks[task!]
   const [showMenu, setShowMenu]     = useState(false)
   const [editing, setEditing]       = useState(false)
   const [columns, setColumns] = useState<any>([])
@@ -23,7 +23,7 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   useEffect(() => {
     if (firstTime) {
       firstTime = false
-      let cols = database.boards[board].columns.map((column: any) => {
+      let cols = database.boards[board!].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
@@ -31,11 +31,11 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   }, [])
 
   function closeDialog() {
-    setDialogsData(null)
+    setDialogsData("", 0, 0, 0)
   }
 
   const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )
-
+        
   const dialogVariant = {
     hide: { scale: 0, opacity: 0 },
     show: { scale: 1, opacity: 1, transition: { type: "spring", damping: 22, stiffness: 700 }  },
@@ -45,11 +45,11 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
   return (
     <Backdrop onClick={closeDialog}>
       <motion.div className="taskview"
-        onClick={(e) => e.stopPropagation()}
-        variants={dialogVariant}
-        initial="hide"
-        animate="show"
-        exit   ="exit"
+        onClick  = {(e) => e.stopPropagation()}
+        variants = {dialogVariant}
+        initial  = "hide"
+        animate  = "show"
+        exit     = "exit"
       >
         <section className="taskview__title">
           <textarea className="taskview__title--text" spellCheck={false}
@@ -75,8 +75,8 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
         </section>
         <div className="taskview__description">
           <textarea spellCheck={false}
-            placeholder='Write a description...'
-            readOnly = {!editing} 
+            placeholder  ='Write a description...'
+            readOnly     = {!editing} 
             defaultValue = {taskData.description}
           />
         </div>
@@ -87,7 +87,7 @@ function TaskView( { board, column, task }: { board: number, column: number, tas
           <div className="taskview__subtasks--items">
             { taskData.subtasks.map((subtask: any, index: number) => 
               <div className={`taskview__subtasks--items__subtask ${editing ? "edit" : ""}`} key={index}>
-                <Checkbox className="taskview__subtasks--items__completed"
+                <Checkbox className = "taskview__subtasks--items__completed"
                   checked  = { subtask.isCompleted }
                   readOnly = { !editing }
                 />
