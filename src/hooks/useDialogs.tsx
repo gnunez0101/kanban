@@ -1,5 +1,5 @@
 import { ContextDialogs } from '../components/Store'
-import { useContext } from "react"
+import { useContext }     from "react"
 
 export default function useDialogs() {
   const dialogContext = useContext(ContextDialogs)

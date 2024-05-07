@@ -3,7 +3,6 @@ import Toggle from "./Toggle";
 import { motion, useAnimate, stagger } from "framer-motion";
 import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import DialogLaunch from './DialogLaunch';
 import useDialogs from '../hooks/useDialogs';
 
 function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, selected, setSelected }
@@ -70,7 +69,7 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
 
         </section>
         <motion.button className="menu-opt create-board" type="button"
-          onClick    = { () => dialogLaunch("boardAdd") }
+          onClick    = { () => dialogLaunch("boardAdd", selected, 0, 0) }
           whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
           whileTap   = {{ scale: 0.9 }}
         >
@@ -84,7 +83,7 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
           <div className="toggle-box">
             <div className="toggle-items">
               <div className='icon-sun'></div>
-              <Toggle isToggled={darkMode} onToggle={()=>setDarkMode(!darkMode)} />
+              <Toggle isToggled={darkMode} onToggle={() => setDarkMode(!darkMode)} />
               <div className='icon-moon'></div>
             </div>
           </div>

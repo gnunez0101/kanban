@@ -20,11 +20,24 @@ type typeData = {
 }
 
 type typeValueData = {
-  database: typeData,
+  database:      typeData,
   boardAdmin?:   (command: string, coord: []) => void,
   columnAdmin?:  (command: string, coord: []) => void,
   taskAdmin?:    (command: string, coord: []) => void,
   subtaskAdmin?: (command: string, coord: []) => void
+}
+
+type typeDialogs = [
+  dialog: string,
+  board:  number,
+  column: number,
+  task:   number
+]
+
+type typeValueDialogs = {
+  dialogLaunch?: (dialog: string, board: number, column: number, task: number) => void,
+  dialogsData?:  typeDialogs,
+  setDialogsData: ([]) => void
 }
 
 type StoreProps = { children: React.ReactNode }
@@ -60,23 +73,16 @@ export const StoreProvider = ( props: StoreProps ) => {
       taskAdmin:    taskAdmin,
       subtaskAdmin: subtaskAdmin
     }
-
-    function launchDialog(dialog: string, board: number, column: number, task: number ) {
-      setDialogsData( [dialog, board, column, task] )
-    }
-        
-    type typeDialogs = {
-      dialogLaunch?: (dialog: string, board: number, column: number, task: number) => void,
-      dialogsData?:  [dialog: string, board: number, column: number, task: number],
-      setDialogsData: ([]) => void
-    }
-    
-    const dialogsValue: typeDialogs = {
+    const dialogsValue: typeValueDialogs = {
       dialogLaunch:   launchDialog,
       dialogsData:    dialogsData,
       setDialogsData: setDialogsData
     }
-
+    
+    function launchDialog(dialog: string, board: number, column: number, task: number ) {
+      setDialogsData( [dialog, board, column, task] )
+    }
+        
     return (
         <ContextDatabase.Provider   value = { databaseValue }>
           <ContextDialogs.Provider  value = { dialogsValue }>

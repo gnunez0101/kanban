@@ -10,16 +10,17 @@ import { useMediaQuery } from 'react-responsive'
 import useDatabase from './hooks/useDatabase'
 import useDialogs  from './hooks/useDialogs'
 import DialogLaunch from './components/DialogLaunch'
-// const data = { "boards" : [] }
 
 function App() {
-  const { database }    = useDatabase()
-  const { dialogsData, setDialogsData } = useDialogs()
+  const database = { "boards" : [] }
+  // const { database }    = useDatabase()
+  const { dialogsData, dialogLaunch } = useDialogs()
 
   const [darkMode, setDarkMode] = useState(true)
   const [theme, setTheme] = useState('')
   const [showMenu, setShowMenu] = useState(false)
   const [selectedBoard, setSelectedBoard] = useState(0)
+  const [boardTitle, setBoardTitle] = useState("No Boards!")
 
   const [switching, setSwitching] = useState(false)
   const timer = useRef<number | undefined>(undefined)
@@ -46,7 +47,7 @@ function App() {
     if (firstTime) {
       firstTime = false
       setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
-      setDialogsData("", 0, 0, 0)
+      dialogLaunch("init", 0, 0, 0)
     }
   }, [])
 
@@ -62,15 +63,26 @@ function App() {
     return () => clearTimeout(timer.current)
   }, [darkMode])
 
-  let boardTitle = "No Boards!"
-  if (database) {
-    if (database.boards.length > 0) 
-      boardTitle = database.boards[selectedBoard].name
-  }
-  else {
-    boardTitle = "Loading database..."
-  }
-
+  useEffect(() => {
+    if (database) {
+      if (database.boards.length > 0) {
+        setBoardTitle(database.boards[selectedBoard].name)
+        dialogLaunch("changeBoard", selectedBoard, 0, 0)
+      }
+      else {
+        setBoardTitle("No Boards!")
+        dialogLaunch("noBoards", 0, 0, 0)
+      }
+    }
+    else {
+      setBoardTitle("Loading database...")
+      dialogLaunch("loadingDB", 0, 0, 0)
+    }
+  }, [selectedBoard])
+  // ----------------------------------------------------------
+  console.log(typeof dialogsData, `: ${dialogsData}`)
+  // ----------------------------------------------------------
+  
   return (
     
     <main className = {`main ${theme}${switching ? " switching" : ""}`}>

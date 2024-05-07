@@ -12,7 +12,7 @@ import DialogLaunch from './DialogLaunch'
 
 function TaskAdd( { board, add = false }: { board?: number, add?: boolean } ) {
   const { database }       = useDatabase()
-  const { dialogsData, setDialogsData } = useDialogs()
+  const { dialogsData, dialogLaunch } = useDialogs()
 
   // const taskData = database.boards[board].columns[column]
   const [showMenu, setShowMenu] = useState(false)
@@ -36,12 +36,11 @@ function TaskAdd( { board, add = false }: { board?: number, add?: boolean } ) {
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
-      console.log(dialogsData)
     }
   }, [])
   
   function closeDialog() {
-    setDialogsData("", board, 0, 0)
+    dialogLaunch("close", board, 0, 0)
   }
 
   const dialogVariant = {

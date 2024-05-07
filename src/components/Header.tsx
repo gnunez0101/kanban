@@ -99,7 +99,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
 
         <nav className="nav">
           <Button className="add button primary large"
-            onClick={ () => dialogLaunch("taskAdd", boardNum) }
+            onClick={ () => dialogLaunch("taskAdd", boardNum, 0, 0) }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>

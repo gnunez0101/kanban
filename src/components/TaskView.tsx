@@ -12,7 +12,7 @@ import { useClickAway } from 'simple-react-clickaway';
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
   const { database }       = useDatabase()
-  const { setDialogsData } = useDialogs()
+  const { dialogLaunch } = useDialogs()
 
   const taskData = database.boards[board!].columns[column!].tasks[task!]
   const [showMenu, setShowMenu]     = useState(false)
@@ -31,7 +31,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
   }, [])
 
   function closeDialog() {
-    setDialogsData("", 0, 0, 0)
+    dialogLaunch("close", board, column, task)
   }
 
   const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )

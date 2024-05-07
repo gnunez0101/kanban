@@ -33,7 +33,7 @@ function Task( {board, column, task} : {board: number, column: number, task: num
     >
       <div className="task-title">{taskData.title}</div>
       <div className="subtasks">
-        {`${completed} of ${subTaskCount} subtasks`}
+        { `${completed} of ${subTaskCount} subtasks` }
       </div>
     </motion.section>
   )

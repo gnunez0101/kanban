@@ -1,7 +1,9 @@
 import './EmptyDialogs.css'
-import { motion } from 'framer-motion';
+import { Button } from './Button';
+import useDialogs from '../hooks/useDialogs';
 
 function EmptyBoards() {
+  const { dialogLaunch } = useDialogs()
   return ( 
     <>
       <div className="empty-container">
@@ -10,12 +12,11 @@ function EmptyBoards() {
             There's no boards. Create a new board to get started.
           </p>
           <div className="button-container">
-            <motion.button type="button"
-              whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
-              whileTap   = {{ scale: 0.9 }}
+            <Button 
+              onClick={() => dialogLaunch("boardAdd", 0, 0, 0) }
             >
               + Add New Board
-            </motion.button>
+            </Button>
           </div>
         </div>
       </div>

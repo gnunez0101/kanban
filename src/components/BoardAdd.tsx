@@ -1,21 +1,30 @@
 import './BoardAdd.css'
-import useDialogs from "../hooks/useDialogs";
 import Backdrop   from "./Backdrop";
 import { motion } from "framer-motion";
 import { Button } from "./Button";
 import { useEffect, useState } from "react";
+import useDatabase from '../hooks/useDatabase';
+import useDialogs  from "../hooks/useDialogs";
 
 
 export function BoardAdd ( { add }: { add: boolean } ) {
   const [columns, setColumns] = useState(null)
-  const { dialogsData, setDialogsData } = useDialogs()
+  const { database } = useDatabase()
+  const { dialogLaunch, dialogsData } = useDialogs()
 
+  let firstTime = true
   useEffect(() => {
-    console.log(dialogsData)
+    if (firstTime) {
+      firstTime = false
+      // let cols = database.boards[board!].columns.map((column: any) => {
+      //   return { value: column.name, label: column.name }
+      // })
+      // setColumns(cols)
+    }
   }, [])
 
   function closeDialog() {
-    setDialogsData("", 0, 0, 0)
+    dialogLaunch("close", dialogsData[1], 0, 0)
   }
 
   const dialogVariant = {

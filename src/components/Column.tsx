@@ -10,6 +10,7 @@ function Column({ board, column } : {board: number, column: number }) {
 
   const colors = [ "#49C4E5", "#8471F2", "#67E2AE" ]
   let colorIndex = column
+  
   // Asign available colors in circular direction:
   if ( colorIndex > colors.length - 1 ) {
     let x = 0
