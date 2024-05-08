@@ -12,8 +12,8 @@ import useDialogs  from './hooks/useDialogs'
 import DialogLaunch from './components/DialogLaunch'
 
 function App() {
-  const database = { "boards" : [] }
-  // const { database }    = useDatabase()
+  // const database = { "boards" : [] }
+  const { database }    = useDatabase()
   const { dialogsData, dialogLaunch } = useDialogs()
 
   const [darkMode, setDarkMode] = useState(true)

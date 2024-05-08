@@ -5,12 +5,15 @@ import { Button } from "./Button";
 import { useEffect, useState } from "react";
 import useDatabase from '../hooks/useDatabase';
 import useDialogs  from "../hooks/useDialogs";
+import crossIcon from '../assets/icon-cross.svg'
 
 
 export function BoardAdd ( { add }: { add: boolean } ) {
   const [columns, setColumns] = useState(null)
   const { database } = useDatabase()
   const { dialogLaunch, dialogsData } = useDialogs()
+
+  const defaultColumns = ["Todo", "Doing"]
 
   let firstTime = true
   useEffect(() => {
@@ -46,26 +49,41 @@ export function BoardAdd ( { add }: { add: boolean } ) {
           {`${add ? "Add New Board" : "Edit Board"}`}
         </section>
         <section className="boardadd__name">
-          Board Name
-          </section>
+          <div className="boardadd__name--title">Board Name</div>
+          <input type="text" className="boardadd__name--input" 
+            placeholder='e.g. Web Design'
+          />
+        </section>
 
         <section className="boardadd__columns">
-          <div className="boardadd__-columns--title">Board Columns</div>
+          <div className="boardadd__columns--title">Board Columns</div>
           <div className="boardadd__columns--items">
-            { 
-
-            }
+            { defaultColumns.map((column: string, index: number) => 
+              <Column name={column} key={index} />
+            )}
+            <Button className="boardadd__btn-addcol secondary">
+              + Add New Column
+            </Button>
           </div>
         </section>
 
-        <Button className="boardadd__btn-addcol secondary">
-          + Add New Column
-        </Button>
         <Button className="boardadd__btn-createboard primary">
           Create New Board
         </Button>
 
       </motion.div>
     </Backdrop>
+  )
+}
+
+function Column( { name }: { name: string } ) {
+  const [columnInput, setColumnInput] = useState("")
+  return (
+    <div className='boardadd__column--body'>
+      <input type="text" className="boardadd__column--name" defaultValue={name}/>
+      <div className="boardadd__column--delete">
+        <img src={crossIcon} alt="delete" />
+      </div>
+    </div>
   )
 }
