@@ -136,11 +136,8 @@ function App() {
           }
         </AnimatePresence>
       }
-      <div className="dialogs">
-        <AnimatePresence>
-          { dialogsData && dialogsData[0] && <DialogLaunch data={dialogsData} /> }
-        </AnimatePresence>
-      </div>
+      
+      { dialogsData && <div className="dialogs"><DialogLaunch data={dialogsData}/></div> }
     </main>
   )
 }

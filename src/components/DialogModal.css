@@ -1,0 +1,36 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in oklab, black 50%, transparent 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+ 
+  .dialog-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    row-gap: 24px;
+    transform-origin: center;
+    min-width: 343px;
+    width: clamp(343px, 480px, 480px);
+    border: none;
+    border-radius: 6px;
+    margin-inline: 16px;
+    background-color: var(--background-primary);
+    overflow: visible;
+    padding: 24px;
+  
+    * { overflow: visible; }
+  }
+}
+
+@media (width > 375px) {
+  .backdrop {
+    .dialog-modal {
+      padding: 32px;
+    }
+  }
+}

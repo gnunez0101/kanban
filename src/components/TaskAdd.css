@@ -1,163 +1,157 @@
-.taskadd {
+.taskadd__dialog--title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: var(--fs-Heading-L);
+  font-weight: var(--fw-Heading-L);
+  line-height: var(--fl-Heading-L);
+  color: var(--text-primary);
+}
+
+.taskadd__title, .taskadd__description, 
+.taskadd__subtasks, .taskadd__status, .taskadd__create {
+  width: 100%;
+}
+
+.taskadd__subtasks {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  row-gap: 24px;
-  transform-origin: center;
-  min-width: 343px;
-  width: clamp(343px, 480px, 480px);
-  border: none;
-  border-radius: 6px;
-  padding: 24px;
-  margin-inline: 16px;
-  background-color: var(--background-primary);
-  overflow: visible;
-
-  * { overflow: visible; }
-
-  .taskadd__dialog--title {
+  
+  .taskadd__items {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+.taskadd__create {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskadd__btn-add, .taskadd__btn-create {
+  height: 40px;
+}
+
+.taskadd__-title {
+  font-size:   var(--fs-Heading-S);
+  font-weight: var(--fw-Heading-S);
+  line-height: var(--fl-Heading-S);
+  color: var(--text-terciary);
+  padding-bottom: 8px;
+  line-height: 1;
+}
+
+.taskadd__-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  line-height: 0;
+  
+  > textarea {
     width: 100%;
-    font-size: var(--fs-Heading-L);
-    font-weight: var(--fw-Heading-L);
-    line-height: var(--fl-Heading-L);
+    appearance: none;
+    outline: none;
+    border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+    border-radius: 4px;
+    padding: 8px 16px 9px 16px;
+    resize: none;
+    font-family: inherit;
+    overflow: hidden;
+    background-color: transparent;
+    font-size:   var(--fs-Body-L);
+    font-weight: var(--fw-Body-L);
+    line-height: var(--fl-Body-L);
     color: var(--text-primary);
-  }
+    field-sizing: content;
+    max-height: 127px;
+    overflow-y: auto;
 
-  .taskadd__title, .taskadd__description, 
-  .taskadd__subtasks, .taskadd__status, .taskadd__create {
-    width: 100%;
-  }
-
-  .taskadd__subtasks {
-    display: flex;
-    flex-direction: column;
-    
-    .taskadd__items {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 12px;
+    &:hover {
+      border: 1px solid var(--button-primary);
     }
   }
 
-  .taskadd__create {
+  .taskadd__delete {
     display: flex;
-    flex-direction: column;
-  }
+    justify-content: center;
+    align-items: center;
+    width:  15px;
+    height: 15px;
+    margin-left: 16px;
+    background-color: var(--text-secondary);
+    mask: url('../assets/icon-cross.svg') no-repeat center;
 
-  .taskadd__btn-add, .taskadd__btn-create {
-    height: 40px;
-  }
-
-  .taskadd__-title {
-    font-size:   var(--fs-Heading-S);
-    font-weight: var(--fw-Heading-S);
-    line-height: var(--fl-Heading-S);
-    color: var(--text-terciary);
-    padding-bottom: 8px;
-    line-height: 1;
-  }
-
-  .taskadd__-text {
-    display: flex;
-    flex-direction: row;
-    line-height: 0;
-    
-    > textarea {
-      width: 100%;
-      appearance: none;
-      border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-      border-radius: 4px;
-      padding: 8px 16px 9px 16px;
-      resize: none;
-      font-family: inherit;
-      overflow: hidden;
-      background-color: transparent;
-      font-size:   var(--fs-Body-L);
-      font-weight: var(--fw-Body-L);
-      line-height: var(--fl-Body-L);
-      color: var(--text-primary);
-      field-sizing: content;
-      max-height: 127px;
-      overflow-y: auto;
+    &:hover {
+      scale: 115%;
+      background-color: var(--button-primary);
+      cursor: pointer;
     }
 
-    .taskadd__delete {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-left: 16px;
+    &:active {
+      scale: 95%;
+    }
+  }
+}
 
-      &:hover {
-        scale: 105%;
+.taskadd__status {
+
+  .taskadd__current-status--items {
+
+    .taskadd__current-status-select {
+
+      .taskadd__current-status-select__control {
+        height: 40px;
+        background-color: transparent;
+        border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
+        border-width: 1px;
+        box-shadow: none;
+
+        &.taskadd__current-status-select__control--is-focused {
+          border-color: var(--button-primary);
+        }
+
+        &:hover {
+          border-color: var(--button-primary);
+          cursor: pointer;
+        }
+      }
+
+      .taskadd__current-status-select__single-value {
+        color: var(--text-primary);
+        font-size: var(--fs-Body-L);
+        padding-left: 5px;
+      }
+
+      .taskadd__current-status-select__menu {
+        background-color: var(--background-secondary);
+      }
+
+      .taskadd__current-status-select__option {
+        color: var(--text-primary);
+        background-color: var(--background-secondary);
+        font-size: var(--fs-Body-L);
+        padding-left: 16px;
         cursor: pointer;
+
+        &.taskadd__current-status-select__option--is-focused {
+          background-color: var(--background-primary);
+        }
+
+        &.taskadd__current-status-select__option--is-selected {
+          background-color: var(--button-primary);
+          color: var(--text-button-primary);
+        }
       }
 
-      &:active {
-        scale: 95%;
+      .taskadd__current-status-select__indicator-separator {
+        width: 0;
       }
-    }
-  }
 
-  .taskadd__status {
-
-    .taskadd__current-status--items {
-  
-      .taskadd__current-status-select {
-  
-        .taskadd__current-status-select__control {
-          height: 40px;
-          background-color: transparent;
-          border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
-  
-          &.taskadd__current-status-select__control--is-focused {
-            border-color: var(--button-primary);
-          }
-        }
-  
-        .taskadd__current-status-select__single-value {
-          color: var(--text-primary);
-          font-size: var(--fs-Body-L);
-          padding-left: 5px;
-        }
-  
-        .taskadd__current-status-select__menu {
-          background-color: var(--background-secondary);
-        }
-  
-        .taskadd__current-status-select__option {
-          color: var(--text-primary);
-          background-color: var(--background-secondary);
-          font-size: var(--fs-Body-L);
-          padding-left: 16px;
-  
-          &.taskadd__current-status-select__option--is-focused {
-            background-color: var(--background-primary);
-          }
-  
-          &.taskadd__current-status-select__option--is-selected {
-            background-color: var(--button-primary);
-            color: var(--text-button-primary);
-          }
-        }
-  
-        .taskadd__current-status-select__indicator-separator {
-          width: 0;
-        }
-  
-        .taskadd__current-status-select__indicator {
-          color: var(--button-primary);
-        }
+      .taskadd__current-status-select__indicator {
+        color: var(--button-primary);
       }
     }
   }
 }
-  
-  @media (width > 375px) {
-    .taskadd {
-      padding: 32px;
-    }
-  }

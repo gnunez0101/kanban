@@ -9,8 +9,8 @@ import { AnimatePresence, motion, stagger, useAnimate } from "framer-motion";
 import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useClickAway } from 'simple-react-clickaway';
-import useDialogs from '../hooks/useDialogs'
 import { Button } from './Button'
+import useDialogs from '../hooks/useDialogs'
 
 
 function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} : 
@@ -116,7 +116,9 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
             <img src={ellipsis} alt='ellipsis' />
           </motion.button>
           <AnimatePresence>
-            { showMenuEllipsis && <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis}/> }
+            { showMenuEllipsis && 
+              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={boardNum}/>
+            }
           </AnimatePresence>
         </nav>
       </div>
@@ -127,10 +129,11 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
 export default Header
 
 
-function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
+function MenuEllipsis( { setShowMenuEllipsis, board }: { setShowMenuEllipsis: any, board: number } ) {
   
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
+  const { dialogLaunch } = useDialogs()
   
   useEffect(() => {
     enable()
@@ -150,6 +153,7 @@ function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
           onClick={(e) => {
             e.stopPropagation()
             setShowMenuEllipsis(false)
+            dialogLaunch("boardEdit", board, 0, 0)
           }}
           >Edit Board
         </div>

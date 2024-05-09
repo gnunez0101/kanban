@@ -1,296 +1,270 @@
-.taskview {
+.taskview__title {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
-  transform-origin: center;
-  min-width: 343px;
-  width: clamp(343px, 480px, 480px);
-  border: none;
-  border-radius: 6px;
-  padding: 24px;
-  margin-inline: 16px;
-  background-color: var(--background-primary);
-  overflow: visible;
+  justify-content: space-between;
+  width: 100%;
 
-  * { overflow: visible; }
+  > textarea {
+    flex: 1;
+    appearance: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    resize: none;
+    font-family: inherit;
+    overflow: hidden;
+    background-color: transparent;
+    font-size:   var(--fs-Heading-L);
+    font-weight: var(--fw-Heading-L);
+    line-height: var(--fl-Heading-L);
+    color: var(--text-primary);
+    field-sizing: content;
+    max-height: 127px;
+    overflow-y: auto;
+  }
 
-  .taskview__title {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  > textarea:read-write {
+    outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+    border-radius: 4px;
+    padding-inline: 16px;
+    padding-top: 8px;
+    padding-bottom: 4px;
 
-    > textarea {
-      flex: 1;
-      appearance: none;
-      border: none;
-      outline: none;
-      padding: 0;
-      resize: none;
-      font-family: inherit;
-      overflow: hidden;
-      background-color: transparent;
-      font-size:   var(--fs-Heading-L);
-      font-weight: var(--fw-Heading-L);
-      line-height: var(--fl-Heading-L);
-      color: var(--text-primary);
-      field-sizing: content;
-      max-height: 127px;
-      overflow-y: auto;
+    &:focus {
+      outline: 1px solid var(--button-primary);
     }
+  }
 
-    > textarea:read-write {
-      outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-      border-radius: 4px;
-      padding-inline: 16px;
-      padding-top: 8px;
-      padding-bottom: 4px;
+  .taskview__title--ellipsis {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 32px;
+    min-height: 32px;
 
-      &:focus {
-        outline: 1px solid var(--button-primary);
+    .taskview__title--ellipsis-toggle {
+
+      & img {
+        height: 20px;
+      }
+
+      &:hover {
+        cursor: pointer;
       }
     }
 
-    .taskview__title--ellipsis {
-      position: relative;
-      flex-shrink: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 32px;
-      min-height: 32px;
+    .taskview__title--ellipsis-menu {
+      position: absolute;
+      top: 100%;
+      left: calc(100% - 192px / 2);
+      width: 192px;
+      border-radius: 8px;
+      background-color: var(--background-secondary);
+      transform-origin: top;
+      
+      .taskview__title--ellipsis-menu__option {
+        padding:  17px;
+        font-size: var(--fs-Body-L);
+        line-height: 1;
+        
+        &.edit {
+          color: var(--text-secondary);
+        }
 
-      .taskview__title--ellipsis-toggle {
-
-        & img {
-          height: 20px;
+        &.delete {
+          color: var(--Destructive);
         }
 
         &:hover {
+          transform-origin: left;
+          text-shadow: 1px 1px 3px var(--button-primary);
+          scale: 110%;
           cursor: pointer;
-        }
-      }
-
-      .taskview__title--ellipsis-menu {
-        position: absolute;
-        top: 100%;
-        left: calc(100% - 192px / 2);
-        width: 192px;
-        border-radius: 8px;
-        background-color: var(--background-secondary);
-        transform-origin: top;
-        
-        .taskview__title--ellipsis-menu__option {
-          padding:  17px;
-          font-size: var(--fs-Body-L);
-          line-height: 1;
-          
-          &.edit {
-            color: var(--text-secondary);
-          }
-
-          &.delete {
-            color: var(--Destructive);
-          }
-
-          &:hover {
-            transform-origin: left;
-            text-shadow: 1px 1px 3px var(--button-primary);
-            scale: 110%;
-            cursor: pointer;
-          }
-        }
-      }
-    }
-  }
-
-  .taskview__description {
-    display: flex;
-    width: 100%;
-
-    > textarea {
-      flex: 1;
-      appearance: none;
-      border: none;
-      outline: none;
-      padding: 0;
-      resize: none;
-      font-family: inherit;
-      overflow: hidden;
-      background-color: transparent;
-      font-size:   var(--fs-Body-L);
-      font-weight: var(--fw-Body-L);
-      line-height: var(--fl-Body-L);
-      color: var(--text-secondary);
-      field-sizing: content;
-      max-height: 127px;
-      overflow-y: auto;
-    }
-
-    > textarea:read-write {
-      outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-      border-radius: 4px;
-      padding-inline: 16px;
-      padding-top: 8px;
-      padding-bottom: 4px;
-
-      &:focus {
-        outline: 1px solid var(--button-primary);
-      }
-    }
-  }
-
-  .taskview__subtasks {
-    width: 100%;
-
-    .taskview__subtasks--title {
-      font-size:   var(--fs-Heading-S);
-      font-weight: var(--fw-Heading-S);
-      line-height: var(--fl-Heading-S);
-      color: var(--text-terciary);
-      padding-bottom: 16px;
-    }
-
-    .taskview__subtasks--items {
-      flex-direction: column;
-      display: flex;
-      gap: 8px;
-
-      .taskview__subtasks--items__subtask {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border-radius: 4px;
-        padding-block: 13px;
-        padding-right: 16px;
-        background-color: var(--background-secondary);
-
-        &.edit:has(input:not(:checked)) {
-          background-color: color-mix(in oklab, 
-            var(--button-primary) 25%, transparent 100%);
-        }
-
-        > input[type="checkbox"] {
-          flex-shrink: 0;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          padding-top: 4px;
-          margin-left: 12px;
-          margin-right: 16px;
-          height: 16px;
-          width:  16px;
-          appearance: none;
-          background-color: var(--background-primary);
-          border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
-          border-radius: 2px;
-
-          &::before {
-            content: '';
-            height: 3px;
-            width:  6px;
-            border-left:   2px solid white;
-            border-bottom: 2px solid white;
-            transform: rotate(-45deg);
-
-          }
-
-          &:checked {
-            background-color: var(--button-primary);
-            border-color: var(--button-primary);
-          }
-
-          &:not(:checked) {
-
-            &::before {
-              display: none;
-            }
-          }
-
-          &:checked + p {
-            opacity: 0.5;
-            text-decoration: line-through;
-          }
-        }
-
-        > p {
-          font-size:   var(--fs-Body-M);
-          font-weight: var(--fw-Body-M);
-          line-height: var(--fl-Body-M);
-          color: var(--text-primary);
-        }
-      }
-    }
-  }
-
-  .taskview__current-status {
-    width: 100%;
-
-    .taskview__current-status--title {
-      font-size:   var(--fs-Heading-S);
-      font-weight: var(--fw-Heading-S);
-      line-height: var(--fl-Heading-S);
-      color: var(--text-terciary);
-      padding-bottom: 8px;
-    }
-
-    .taskview__current-status--items {
-      margin-bottom: 8px;
-
-      .taskview__current-status-select {
-
-        .taskview__current-status-select__control {
-          height: 40px;
-          background-color: transparent;
-          border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
-
-          &.taskview__current-status-select__control--is-focused {
-            border-color: var(--button-primary);
-          }
-        }
-
-        .taskview__current-status-select__single-value {
-          color: var(--text-primary);
-          font-size: var(--fs-Body-L);
-          padding-left: 5px;
-        }
-
-        .taskview__current-status-select__menu {
-          background-color: var(--background-secondary);
-        }
-
-        .taskview__current-status-select__option {
-          color: var(--text-primary);
-          background-color: var(--background-secondary);
-          font-size: var(--fs-Body-L);
-          padding-left: 16px;
-
-          &.taskview__current-status-select__option--is-focused {
-            background-color: var(--background-primary);
-          }
-
-          &.taskview__current-status-select__option--is-selected {
-            background-color: var(--button-primary);
-            color: var(--text-button-primary);
-          }
-        }
-
-        .taskview__current-status-select__indicator-separator {
-          width: 0;
-        }
-
-        .taskview__current-status-select__indicator {
-          color: var(--button-primary);
         }
       }
     }
   }
 }
 
-@media (width > 375px) {
-  .taskview {
-    padding: 32px;
-    /* max-width: 480px; */
+.taskview__description {
+  display: flex;
+  width: 100%;
+
+  > textarea {
+    flex: 1;
+    appearance: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    resize: none;
+    font-family: inherit;
+    overflow: hidden;
+    background-color: transparent;
+    font-size:   var(--fs-Body-L);
+    font-weight: var(--fw-Body-L);
+    line-height: var(--fl-Body-L);
+    color: var(--text-secondary);
+    field-sizing: content;
+    max-height: 127px;
+    overflow-y: auto;
+  }
+
+  > textarea:read-write {
+    outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+    border-radius: 4px;
+    padding-inline: 16px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+
+    &:focus {
+      outline: 1px solid var(--button-primary);
+    }
+  }
+}
+
+.taskview__subtasks {
+  width: 100%;
+
+  .taskview__subtasks--title {
+    font-size:   var(--fs-Heading-S);
+    font-weight: var(--fw-Heading-S);
+    line-height: var(--fl-Heading-S);
+    color: var(--text-terciary);
+    padding-bottom: 16px;
+  }
+
+  .taskview__subtasks--items {
+    flex-direction: column;
+    display: flex;
+    gap: 8px;
+
+    .taskview__subtasks--items__subtask {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      border-radius: 4px;
+      padding-block: 13px;
+      padding-right: 16px;
+      background-color: var(--background-secondary);
+
+      &.edit:has(input:not(:checked)) {
+        background-color: color-mix(in oklab, 
+          var(--button-primary) 25%, transparent 100%);
+      }
+
+      > input[type="checkbox"] {
+        flex-shrink: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 4px;
+        margin-left: 12px;
+        margin-right: 16px;
+        height: 16px;
+        width:  16px;
+        appearance: none;
+        background-color: var(--background-primary);
+        border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
+        border-radius: 2px;
+
+        &::before {
+          content: '';
+          height: 3px;
+          width:  6px;
+          border-left:   2px solid white;
+          border-bottom: 2px solid white;
+          transform: rotate(-45deg);
+
+        }
+
+        &:checked {
+          background-color: var(--button-primary);
+          border-color: var(--button-primary);
+        }
+
+        &:not(:checked) {
+
+          &::before {
+            display: none;
+          }
+        }
+
+        &:checked + p {
+          opacity: 0.5;
+          text-decoration: line-through;
+        }
+      }
+
+      > p {
+        font-size:   var(--fs-Body-M);
+        font-weight: var(--fw-Body-M);
+        line-height: var(--fl-Body-M);
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+.taskview__current-status {
+  width: 100%;
+
+  .taskview__current-status--title {
+    font-size:   var(--fs-Heading-S);
+    font-weight: var(--fw-Heading-S);
+    line-height: var(--fl-Heading-S);
+    color: var(--text-terciary);
+    padding-bottom: 8px;
+  }
+
+  .taskview__current-status--items {
+    margin-bottom: 8px;
+
+    .taskview__current-status-select {
+
+      .taskview__current-status-select__control {
+        height: 40px;
+        background-color: transparent;
+        border-color: color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
+
+        &.taskview__current-status-select__control--is-focused {
+          border-color: var(--button-primary);
+        }
+      }
+
+      .taskview__current-status-select__single-value {
+        color: var(--text-primary);
+        font-size: var(--fs-Body-L);
+        padding-left: 5px;
+      }
+
+      .taskview__current-status-select__menu {
+        background-color: var(--background-secondary);
+      }
+
+      .taskview__current-status-select__option {
+        color: var(--text-primary);
+        background-color: var(--background-secondary);
+        font-size: var(--fs-Body-L);
+        padding-left: 16px;
+
+        &.taskview__current-status-select__option--is-focused {
+          background-color: var(--background-primary);
+        }
+
+        &.taskview__current-status-select__option--is-selected {
+          background-color: var(--button-primary);
+          color: var(--text-button-primary);
+        }
+      }
+
+      .taskview__current-status-select__indicator-separator {
+        width: 0;
+      }
+
+      .taskview__current-status-select__indicator {
+        color: var(--button-primary);
+      }
+    }
   }
 }

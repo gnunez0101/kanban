@@ -1,97 +1,90 @@
-.boardadd {
+.boardadd__dialog--title {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  row-gap: 24px;
-  transform-origin: center;
-  min-width: 343px;
-  width: clamp(343px, 480px, 480px);
-  border: none;
-  border-radius: 6px;
-  padding: 24px;
-  margin-inline: 16px;
-  background-color: var(--background-primary);
-  overflow: visible;
+  justify-content: space-between;
+  width: 100%;
+  font-size: var(--fs-Heading-L);
+  font-weight: var(--fw-Heading-L);
+  line-height: var(--fl-Heading-L);
+  color: var(--text-primary);
+}
 
-  * { overflow: visible; }
+div[class$='--title'] {
+  font-size:   var(--fs-Heading-S);
+  font-weight: var(--fw-Heading-S);
+  line-height: var(--fl-Heading-S);
+  color: var(--text-terciary);
+  padding-bottom: 8px;
+  line-height: 1;
+}
 
-  .boardadd__dialog--title {
-    display: flex;
-    justify-content: space-between;
+.boardadd__name {                        
+  width: 100%;
+
+  .boardadd__name--input {
     width: 100%;
-    font-size: var(--fs-Heading-L);
-    font-weight: var(--fw-Heading-L);
-    line-height: var(--fl-Heading-L);
+    height: 40px;
+    outline: none;
+    background-color: transparent;
+    border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+    border-radius: 4px;
+    padding-inline: 16px;
     color: var(--text-primary);
-  }
 
-  div[class$='--title'] {
-    font-size:   var(--fs-Heading-S);
-    font-weight: var(--fw-Heading-S);
-    line-height: var(--fl-Heading-S);
-    color: var(--text-terciary);
-    padding-bottom: 8px;
-    line-height: 1;
-  }
-
-  .boardadd__name {
-    width: 100%;
-
-    .boardadd__name--input {
-      width: 100%;
-      height: 40px;
-      background-color: transparent;
-      border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-      border-radius: 4px;
-      padding-inline: 16px;
+    &:hover {
+      border: 1px solid var(--button-primary);
     }
   }
+}
 
-  .boardadd__columns {
-    width: 100%;
+.boardadd__columns {
+  width: 100%;
 
-    .boardadd__columns--items {
+  .boardadd__columns--items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    .boardadd__column--body {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      
-      .boardadd__column--body {
-        display: flex;
-        flex-direction: row;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+
+      .boardadd__column--name {
         width: 100%;
+        height: 40px;
+        background-color: transparent;
+        border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+        border-radius: 4px;
+        padding-inline: 16px;
+        outline: none;
+        color: var(--text-primary);
 
-        .boardadd__column--name {
-          width: 100%;
-          height: 40px;
-          background-color: transparent;
-          border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-          border-radius: 4px;
-          padding-inline: 16px;
+        &:hover, &:focus {
+          border: 1px solid var(--button-primary);
         }
+      }
 
-        .boardadd__column--delete {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding-left: 16px;
-    
-          &:hover {
-            scale: 105%;
-            cursor: pointer;
-          }
-    
-          &:active {
-            scale: 95%;
-          }
+      .boardadd__column--delete {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width:  15px;
+        height: 15px;
+        margin-left: 16px;
+        background-color: var(--text-secondary);
+        mask: url('../assets/icon-cross.svg') no-repeat center;
+  
+        &:hover {
+          scale: 105%;
+          background-color: var(--button-primary);
+          cursor: pointer;
+        }
+  
+        &:active {
+          scale: 95%;
         }
       }
     }
   }
 }
-  
-  @media (width > 375px) {
-    .boardadd {
-      padding: 32px;
-    }
-  }

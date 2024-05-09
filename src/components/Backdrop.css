@@ -1,9 +1,0 @@
-.backdrop {
-  position: absolute;
-  inset: 0;
-  background-color: color-mix(in oklab, black 50%, transparent 100%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 3;
-}
