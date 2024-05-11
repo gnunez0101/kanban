@@ -60,6 +60,10 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     _tempColumns.splice(index, 1)
     setTempColumns([..._tempColumns])
   }
+
+  function createBoard() {
+    dialogLaunch("createBoard", dialogsData.length + 1, 0, 0)
+  }
   
   return (
     <DialogModal onClick={closeDialog}>
@@ -105,7 +109,9 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
         </div>
       </section>
 
-      <Button className="boardadd__btn-createboard primary">
+      <Button className="boardadd__btn-createboard primary"
+        onClick={createBoard}
+      >
         Create New Board
       </Button>
     </DialogModal>
