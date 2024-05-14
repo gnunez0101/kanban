@@ -1,10 +1,10 @@
 import './BoardAdd.css'
-import DialogModal   from "./DialogModal";
 import { Button } from "./Button";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from 'framer-motion';
+import DialogModal   from "./DialogModal";
 import useDatabase from '../hooks/useDatabase';
 import useDialogs  from "../hooks/useDialogs";
-import { AnimatePresence, motion } from 'framer-motion';
 
 type typeColumns = {
   id: string,
@@ -12,17 +12,16 @@ type typeColumns = {
 }
 
 export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
-  const [columns, setColumns] = useState(null)
   const { database } = useDatabase()
   const { dialogLaunch, dialogsData } = useDialogs()
   const [boardName, setBoardName] = useState("")
-  const [counter, setCounter] = useState(0)
   
   const [tempColumns, setTempColumns] = useState<typeColumns[]>([])
   const defaultColumns = [
-    {"id": "00", "name": "Todo" }, 
-    {"id": "11", "name": "Doing"}
+    {"id": "0", "name": "Todo" }, 
+    {"id": "1", "name": "Doing"}
   ]
+  const [counter, setCounter] = useState(edit ? 0 : defaultColumns.length)
 
   let firstTime = true
   useEffect(() => {
@@ -31,12 +30,17 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
       if(edit) {
         const board = dialogsData[1]
         setBoardName(database.boards[board].name)
-        if (database.boards[board].columns.length > 0)
+        if (database.boards[board].columns.length) {
+          let count = counter
           setTempColumns(database.boards[board].columns.map(column => {
-            return( {id: useId(), name: column.name} )
+            console.log(count)
+            return( {id: (count++).toString(), name: column.name} )
           }))
-        else
+          setCounter(count)
+        }
+        else {
           setTempColumns(defaultColumns)
+        }
       }
       else {
         setTempColumns(defaultColumns)
@@ -47,7 +51,6 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   function closeDialog() {
     dialogLaunch("close", dialogsData[1], 0, 0)
   }
-
   
   function addColumn() {
     setTempColumns([...tempColumns, 
@@ -112,7 +115,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
       <Button className="boardadd__btn-createboard primary"
         onClick={createBoard}
       >
-        Create New Board
+        {`${edit ? "Save Changes" : "Create New Board"}`}
       </Button>
     </DialogModal>
   )
