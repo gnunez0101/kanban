@@ -17,7 +17,8 @@
   display: flex;
   flex-direction: column;
   
-  .taskadd__items {
+  .taskadd__subtasks--items {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -48,6 +49,7 @@
   flex-direction: row;
   align-items: center;
   line-height: 0;
+  transform-origin: center top;
   
   > textarea {
     width: 100%;

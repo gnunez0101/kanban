@@ -40,6 +40,7 @@ div[class$='--title'] {
   width: 100%;
 
   .boardadd__columns--items {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -49,6 +50,7 @@ div[class$='--title'] {
       flex-direction: row;
       align-items: center;
       width: 100%;
+      transform-origin: center top;
 
       .boardadd__column--name {
         width: 100%;

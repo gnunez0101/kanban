@@ -94,15 +94,15 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
       </section>
       <section className="taskadd__subtasks">
         <div className="taskadd__-title">Subtasks</div>
-        <div className="taskadd__items">
+        <div className="taskadd__subtasks--items">
           <AnimatePresence mode='popLayout'>
             { tempSubTasks.length ? (
               tempSubTasks.map((subtask: typeSubtask, index: number) => 
               <motion.div className="taskadd__-text" key={subtask.id}
                 layout
-                initial={{ opacity: 0, x: -400, scale: 0.5 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 200, scale: 1.2 }}
+                initial = {{ opacity: 0, scale: 0 }}
+                animate = {{ opacity: 1, scale: 1 }}
+                exit    = {{ opacity: 0, scale: 0 }}
                 transition={{ duration: 0.6, type: "spring" }}
               >
                 <textarea spellCheck={false}

@@ -23,6 +23,7 @@ export default function DialogModal ( props: typeBackdrop ) {
     >
       <motion.div className="dialog-modal"
         onClick  = {(e) => e.stopPropagation()}
+        layout
         variants = {dialogVariant}
         initial  = "hide"
         animate  = "show"

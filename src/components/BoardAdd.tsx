@@ -1,13 +1,13 @@
 import './BoardAdd.css'
 import { Button } from "./Button";
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion';
 import DialogModal   from "./DialogModal";
 import useDatabase from '../hooks/useDatabase';
 import useDialogs  from "../hooks/useDialogs";
 
 type typeColumns = {
-  id: string,
+  id:   number,
   name: string
 }
 
@@ -18,8 +18,8 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   
   const [tempColumns, setTempColumns] = useState<typeColumns[]>([])
   const defaultColumns = [
-    {"id": "0", "name": "Todo" }, 
-    {"id": "1", "name": "Doing"}
+    {"id": 0, "name": "Todo" }, 
+    {"id": 1, "name": "Doing"}
   ]
   const [counter, setCounter] = useState(edit ? 0 : defaultColumns.length)
 
@@ -34,7 +34,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
           let count = counter
           setTempColumns(database.boards[board].columns.map(column => {
             console.log(count)
-            return( {id: (count++).toString(), name: column.name} )
+            return( {id: count++, name: column.name} )
           }))
           setCounter(count)
         }
@@ -54,7 +54,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   
   function addColumn() {
     setTempColumns([...tempColumns, 
-      {id: counter.toString(), name: `New column ${tempColumns.length+1}...`}])
+      {id: counter, name: `New column ${counter}...`}])
     setCounter(counter + 1)
   }
 
@@ -89,10 +89,10 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
               tempColumns.map((column: typeColumns, index: number) => 
                 <motion.div className='boardadd__column--body' key={column.id}
                   layout
-                  initial={{ opacity: 0, x: -400, scale: 0.5 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: 200, scale: 1.2 }}
-                  transition={{ duration: 0.6, type: "spring" }}
+                  initial = {{ opacity: 0, scale: 0 }}
+                  animate = {{ opacity: 1, scale: 1   }}
+                  exit    = {{ opacity: 0, scale: 0.5 }}
+                  transition={{ duration: 1, type: "spring" }}
                 >
                   <input className="boardadd__column--name" type="text" 
                     defaultValue={column.name}
@@ -103,7 +103,6 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
                 </motion.div>
               )) : <div><h1 className='no-columns'>No columns!</h1></div>
             } 
-
           </AnimatePresence>
           <Button className="boardadd__btn-addcol secondary"
             onClick={addColumn}
