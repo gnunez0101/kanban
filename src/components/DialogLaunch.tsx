@@ -1,5 +1,6 @@
 import { AnimatePresence } from "framer-motion"
 import { BoardAdd } from "./BoardAdd"
+import { BoardDelete } from "./BoardDelete"
 import TaskAdd  from "./TaskAdd"
 import TaskView from "./TaskView"
 
@@ -19,6 +20,7 @@ function DialogLaunch( { data }: { data: typeDialogs } ) {
       { data[0] == 'taskEdit'  && <TaskAdd  board={data[1]} edit={true}/> }
       { data[0] == 'boardAdd'  && <BoardAdd /> }
       { data[0] == 'boardEdit' && <BoardAdd edit = {true} /> }
+      { data[0] == 'boardDelete' && <BoardDelete /> }
     </AnimatePresence>
   )
 }

@@ -56,7 +56,9 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
             <img src={ellipsis} alt="ellipsis" />
           </motion.div>
           <AnimatePresence>
-            { showMenu && <MenuEllipsis setShowMenuEllipsis={setShowMenu}/> }
+            { showMenu && <MenuEllipsis setShowMenuEllipsis={setShowMenu}
+                                        board={board} column={column} task={task}
+            /> }
           </AnimatePresence>
         </div>
       </section>
@@ -100,9 +102,10 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
 }
 export default TaskView
 
-function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
+function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: number, column?: number, task?: number, setShowMenuEllipsis: any } ) {
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
+  const { dialogLaunch } = useDialogs()
   
   useEffect(() => {
     enable()
@@ -122,6 +125,7 @@ function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
           e.stopPropagation()
           // setEditing(true)
           setShowMenuEllipsis(false)
+          dialogLaunch("taskEdit", board, column, task)
         }}
       >Edit Task
       </div>
@@ -129,6 +133,7 @@ function MenuEllipsis( { setShowMenuEllipsis }: { setShowMenuEllipsis: any } ) {
         onClick={(e) => {
           e.stopPropagation()
           setShowMenuEllipsis(false)
+          dialogLaunch("taskDelete", board, column, task)
         }}
       >Delete Task</div>
     </motion.div>

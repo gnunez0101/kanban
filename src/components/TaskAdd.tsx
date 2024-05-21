@@ -5,7 +5,7 @@ import useDialogs  from '../hooks/useDialogs'
 import DialogModal from './DialogModal'
 import Select from 'react-select'
 import { Button } from './Button'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
 
 type typeColumns = {
   value: string,
@@ -95,15 +95,16 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
       <section className="taskadd__subtasks">
         <div className="taskadd__-title">Subtasks</div>
         <div className="taskadd__subtasks--items">
-          <AnimatePresence mode='popLayout'>
+          <LayoutGroup>
+          <AnimatePresence>
             { tempSubTasks.length ? (
               tempSubTasks.map((subtask: typeSubtask, index: number) => 
               <motion.div className="taskadd__-text" key={subtask.id}
-                layout
+                layout  = {true}
                 initial = {{ opacity: 0, scale: 0 }}
-                animate = {{ opacity: 1, scale: 1 }}
-                exit    = {{ opacity: 0, scale: 0 }}
-                transition={{ duration: 0.6, type: "spring" }}
+                animate = {{ opacity: 1, scale: 1, transition: { type: "spring"} }}
+                exit    = {{ opacity: 0, scale: 0.3 }}
+                transition={{ duration: 0.3 }}
               >
                 <textarea spellCheck={false}
                   placeholder={subtask.placeholder}
@@ -114,9 +115,10 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
                 >
                 </div>
               </motion.div>
-            )) : <div><h1 className='no-columns'>No Subtasks!</h1></div>
+            )) : <motion.div><h1 className='no-columns'>No Subtasks!</h1></motion.div>
             }
           </AnimatePresence>
+          </LayoutGroup>
         </div>
         <Button className="taskadd__btn-add secondary"
           onClick={addSubTask}

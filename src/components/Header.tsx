@@ -162,6 +162,7 @@ function MenuEllipsis( { setShowMenuEllipsis, board }: { setShowMenuEllipsis: an
           onClick={(e) => {
             e.stopPropagation()
             setShowMenuEllipsis(false)
+            dialogLaunch("boardDelete", board, 0, 0)
           }}
           >Delete Board
         </div>

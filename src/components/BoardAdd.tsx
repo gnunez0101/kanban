@@ -84,15 +84,16 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
       <section className="boardadd__columns">
         <div className="boardadd__columns--title">Board Columns</div>
         <div className="boardadd__columns--items">
-          <AnimatePresence mode='popLayout'>
+          <LayoutGroup>
+          <AnimatePresence>
             { tempColumns.length ? (
               tempColumns.map((column: typeColumns, index: number) => 
                 <motion.div className='boardadd__column--body' key={column.id}
-                  layout
-                  initial = {{ opacity: 0, scale: 0 }}
-                  animate = {{ opacity: 1, scale: 1   }}
-                  exit    = {{ opacity: 0, scale: 0.5 }}
-                  transition={{ duration: 1, type: "spring" }}
+                  layout     = {true}
+                  initial    = {{ opacity: 0, scale: 0   }}
+                  animate    = {{ opacity: 1, scale: 1, transition: {type: "spring"} }}
+                  exit       = {{ opacity: 0, scale: 0.3 }}
+                  transition = {{ duration: 0.3 }}
                 >
                   <input className="boardadd__column--name" type="text" 
                     defaultValue={column.name}
@@ -101,20 +102,19 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
                     onClick={() => deleteColumn(index)}
                   />
                 </motion.div>
-              )) : <div><h1 className='no-columns'>No columns!</h1></div>
-            } 
+              )) : <motion.div><h1 className='no-columns'>No columns!</h1></motion.div>
+            }
           </AnimatePresence>
+          </LayoutGroup>
           <Button className="boardadd__btn-addcol secondary"
             onClick={addColumn}
           >+ Add New Column
           </Button>
         </div>
       </section>
-
       <Button className="boardadd__btn-createboard primary"
         onClick={createBoard}
-      >
-        {`${edit ? "Save Changes" : "Create New Board"}`}
+      >{`${edit ? "Save Changes" : "Create New Board"}`}
       </Button>
     </DialogModal>
   )
