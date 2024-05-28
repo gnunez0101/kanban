@@ -1,12 +1,13 @@
 import './DialogModal.css'
+import useDialogs from '../hooks/useDialogs'
 import { motion } from "framer-motion"
 
 type typeBackdrop = {
-  children: React.ReactNode,
-  onClick:  React.MouseEventHandler<HTMLDivElement> | undefined
+  children: React.ReactNode
 }
 
 export default function DialogModal ( props: typeBackdrop ) {
+  const { dialogLaunch } = useDialogs()
 
   const dialogVariant = {
     hide: { scale: 0, rotate: "12.5deg" },
@@ -16,7 +17,7 @@ export default function DialogModal ( props: typeBackdrop ) {
 
   return (
     <motion.div className="backdrop"
-      onClick = { props.onClick }
+      onClick = { () => dialogLaunch("close", 0, 0, 0) }
       initial = {{ opacity: 0 }}
       animate = {{ opacity: 1 }}
       exit    = {{ opacity: 0 }}

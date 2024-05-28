@@ -24,19 +24,29 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
 
   const [tempSubTasks, setTempSubTasks] = useState<typeSubtask[]>([])
   const [defaultSubTasks, setDefaultSubTasks] = useState<any[]>([
-    { id: '_0', text: '', placeholder: 'e.g. Make Coffee' },
-    { id: '_1', text: '', placeholder: 'e.g. Drink coffee & smile' },
+    { id: '0', text: '', placeholder: 'e.g. Make Coffee' },
+    { id: '1', text: '', placeholder: 'e.g. Drink coffee & smile' },
   ])
   const [counter, setCounter] = useState(edit ? 0 : defaultSubTasks.length)
   const [columns, setColumns] = useState<typeColumns[]>()
-
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
 
   let firstTime = true
   useEffect(() => {
     if (firstTime) {
       firstTime = false
       if(edit) {
-        // const task = dialogsDat🕥
+        const column = dialogsData[2]
+        const task   = dialogsData[3]
+        setTitle(database.boards[board!].columns[column!].tasks[task!].title)
+        setDescription(database.boards[board!].columns[column!].tasks[task!].description)
+        const _tempSubTasks = [...database.boards[board!].columns[column!].tasks[task!].subtasks]
+        let _counter = 0
+        setTempSubTasks(_tempSubTasks.map(subTask => {
+                        return({ id: (_counter++).toString(), text: subTask.title, placeholder: "" })
+                      }))
+        setCounter(_counter)
       }
       else {
         setTempSubTasks(defaultSubTasks)
@@ -48,10 +58,6 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
     }
   }, [])
   
-  function closeDialog() {
-    dialogLaunch("close", board, 0, 0)
-  }
-
   function addSubTask() {
     setTempSubTasks([...tempSubTasks, 
       {id: counter.toString(), text: "", placeholder: `New subtask ${tempSubTasks.length+1}...`}])
@@ -69,7 +75,7 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
   }
 
   return (
-    <DialogModal onClick={closeDialog}>
+    <DialogModal>
       <section className="taskadd__dialog--title">
         {`${edit ? "Edit Task" : "Add New Task"}`}
       </section>
@@ -78,7 +84,7 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
         <div className="taskadd__-text">
           <textarea spellCheck={false}
             placeholder='e.g. Take coffee break'
-            defaultValue = {""}
+            defaultValue = {title}
           />
         </div>
       </section>
@@ -87,7 +93,7 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
         <div className="taskadd__-text">
           <textarea spellCheck={false}
             placeholder='e.g. It’s always good to take a break. This 15 minute break will  recharge the batteries a little.'
-            defaultValue = {""}
+            defaultValue = {description}
             style={{minHeight: "112px"}}
           />
         </div>

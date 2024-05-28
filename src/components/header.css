@@ -31,6 +31,7 @@
       align-items: center;
 
       > .title {
+        display: flex;
         font-size:   var(--fs-Heading-XL);
         font-weight: var(--fw-Heading-XL);
         color: var(--text-primary);

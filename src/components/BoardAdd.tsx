@@ -48,10 +48,6 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     }
   }, [])
 
-  function closeDialog() {
-    dialogLaunch("close", dialogsData[1], 0, 0)
-  }
-  
   function addColumn() {
     setTempColumns([...tempColumns, 
       {id: counter, name: `New column ${counter}...`}])
@@ -69,7 +65,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   }
   
   return (
-    <DialogModal onClick={closeDialog}>
+    <DialogModal>
       <section className="boardadd__dialog--title">
         {`${edit ? "Edit Board" : "Add New Board"}`}
       </section>

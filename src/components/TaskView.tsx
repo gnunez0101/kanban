@@ -12,7 +12,6 @@ import { useClickAway } from 'simple-react-clickaway';
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
   const { database }       = useDatabase()
-  const { dialogLaunch } = useDialogs()
 
   const taskData = database.boards[board!].columns[column!].tasks[task!]
   const [showMenu, setShowMenu]     = useState(false)
@@ -30,18 +29,14 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
     }
   }, [])
 
-  function closeDialog() {
-    dialogLaunch("close", board, column, task)
-  }
-
   const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )
 
   return (
-    <DialogModal onClick={closeDialog}>
+    <DialogModal>
       <section className="taskview__title">
         <textarea className="taskview__title--text" spellCheck={false}
           placeholder='Write a title...'
-          readOnly = {!editing}
+          readOnly = {true}
           defaultValue = {taskData.title}
         />
         <div className="taskview__title--ellipsis">
@@ -65,7 +60,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
       <div className="taskview__description">
         <textarea spellCheck={false}
           placeholder  ='Write a description...'
-          readOnly     = {!editing} 
+          readOnly     = {true} 
           defaultValue = {taskData.description}
         />
       </div>
@@ -78,7 +73,6 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
             <div className={`taskview__subtasks--items__subtask ${editing ? "edit" : ""}`} key={index}>
               <Checkbox className = "taskview__subtasks--items__completed"
                 checked  = { subtask.isCompleted }
-                readOnly = { !editing }
               />
               <p className="taskview__subtasks--items__title">{subtask.title}</p>
             </div>
@@ -90,7 +84,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
           Current Status
         </div>
         <div className="taskview__current-status--items">
-          <Select options={columns} isDisabled={!editing}
+          <Select options={columns}
             className='taskview__current-status-select' 
             classNamePrefix="taskview__current-status-select" 
             defaultValue={{ value: taskData.status, label: taskData.status }}

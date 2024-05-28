@@ -1,27 +1,31 @@
+import './BoardDelete.css'
 import DialogModal from "./DialogModal";
-import useDatabase from "../hooks/useDatabase";
-import useDialogs  from "../hooks/useDialogs";
 import { Button } from "./Button";
+import useDialogs  from "../hooks/useDialogs";
+import useDatabase from '../hooks/useDatabase';
 
-
-export function BoardDelete( { board, column, task } : {board?: number, column?: number, task?: number} ) {
+export function BoardDelete( { board } : { board?: number } ) {
+  const { dialogLaunch } = useDialogs()
   const { database } = useDatabase()
-  const { dialogLaunch, dialogsData } = useDialogs()
 
-  function closeDialog() {
-    dialogLaunch("close", board, column, task)
-  }
-  
+  const boardName = database.boards[board!].name
+
   return (
-    <DialogModal onClick={closeDialog}>
+    <DialogModal>
       <section className="boarddelete_dialog--title">
         Delete this board?
       </section>
       <section className="boarddelete__dialog--description">
-        {`Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.`}
+        {`Are you sure you want to delete the ‘${boardName}’ board? This action will remove all columns and tasks and cannot be reversed.`}
       </section>
-      <Button className="boarddelete__btn-delete">Delete</Button>
-      <Button className="boarddelete__bnt-cancel">Cancel</Button>
+      <section className="boarddelete__dialog--buttons">
+        <Button className="boarddelete__btn-delete"
+          onClick = { () => dialogLaunch("delete", board, 0, 0) }
+        >Delete</Button>
+        <Button className="boarddelete__btn-cancel"
+          onClick = { () => dialogLaunch("cancel", board, 0, 0) }
+        >Cancel</Button>
+      </section>
     </DialogModal>
   )
 }

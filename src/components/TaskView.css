@@ -22,18 +22,6 @@
     overflow-y: auto;
   }
 
-  > textarea:read-write {
-    outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-    border-radius: 4px;
-    padding-inline: 16px;
-    padding-top: 8px;
-    padding-bottom: 4px;
-
-    &:focus {
-      outline: 1px solid var(--button-primary);
-    }
-  }
-
   .taskview__title--ellipsis {
     position: relative;
     flex-shrink: 0;
@@ -109,18 +97,6 @@
     max-height: 127px;
     overflow-y: auto;
   }
-
-  > textarea:read-write {
-    outline: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-    border-radius: 4px;
-    padding-inline: 16px;
-    padding-top: 8px;
-    padding-bottom: 4px;
-
-    &:focus {
-      outline: 1px solid var(--button-primary);
-    }
-  }
 }
 
 .taskview__subtasks {
@@ -175,7 +151,6 @@
           border-left:   2px solid white;
           border-bottom: 2px solid white;
           transform: rotate(-45deg);
-
         }
 
         &:checked {

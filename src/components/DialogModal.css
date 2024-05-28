@@ -11,6 +11,7 @@
     width: clamp(343px, 480px, 480px);
     min-width: 343px;
     margin-inline: 16px;
+    overflow: visible;
     
     .dialog-container {
       display: flex;
@@ -26,7 +27,6 @@
       background-color: var(--background-primary);
       overflow: visible;
       padding: 24px;
-    
       * { overflow: visible; }
     }
   }

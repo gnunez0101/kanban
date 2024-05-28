@@ -1,0 +1,35 @@
+.taskdelete_dialog--title {
+  font-size: var(--fs-Heading-L);
+  font-weight: var(--fw-Heading-L);
+  color: var(--Destructive);
+}
+
+.taskdelete__dialog--description {
+  font-size: var(--fs-Body-L);
+  font-weight: var(--fw-Body-L);
+  line-height: var(--fl-Body-L);
+  color: var(--text-secondary);
+}
+
+.taskdelete__dialog--buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+
+  .taskdelete__btn-delete {
+    background-color: var(--button-destruct);
+    color: var(--text-button-primary);
+  }
+
+  .taskdelete__btn-cancel {
+    background-color: var(--button-secondary);
+    color: var(--text-button-secondary);
+  }
+}
+
+@media (width > 375px) {
+  .taskdelete__dialog--buttons {
+    flex-wrap: nowrap;
+  }
+}
