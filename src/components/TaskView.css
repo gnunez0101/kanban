@@ -124,9 +124,13 @@
       padding-right: 16px;
       background-color: var(--background-secondary);
 
-      &.edit:has(input:not(:checked)) {
-        background-color: color-mix(in oklab, 
-          var(--button-primary) 25%, transparent 100%);
+      &:hover {
+        cursor: pointer;
+        
+        &:has(input:not(:checked)) {
+          background-color: color-mix(in oklab, 
+            var(--button-primary) 25%, transparent 100%);
+        }
       }
 
       > input[type="checkbox"] {

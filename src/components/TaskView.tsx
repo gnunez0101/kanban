@@ -12,11 +12,10 @@ import { useClickAway } from 'simple-react-clickaway';
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
   const { database }       = useDatabase()
-
-  const taskData = database.boards[board!].columns[column!].tasks[task!]
-  const [showMenu, setShowMenu]     = useState(false)
-  const [editing, setEditing]       = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns] = useState<any>([])
+  const [taskData, setTaskData] = useState<any>()
+  const [countCompleted, setCountCompleted] = useState(0)
 
   let firstTime = true
   useEffect(() => {
@@ -26,13 +25,25 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
+      setTaskData(database.boards[board!].columns[column!].tasks[task!])
     }
   }, [])
 
-  const countCompleted = useMemo( () => { return taskData.subtasks.filter((c: any) => c.isCompleted).length }, [board, column, task] )
+  useEffect(() => {
+    if (taskData) {
+      setCountCompleted(taskData.subtasks.filter((c: any) => c.isCompleted).length)
+    }
+  }, [taskData])
+
+  function handleCheck(index: number) {
+    let _taskdata = taskData
+    _taskdata.subtasks[index].isCompleted = !taskData.subtasks[index].isCompleted;
+    setTaskData(_taskdata)
+  }
+
 
   return (
-    <DialogModal>
+    <>{ taskData && <DialogModal>
       <section className="taskview__title">
         <textarea className="taskview__title--text" spellCheck={false}
           placeholder='Write a title...'
@@ -70,7 +81,9 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         </div>
         <div className="taskview__subtasks--items">
           { taskData.subtasks.map((subtask: any, index: number) => 
-            <div className={`taskview__subtasks--items__subtask ${editing ? "edit" : ""}`} key={index}>
+            <div className={`taskview__subtasks--items__subtask`} key={index}
+              onClick={() => handleCheck(index)}
+            >
               <Checkbox className = "taskview__subtasks--items__completed"
                 checked  = { subtask.isCompleted }
               />
@@ -92,6 +105,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         </div>
       </section>
     </DialogModal>
+    }</>
   )
 }
 export default TaskView

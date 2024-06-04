@@ -20,11 +20,19 @@
   .boarddelete__btn-delete {
     background-color: var(--button-destruct);
     color: var(--text-button-primary);
+
+    &:hover {
+      background-color: var(--Destructive-Hover);
+    }
   }
 
   .boarddelete__btn-cancel {
     background-color: var(--button-secondary);
     color: var(--text-button-secondary);
+
+    &:hover {
+      background-color: var(--button-secondary-hover);
+    }
   }
 }
 

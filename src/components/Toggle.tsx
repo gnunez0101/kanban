@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import './toggle.css'
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 
 interface typeCheckbox {
@@ -9,15 +9,26 @@ interface typeCheckbox {
   readOnly?:  boolean
 }
 
+
 export function Checkbox({ className, checked, disabled = false, readOnly = false }: typeCheckbox ) {
   const [isChecked, setIsChecked] = useState(checked)
+  const checkValue = useRef<HTMLInputElement>(null)
+  
+  function handleChange () {
+    if (checkValue.current) {
+      checkValue.current.checked = !checkValue.current.checked
+    }
+  }
+
   return (
-    <input type="checkbox" 
+    <input type = "checkbox" 
       className = { className }
       onClick   = { () => { if (!readOnly) setIsChecked(!isChecked) } }
       checked   = { isChecked }
       disabled  = { disabled }
       readOnly  = { readOnly }
+      onChange  = { handleChange }
+      ref       = { checkValue }
     />
   )
 }

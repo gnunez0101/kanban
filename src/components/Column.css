@@ -54,6 +54,12 @@
       color:       var(--text-secondary);
     }
 
-    &:hover { cursor: pointer; }
+    &:hover { 
+      cursor: pointer;
+
+      .text {
+        color: var(--text-button-secondary);
+      }
+    }
   }
 }
