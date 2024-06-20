@@ -132,55 +132,6 @@
             var(--button-primary) 25%, transparent 100%);
         }
       }
-
-      > input[type="checkbox"] {
-        flex-shrink: 0;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        padding-top: 4px;
-        margin-left: 12px;
-        margin-right: 16px;
-        height: 16px;
-        width:  16px;
-        appearance: none;
-        background-color: var(--background-primary);
-        border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
-        border-radius: 2px;
-
-        &::before {
-          content: '';
-          height: 3px;
-          width:  6px;
-          border-left:   2px solid white;
-          border-bottom: 2px solid white;
-          transform: rotate(-45deg);
-        }
-
-        &:checked {
-          background-color: var(--button-primary);
-          border-color: var(--button-primary);
-        }
-
-        &:not(:checked) {
-
-          &::before {
-            display: none;
-          }
-        }
-
-        &:checked + p {
-          opacity: 0.5;
-          text-decoration: line-through;
-        }
-      }
-
-      > p {
-        font-size:   var(--fs-Body-M);
-        font-weight: var(--fw-Body-M);
-        line-height: var(--fl-Body-M);
-        color: var(--text-primary);
-      }
     }
   }
 }

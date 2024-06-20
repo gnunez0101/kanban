@@ -60,7 +60,7 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
   
   function addSubTask() {
     setTempSubTasks([...tempSubTasks, 
-      {id: counter.toString(), text: "", placeholder: `New subtask ${tempSubTasks.length+1}...`}])
+      {id: counter.toString(), text: "", placeholder: `New subtask ${counter}...`}])
     setCounter(counter + 1)
   }
 
@@ -105,22 +105,23 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
           <AnimatePresence>
             { tempSubTasks.length ? (
               tempSubTasks.map((subtask: typeSubtask, index: number) => 
-              <motion.div className="taskadd__-text" key={subtask.id}
-                layout  = {true}
-                initial = {{ opacity: 0, scale: 0 }}
-                animate = {{ opacity: 1, scale: 1, transition: { type: "spring"} }}
-                exit    = {{ opacity: 0, scale: 0.3 }}
-                transition={{ duration: 0.3 }}
-              >
-                <textarea spellCheck={false}
-                  placeholder={subtask.placeholder}
-                  defaultValue = {subtask.text}
-                />
-                <div className="taskadd__delete"
-                  onClick={() => deleteSubTask(index)}
+                <motion.div className="taskadd__-text" key={subtask.id}
+                  layout     = {true}
+                  initial    = {{ opacity: 0, scale: 0 }}
+                  animate    = {{ opacity: 1, scale: 1, 
+                    transition: { type: "spring", damping: 20, stiffness: 250 } }}
+                  exit       = {{ opacity: 0, scale: 0.3 }}
+                  transition = {{ duration: 0.3 }}
                 >
-                </div>
-              </motion.div>
+                  <textarea spellCheck={false}
+                    placeholder  = {subtask.placeholder}
+                    defaultValue = {subtask.text}
+                  />
+                  <div className = "taskadd__delete"
+                    onClick={() => deleteSubTask(index)}
+                  >
+                  </div>
+                </motion.div>
             )) : <motion.div><h1 className='no-columns'>No Subtasks!</h1></motion.div>
             }
           </AnimatePresence>

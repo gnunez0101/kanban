@@ -1,21 +1,23 @@
 import './TaskView.css'
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Checkbox } from './Toggle';
-import ellipsis from '../assets/icon-vertical-ellipsis.svg'
+import { useEffect, useRef, useState  } from 'react'
+import { Checkbox } from './Checkbox'
 import Select from 'react-select';
-import { AnimatePresence, motion } from 'framer-motion';
-import useDatabase from '../hooks/useDatabase';
-import useDialogs  from '../hooks/useDialogs';
-import DialogModal from './DialogModal';
-import { useClickAway } from 'simple-react-clickaway';
+import ellipsis from '../assets/icon-vertical-ellipsis.svg'
+import { AnimatePresence, motion } from 'framer-motion'
+import useDatabase from '../hooks/useDatabase'
+import useDialogs  from '../hooks/useDialogs'
+import DialogModal from './DialogModal'
+import { useClickAway } from 'simple-react-clickaway'
 
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
-  const { database }       = useDatabase()
+  const { database } = useDatabase()
   const [showMenu, setShowMenu] = useState(false)
-  const [columns, setColumns] = useState<any>([])
-  const [taskData, setTaskData] = useState<any>()
+  const [columns, setColumns]   = useState<any>([])
+  const [taskData, setTaskData] = useState<any>([])
+  const [subTasks, setSubTasks] = useState<any>([])
   const [countCompleted, setCountCompleted] = useState(0)
+  const [countTotal, setCountTotal]         = useState(0)
 
   let firstTime = true
   useEffect(() => {
@@ -26,21 +28,22 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
       })
       setColumns(cols)
       setTaskData(database.boards[board!].columns[column!].tasks[task!])
+      setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
     }
   }, [])
 
   useEffect(() => {
-    if (taskData) {
-      setCountCompleted(taskData.subtasks.filter((c: any) => c.isCompleted).length)
+    if (subTasks) {
+      setCountCompleted(subTasks.filter((c: any) => c.isCompleted).length)
+      setCountTotal(subTasks.length)
     }
-  }, [taskData])
+  }, [subTasks])
 
   function handleCheck(index: number) {
-    let _taskdata = taskData
-    _taskdata.subtasks[index].isCompleted = !taskData.subtasks[index].isCompleted;
-    setTaskData(_taskdata)
+    let _subTask = [...subTasks]
+    _subTask[index].isCompleted = !_subTask[index].isCompleted
+    setSubTasks([..._subTask])
   }
-
 
   return (
     <>{ taskData && <DialogModal>
@@ -77,17 +80,19 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
       </div>
       <section className="taskview__subtasks">
         <div className="taskview__subtasks--title">
-          Subtasks {`(${countCompleted} of ${taskData.subtasks.length})`}
+          Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
         <div className="taskview__subtasks--items">
-          { taskData.subtasks.map((subtask: any, index: number) => 
-            <div className={`taskview__subtasks--items__subtask`} key={index}
-              onClick={() => handleCheck(index)}
+          { subTasks && subTasks.map((subtask: any, index: number) =>
+            <div className={`taskview__subtasks--items__subtask`}
+              onClick = { () => handleCheck(index) } key={index}
             >
               <Checkbox className = "taskview__subtasks--items__completed"
-                checked  = { subtask.isCompleted }
+                isChecked    = { subtask.isCompleted }
+                label        = { subtask.title }
+                handleChange = { () => handleCheck(index) }
+                key          = { index }
               />
-              <p className="taskview__subtasks--items__title">{subtask.title}</p>
             </div>
           )}
         </div>
@@ -131,7 +136,6 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
       <div className="taskview__title--ellipsis-menu__option edit"
         onClick={(e) => {
           e.stopPropagation()
-          // setEditing(true)
           setShowMenuEllipsis(false)
           dialogLaunch("taskEdit", board, column, task)
         }}

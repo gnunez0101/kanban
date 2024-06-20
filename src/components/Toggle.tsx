@@ -1,37 +1,5 @@
-import './toggle.css'
-import { useRef, useState } from 'react'
+import './Toggle.css'
 import { motion } from 'framer-motion'
-
-interface typeCheckbox {
-  className?: string,
-  checked?:   boolean,
-  disabled?:  boolean,
-  readOnly?:  boolean
-}
-
-
-export function Checkbox({ className, checked, disabled = false, readOnly = false }: typeCheckbox ) {
-  const [isChecked, setIsChecked] = useState(checked)
-  const checkValue = useRef<HTMLInputElement>(null)
-  
-  function handleChange () {
-    if (checkValue.current) {
-      checkValue.current.checked = !checkValue.current.checked
-    }
-  }
-
-  return (
-    <input type = "checkbox" 
-      className = { className }
-      onClick   = { () => { if (!readOnly) setIsChecked(!isChecked) } }
-      checked   = { isChecked }
-      disabled  = { disabled }
-      readOnly  = { readOnly }
-      onChange  = { handleChange }
-      ref       = { checkValue }
-    />
-  )
-}
 
 export default function Toggle({ isToggled, onToggle, isDisabled = false, label }: { isToggled: boolean; onToggle: any; isDisabled?: boolean; label?: string} ) {
 

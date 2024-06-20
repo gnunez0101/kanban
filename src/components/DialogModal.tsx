@@ -12,7 +12,7 @@ export default function DialogModal ( props: typeBackdrop ) {
   const dialogVariant = {
     hide: { scale: 0, rotate: "12.5deg" },
     show: { scale: 1, rotate: "0deg", transition: { type: "spring", damping: 22, stiffness: 700 }},
-    exit: { scale: 0, rotate: "0deg", transition: { ease: "backOut", duration: 0.7 }},
+    exit: { scale: 0, rotate: "0deg", transition: { ease: "backOut", duration: 0.3 }},
   }
 
   return (

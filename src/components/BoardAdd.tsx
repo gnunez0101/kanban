@@ -87,7 +87,8 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
                 <motion.div className='boardadd__column--body' key={column.id}
                   layout     = {true}
                   initial    = {{ opacity: 0, scale: 0   }}
-                  animate    = {{ opacity: 1, scale: 1, transition: {type: "spring"} }}
+                  animate    = {{ opacity: 1, scale: 1, 
+                    transition: {type: "spring", damping: 20, stiffness: 250} }}
                   exit       = {{ opacity: 0, scale: 0.3 }}
                   transition = {{ duration: 0.3 }}
                 >
