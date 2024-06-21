@@ -5,6 +5,7 @@
   position: relative;
   display: flex;
   flex-direction: row;
+  align-items: center;
   font-size:   var(--fs-Body-M);
   font-weight: var(--fw-Body-M);
   line-height: var(--fl-Body-M);
@@ -32,9 +33,10 @@
     background-color: var(--background-primary);
     border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent 100%);
     border-radius: 2px; 
+    transition: background-color 0.5s;
     
     > path {
-      width: 100%;
+      width:  100%;
       height: 100%;
     }
   

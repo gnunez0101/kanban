@@ -110,12 +110,12 @@
     padding-bottom: 16px;
   }
 
-  .taskview__subtasks--items {
+  .taskview__subtasks--items > ul {
     flex-direction: column;
     display: flex;
     gap: 8px;
 
-    .taskview__subtasks--items__subtask {
+    & li > .taskview__subtasks--items__subtask {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -125,9 +125,9 @@
       background-color: var(--background-secondary);
 
       &:hover {
-        cursor: pointer;
+        cursor: grab;
         
-        &:has(input:not(:checked)) {
+        &:has(svg:not(.checked)) {
           background-color: color-mix(in oklab, 
             var(--button-primary) 25%, transparent 100%);
         }

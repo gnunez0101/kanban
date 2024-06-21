@@ -6,6 +6,10 @@
   overflow: hidden;
 }
 
+ul, li {
+  list-style: none;
+}
+
 :root {
   font-family: "Plus Jakarta Sans", sans-serif;
   font-optical-sizing: auto;

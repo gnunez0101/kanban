@@ -1,13 +1,13 @@
 import './TaskView.css'
 import { useEffect, useRef, useState  } from 'react'
 import { Checkbox } from './Checkbox'
-import Select from 'react-select';
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
-import { AnimatePresence, motion } from 'framer-motion'
 import useDatabase from '../hooks/useDatabase'
 import useDialogs  from '../hooks/useDialogs'
 import DialogModal from './DialogModal'
+import Select from 'react-select';
 import { useClickAway } from 'simple-react-clickaway'
+import { AnimatePresence, Reorder, motion } from 'framer-motion'
 
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
@@ -83,18 +83,27 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
           Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
         <div className="taskview__subtasks--items">
-          { subTasks && subTasks.map((subtask: any, index: number) =>
-            <div className={`taskview__subtasks--items__subtask`}
-              onClick = { () => handleCheck(index) } key={index}
-            >
-              <Checkbox className = "taskview__subtasks--items__completed"
-                isChecked    = { subtask.isCompleted }
-                label        = { subtask.title }
-                handleChange = { () => handleCheck(index) }
-                key          = { index }
-              />
-            </div>
-          )}
+          <Reorder.Group axis="y" onReorder={setSubTasks} values={subTasks}>
+            { subTasks && 
+              subTasks.map((subtask: any, index: number) =>
+                <Reorder.Item value={subtask} id={subtask.title} key={subtask.title}
+                  // dragConstraints = {{ top: 10, bottom: -10 }}
+                >
+                  <motion.div className={`taskview__subtasks--items__subtask`}
+                    // onClick = { () => handleCheck(index) }
+                    whileTap={{ cursor: "grabbing" }}
+                  >
+                    <Checkbox className = "taskview__subtasks--items__completed"
+                      isChecked    = { subtask.isCompleted }
+                      label        = { subtask.title }
+                      handleChange = { () => handleCheck(index) }
+                      key          = { index }
+                    />
+                  </motion.div>
+                </Reorder.Item>
+              )
+            }
+          </Reorder.Group>
         </div>
       </section>
       <section className="taskview__current-status">
@@ -102,11 +111,13 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
           Current Status
         </div>
         <div className="taskview__current-status--items">
-          <Select options={columns}
-            className='taskview__current-status-select' 
-            classNamePrefix="taskview__current-status-select" 
-            defaultValue={{ value: taskData.status, label: taskData.status }}
-          />
+          { taskData.status && 
+            <Select options={columns}
+              className       = "taskview__current-status-select"
+              classNamePrefix = "taskview__current-status-select"
+              defaultValue    = {{ value: taskData.status, label: taskData.status }}
+            />
+          }
         </div>
       </section>
     </DialogModal>
