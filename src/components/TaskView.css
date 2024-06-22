@@ -114,22 +114,26 @@
     flex-direction: column;
     display: flex;
     gap: 8px;
-
-    & li > .taskview__subtasks--items__subtask {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+    
+    & li {
       border-radius: 4px;
-      padding-block: 13px;
-      padding-right: 16px;
-      background-color: var(--background-secondary);
+      
+      > .taskview__subtasks--items__subtask {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-radius: 4px;
+        padding-block: 13px;
+        padding-right: 16px;
+        background-color: var(--background-secondary);
 
-      &:hover {
-        cursor: grab;
-        
-        &:has(svg:not(.checked)) {
-          background-color: color-mix(in oklab, 
-            var(--button-primary) 25%, transparent 100%);
+        &:hover {
+          cursor: grab;
+          
+          &:has(svg:not(.checked)) {
+            background-color: color-mix(in oklab, 
+              var(--button-primary) 25%, transparent 100%);
+          }
         }
       }
     }

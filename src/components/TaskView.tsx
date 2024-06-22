@@ -2,12 +2,18 @@ import './TaskView.css'
 import { useEffect, useRef, useState  } from 'react'
 import { Checkbox } from './Checkbox'
 import ellipsis from '../assets/icon-vertical-ellipsis.svg'
+import { useRaisedShadow } from '../hooks/useRaisedShadows'
 import useDatabase from '../hooks/useDatabase'
 import useDialogs  from '../hooks/useDialogs'
 import DialogModal from './DialogModal'
 import Select from 'react-select';
 import { useClickAway } from 'simple-react-clickaway'
-import { AnimatePresence, Reorder, motion } from 'framer-motion'
+import { AnimatePresence, Reorder, motion, useMotionValue } from 'framer-motion'
+
+type typeSubTask = {
+  title: string,
+  isCompleted: boolean
+}
 
 function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
 
@@ -84,24 +90,8 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         </div>
         <div className="taskview__subtasks--items">
           <Reorder.Group axis="y" onReorder={setSubTasks} values={subTasks}>
-            { subTasks && 
-              subTasks.map((subtask: any, index: number) =>
-                <Reorder.Item value={subtask} id={subtask.title} key={subtask.title}
-                  // dragConstraints = {{ top: 10, bottom: -10 }}
-                >
-                  <motion.div className={`taskview__subtasks--items__subtask`}
-                    // onClick = { () => handleCheck(index) }
-                    whileTap={{ cursor: "grabbing" }}
-                  >
-                    <Checkbox className = "taskview__subtasks--items__completed"
-                      isChecked    = { subtask.isCompleted }
-                      label        = { subtask.title }
-                      handleChange = { () => handleCheck(index) }
-                      key          = { index }
-                    />
-                  </motion.div>
-                </Reorder.Item>
-              )
+            { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
+              <SubTask item = {subtask} key={subtask.title} handleChange = { () => handleCheck(index) }/>)
             }
           </Reorder.Group>
         </div>
@@ -160,5 +150,29 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
         }}
       >Delete Task</div>
     </motion.div>
+  )
+}
+
+function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: any}) {
+  const y = useMotionValue(0)
+  const boxShadow = useRaisedShadow(y)
+
+  return(
+    <Reorder.Item value={item} 
+      id={item.title} key={item.title}
+      style={{ boxShadow, y }}
+      // dragConstraints = {{ top: 10, bottom: -10 }}
+    >
+      <motion.div className={`taskview__subtasks--items__subtask`}
+        // onClick = { () => handleCheck(index) }
+        whileTap={{ cursor: "grabbing" }}
+      >
+        <Checkbox className = "taskview__subtasks--items__completed"
+          isChecked    = { item.isCompleted }
+          label        = { item.title }
+          handleChange = {handleChange}
+        />
+      </motion.div>
+    </Reorder.Item>
   )
 }
