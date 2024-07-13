@@ -23,10 +23,11 @@ function TaskAdd( { board, edit = false }: { board?: number, edit?: boolean } ) 
   const { dialogLaunch, dialogsData } = useDialogs()
 
   const [tempSubTasks, setTempSubTasks] = useState<typeSubtask[]>([])
-  const [defaultSubTasks, setDefaultSubTasks] = useState<any[]>([
+  const defaultSubTasks = [
     { id: '0', text: '', placeholder: 'e.g. Make Coffee' },
     { id: '1', text: '', placeholder: 'e.g. Drink coffee & smile' },
-  ])
+  ]
+  
   const [counter, setCounter] = useState(edit ? 0 : defaultSubTasks.length)
   const [columns, setColumns] = useState<typeColumns[]>()
   const [title, setTitle] = useState("")

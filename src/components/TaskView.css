@@ -126,6 +126,10 @@
         padding-block: 13px;
         padding-right: 16px;
         background-color: var(--background-secondary);
+        font-size:   var(--fs-Body-M);
+        font-weight: var(--fw-Body-M);
+        line-height: var(--fl-Body-M);
+        color:       var(--text-primary);
 
         &:hover {
           cursor: grab;

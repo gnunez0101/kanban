@@ -47,7 +47,7 @@ function App() {
     if (firstTime) {
       firstTime = false
       setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
-      dialogLaunch("init", 0, 0, 0)
+      dialogLaunch("init")
     }
   }, [])
 
@@ -67,16 +67,16 @@ function App() {
     if (database) {
       if (database.boards.length > 0) {
         setBoardTitle(database.boards[selectedBoard].name)
-        dialogLaunch("changeBoard", selectedBoard, 0, 0)
+        dialogLaunch("changeBoard", selectedBoard)
       }
       else {
         setBoardTitle("No Boards!")
-        dialogLaunch("noBoards", 0, 0, 0)
+        dialogLaunch("noBoards")
       }
     }
     else {
       setBoardTitle("Loading database...")
-      dialogLaunch("loadingDB", 0, 0, 0)
+      dialogLaunch("loadingDB")
     }
   }, [selectedBoard])
   // ----------------------------------------------------------

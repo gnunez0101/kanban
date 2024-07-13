@@ -22,9 +22,10 @@
     flex-direction: row;
     flex-grow: 1;
     width:  100dvw;
-    background-color: var(--background-secondary);
+    /* background-color: var(--background-secondary); */
 
     .board-container {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;

@@ -42,10 +42,7 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
   const time = 0.5
 
   useEffect(() => {
-    if(darkMode)
-      animateNav( ".icon-moon", { scale: secuence }, { duration: time } )
-    else 
-      animateNav( ".icon-sun",   { scale: secuence }, { duration: time } )
+    animateNav( darkMode ? ".icon-moon" : ".icon-sun", { scale: secuence }, { duration: time } )
   }, [darkMode])
 
   return (

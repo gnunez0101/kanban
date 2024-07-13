@@ -1,22 +1,23 @@
 import { AnimatePresence } from "framer-motion"
 import TaskAdd  from "./TaskAdd"
 import TaskView from "./TaskView"
-import { TaskDelete } from "./TaskDelete"
-import { BoardAdd } from "./BoardAdd"
+import { TaskDelete }  from "./TaskDelete"
+import { BoardAdd }    from "./BoardAdd"
 import { BoardDelete } from "./BoardDelete"
 
 type typeDialogs = [
-  string,   // [0]: dialog name
-  number?,  // [1]: board number
-  number?,  // [2]: columns number
-  number?   // [3]: task number
+  command: string,    // [0]: dialog name or command
+  board?: number,   // [1]: board number
+  column?: number,   // [2]: columns number
+  task?: number,   // [3]: task number
+  callBack?: (param: any) => void,       // [4]: callback function
 ]
 
 function DialogLaunch( { data }: { data: typeDialogs } ) {
   // console.log("Data:", data)
   return (
     <AnimatePresence mode="wait">
-      { data[0] == 'taskView'    && <TaskView board={data[1]} column={data[2]} task={data[3]} /> }
+      { data[0] == 'taskView'    && <TaskView board={data[1]} column={data[2]} task={data[3]} openWindow={data[4]!} /> }
       { data[0] == 'taskAdd'     && <TaskAdd  board={data[1]} /> }
       { data[0] == 'taskEdit'    && <TaskAdd  board={data[1]} edit={true}/> }
       { data[0] == 'boardAdd'    && <BoardAdd /> }

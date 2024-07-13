@@ -57,7 +57,7 @@ ul, li {
 
   /* Color styles */
   --Medium-Grey:        hsla(216, 15.2%, 57.5%, 1);
-  --Dark-Grey:          hsla(235, 12.2%, 19.2%, 1);
+  --Dark-Grey:          rgb(43, 44, 55);
   --Very-Dark-Grey:     hsla(235, 15.8%, 14.9%, 1);
   --Black:              hsla(237, 100%, 3.5%, 1);
   --Lines-Light:        hsla(221, 68.7%, 93.7%, 1);

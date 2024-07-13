@@ -8,7 +8,23 @@ export function useRaisedShadow(value: MotionValue<number>) {
 
   useEffect(() => {
     let isActive = false;
+    /*
     value.onChange((latest) => {
+      const wasActive = isActive;
+      if (latest !== 0) {
+        isActive = true;
+        if (isActive !== wasActive) {
+          animate(boxShadow, "5px 5px 10px rgba(0,0,0,0.3)");
+        }
+      } else {
+        isActive = false;
+        if (isActive !== wasActive) {
+          animate(boxShadow, inactiveShadow);
+        }
+      }
+    });
+    */
+    value.on("change", (latest) => {
       const wasActive = isActive;
       if (latest !== 0) {
         isActive = true;

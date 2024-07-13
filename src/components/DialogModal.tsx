@@ -17,10 +17,10 @@ export default function DialogModal ( props: typeBackdrop ) {
 
   return (
     <motion.div className="backdrop"
-      onClick = { () => dialogLaunch("close", 0, 0, 0) }
       initial = {{ opacity: 0 }}
       animate = {{ opacity: 1 }}
       exit    = {{ opacity: 0 }}
+      onClick = { () => dialogLaunch("close") }
     >
       <motion.div className="dialog-modal"
         variants = {dialogVariant}
@@ -28,12 +28,10 @@ export default function DialogModal ( props: typeBackdrop ) {
         animate  = "show"
         exit     = "exit"
         onClick  = {(e) => e.stopPropagation()}
-        >
-  
+      >  
         <motion.div className="dialog-container" layout>
           { props.children }
-        </motion.div>
-        
+        </motion.div> 
       </motion.div>
     </motion.div>
   )

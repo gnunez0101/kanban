@@ -15,30 +15,45 @@ type typeSubTask = {
   isCompleted: boolean
 }
 
-function TaskView( { board, column, task }: { board?: number, column?: number, task?: number } ) {
+function TaskView( { board, column, task, openWindow }: 
+  { board?: number, column?: number, task?: number, openWindow: (isOpened: boolean) => void } ) {
 
-  const { database } = useDatabase()
+  const { database, subtaskAdmin } = useDatabase()
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<any>([])
-  const [taskData, setTaskData] = useState<any>([])
+  const [tasks, setTasks]       = useState<any>([])
   const [subTasks, setSubTasks] = useState<any>([])
   const [countCompleted, setCountCompleted] = useState(0)
   const [countTotal, setCountTotal]         = useState(0)
 
   let firstTime = true
   useEffect(() => {
+    openWindow!(true)
     if (firstTime) {
       firstTime = false
       let cols = database.boards[board!].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
       setColumns(cols)
-      setTaskData(database.boards[board!].columns[column!].tasks[task!])
+      setTasks(database.boards[board!].columns[column!].tasks[task!])
       setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
+    }
+    return () => {
+      // if (taskDataRef.current.length) {
+        // console.log(taskDataRef.current)
+        // subtaskAdmin!("subtaskEdit", [board, column, task], taskDataRef.current)
+        openWindow!(false)
+        console.log("-------------- TaskView desmontado!")
+      // }
     }
   }, [])
 
   useEffect(() => {
+    // taskDataRef.current = tasks
+  }, [tasks])
+
+  useEffect(() => {
+    console.log("cambio subtasks...")
     if (subTasks) {
       setCountCompleted(subTasks.filter((c: any) => c.isCompleted).length)
       setCountTotal(subTasks.length)
@@ -46,18 +61,18 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
   }, [subTasks])
 
   function handleCheck(index: number) {
-    let _subTask = [...subTasks]
-    _subTask[index].isCompleted = !_subTask[index].isCompleted
-    setSubTasks([..._subTask])
+    let _subTasks = subTasks
+    _subTasks[index].isCompleted = !_subTasks[index].isCompleted
+    setSubTasks([..._subTasks])
   }
 
   return (
-    <>{ taskData && <DialogModal>
+    <>{ tasks && <DialogModal>
       <section className="taskview__title">
         <textarea className="taskview__title--text" spellCheck={false}
           placeholder='Write a title...'
           readOnly = {true}
-          defaultValue = {taskData.title}
+          defaultValue = {tasks.title}
         />
         <div className="taskview__title--ellipsis">
           <motion.div className="taskview__title--ellipsis-toggle"
@@ -81,7 +96,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         <textarea spellCheck={false}
           placeholder  ='Write a description...'
           readOnly     = {true} 
-          defaultValue = {taskData.description}
+          defaultValue = {tasks.description}
         />
       </div>
       <section className="taskview__subtasks">
@@ -91,7 +106,9 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
         <div className="taskview__subtasks--items">
           <Reorder.Group axis="y" onReorder={setSubTasks} values={subTasks}>
             { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
-              <SubTask item = {subtask} key={subtask.title} handleChange = { () => handleCheck(index) }/>)
+              <SubTask item = {subtask} key={subtask.title} 
+                handleChange = { () => handleCheck(index) }
+              />)
             }
           </Reorder.Group>
         </div>
@@ -101,11 +118,11 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
           Current Status
         </div>
         <div className="taskview__current-status--items">
-          { taskData.status && 
+          { tasks.status && 
             <Select options={columns}
               className       = "taskview__current-status-select"
               classNamePrefix = "taskview__current-status-select"
-              defaultValue    = {{ value: taskData.status, label: taskData.status }}
+              defaultValue    = {{ value: tasks.status, label: tasks.status }}
             />
           }
         </div>
@@ -116,7 +133,7 @@ function TaskView( { board, column, task }: { board?: number, column?: number, t
 }
 export default TaskView
 
-function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: number, column?: number, task?: number, setShowMenuEllipsis: any } ) {
+function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: number, column?: number, task?: number, setShowMenuEllipsis: (show: boolean) => void } ) {
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
   const { dialogLaunch } = useDialogs()
@@ -138,7 +155,7 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
         onClick={(e) => {
           e.stopPropagation()
           setShowMenuEllipsis(false)
-          dialogLaunch("taskEdit", board, column, task)
+          dialogLaunch("taskEdit", board!, column!, task!)
         }}
       >Edit Task
       </div>
@@ -153,7 +170,7 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
   )
 }
 
-function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: any}) {
+function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: () => void}) {
   const y = useMotionValue(0)
   const boxShadow = useRaisedShadow(y)
 
@@ -169,9 +186,10 @@ function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: any})
       >
         <Checkbox className = "taskview__subtasks--items__completed"
           isChecked    = { item.isCompleted }
-          label        = { item.title }
-          handleChange = {handleChange}
+          handleChange = { handleChange }
+          // label        = { item.title }
         />
+        <span>{item.title}</span>
       </motion.div>
     </Reorder.Item>
   )

@@ -14,10 +14,7 @@ function Column({ board, column } : {board: number, column: number }) {
   // Asign available colors in circular direction:
   if ( colorIndex > colors.length - 1 ) {
     let x = 0
-    for ( let i = 0 ; i <= column ; i++ ) {
-      if ( i > colors.length - 1 ) x = 0
-      else x++
-    }
+    for ( let i = 0 ; i <= column ; i++ ) x = ( i > colors.length - 1 ) ? 0 : x + 1
     colorIndex = x
   }
 
@@ -31,7 +28,7 @@ function Column({ board, column } : {board: number, column: number }) {
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
         <span className="text">{`${database.boards[board].columns[column].name} (${count})`}</span>
       </div>
-      { boardData.columns[column].tasks.map( (item: any, index: number) => 
+      { boardData.columns[column].tasks.map( (_, index: number) => 
         <Task board={board} column={column} task={index} key={index} />
       )}
     </motion.section>

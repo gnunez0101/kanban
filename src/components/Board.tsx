@@ -13,7 +13,7 @@ function Board({board} : {board: number}) {
         <EmptyColumns />
         :
         <section className="board">
-          { database.boards[board].columns.map( (_: any, index: number) => 
+          { database.boards[board].columns.map( (_, index: number) => 
             <Column board = {board} column = {index} key={index}/>
           )}
           <motion.section className="column new"
