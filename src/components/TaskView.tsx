@@ -53,7 +53,7 @@ function TaskView( { board, column, task, openWindow }:
   }, [tasks])
 
   useEffect(() => {
-    console.log("cambio subtasks...")
+    // console.log("cambio subtasks...")
     if (subTasks) {
       setCountCompleted(subTasks.filter((c: any) => c.isCompleted).length)
       setCountTotal(subTasks.length)
@@ -63,6 +63,12 @@ function TaskView( { board, column, task, openWindow }:
   function handleCheck(index: number) {
     let _subTasks = subTasks
     _subTasks[index].isCompleted = !_subTasks[index].isCompleted
+    setSubTasks([..._subTasks])
+  }
+
+  function ordenar(newOrder: any[]) {
+    // console.log(newOrder)
+    let _subTasks = newOrder
     setSubTasks([..._subTasks])
   }
 
@@ -104,7 +110,7 @@ function TaskView( { board, column, task, openWindow }:
           Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
         <div className="taskview__subtasks--items">
-          <Reorder.Group axis="y" onReorder={setSubTasks} values={subTasks}>
+          <Reorder.Group axis="y" onReorder={ordenar} values={subTasks}>
             { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
               <SubTask item = {subtask} key={subtask.title} 
                 handleChange = { () => handleCheck(index) }
@@ -149,15 +155,16 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
       animate    = {{ scaleY: 1 }}
       exit       = {{ scaleY: 0 }}
       transition = {{ duration: 0.2 }}
-      ref={refMenu}
+      ref        = {refMenu}
     >
       <div className="taskview__title--ellipsis-menu__option edit"
         onClick={(e) => {
           e.stopPropagation()
           setShowMenuEllipsis(false)
-          dialogLaunch("taskEdit", board!, column!, task!)
+          dialogLaunch("taskEdit", board, column, task)
         }}
-      >Edit Task
+      >
+        Edit Task
       </div>
       <div className="taskview__title--ellipsis-menu__option delete"
         onClick={(e) => {
@@ -165,7 +172,9 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
           setShowMenuEllipsis(false)
           dialogLaunch("taskDelete", board, column, task)
         }}
-      >Delete Task</div>
+      >
+        Delete Task
+      </div>
     </motion.div>
   )
 }

@@ -34,9 +34,9 @@ const sidebarDesktopVariants = {
   }
 }
 
-function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selected, setSelected }
+function Sidebar ( { showMenu, setShowMenu, darkMode, setDarkMode }
                     : 
-                   { boards: any, showMenu: boolean, setShowMenu?:any, darkMode: boolean, setDarkMode: any, selected: number, setSelected: any }
+                   { showMenu: boolean, setShowMenu?:any, darkMode: boolean, setDarkMode: any }
                   ) {
   
   const isTablet  = useMediaQuery({ query: '( width > 375px )' })
@@ -63,12 +63,9 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
             onClick   = { (e) => e.stopPropagation() }
           >
             <BoardsMenu 
-              boards      = { boards }
               darkMode    = { darkMode }
               setDarkMode = { setDarkMode }
               showMenu    = { showMenu }
-              selected    = { selected }
-              setSelected = { setSelected }
             />
           </motion.aside>
         </motion.div>
@@ -83,13 +80,10 @@ function Sidebar ( { boards, showMenu, setShowMenu, darkMode, setDarkMode, selec
         >
           {/* Show menu contents of boards ==================================================== */}
           <BoardsMenu 
-            boards      = { boards } 
             darkMode    = { darkMode } 
             setDarkMode = { setDarkMode }
             showMenu    = { showMenu }
             setShowMenu = { setShowMenu }
-            selected    = { selected }
-            setSelected = { setSelected }
           />
         </motion.aside>
       }

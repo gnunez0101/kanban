@@ -13,8 +13,8 @@ import { Button } from './Button'
 import useDialogs from '../hooks/useDialogs'
 
 
-function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} : 
-                {boardName: string, boardNum: number, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
+function Header({boardName, setShowMenu, showMenu, darkMode} : 
+                {boardName: string, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
 
   const isTablet  = useMediaQuery({ query: '( width > 375px )' })
   const isDesktop = useMediaQuery({ query: '( width > 768px )' })
@@ -22,7 +22,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
   const [showMenuEllipsis, setShowMenuEllipsis] = useState(false)
-  const { dialogLaunch } = useDialogs()
+  const { dialogLaunch, currentBoard } = useDialogs()
 
   const handleMenu = () => {
     setRotate(showMenu ? 0 : 180)
@@ -99,7 +99,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
 
         <nav className="nav">
           <Button className="add button primary large"
-            onClick={ () => dialogLaunch("taskAdd", boardNum, 0, 0) }
+            onClick={ () => dialogLaunch("taskAdd", currentBoard!, 0, 0) }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>
@@ -117,7 +117,7 @@ function Header({boardName, boardNum, setShowMenu, showMenu, darkMode} :
           </motion.button>
           <AnimatePresence>
             { showMenuEllipsis && 
-              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={boardNum}/>
+              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={currentBoard!}/>
             }
           </AnimatePresence>
         </nav>

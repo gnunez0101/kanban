@@ -14,13 +14,12 @@ import DialogLaunch from './components/DialogLaunch'
 function App() {
   // const database = { "boards" : [] }
   const { database }    = useDatabase()
-  const { dialogsData, dialogLaunch } = useDialogs()
+  const { dialogsData, dialogLaunch, currentBoard, setCurrentBoard } = useDialogs()
 
   const [darkMode, setDarkMode] = useState(true)
   const [theme, setTheme] = useState('')
   const [showMenu, setShowMenu] = useState(false)
-  const [selectedBoard, setSelectedBoard] = useState(0)
-  const [boardTitle, setBoardTitle] = useState("No Boards!")
+  const [boardTitle, setBoardTitle] = useState("")
 
   const [switching, setSwitching] = useState(false)
   const timer = useRef<number | undefined>(undefined)
@@ -46,6 +45,7 @@ function App() {
   useEffect(() => {
     if (firstTime) {
       firstTime = false
+      setCurrentBoard(0)     // Select Board first Board by Default
       setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
       dialogLaunch("init")
     }
@@ -59,15 +59,15 @@ function App() {
     }
     setSwitching(true)
     setTheme(darkMode ? "dark-mode" : "light-mode")
-    timer.current = setTimeout(() => {setSwitching(false)}, 500)
+    timer.current = setTimeout(() => {setSwitching(false)}, 1000)
     return () => clearTimeout(timer.current)
   }, [darkMode])
 
   useEffect(() => {
-    if (database) {
+    if (database && currentBoard != null && currentBoard >= 0) {
       if (database.boards.length > 0) {
-        setBoardTitle(database.boards[selectedBoard].name)
-        dialogLaunch("changeBoard", selectedBoard)
+        setBoardTitle(database.boards[currentBoard!].name)
+        dialogLaunch("changeBoard", currentBoard!)
       }
       else {
         setBoardTitle("No Boards!")
@@ -78,49 +78,54 @@ function App() {
       setBoardTitle("Loading database...")
       dialogLaunch("loadingDB")
     }
-  }, [selectedBoard])
+  }, [currentBoard])
   // ----------------------------------------------------------
-  console.log(typeof dialogsData, `: ${dialogsData}`)
+  console.log(`Board: ${currentBoard} => Data: ${dialogsData}`)
   // ----------------------------------------------------------
   
+  if ( currentBoard === null ) return
+
   return (
     
     <main className = {`main ${theme}${switching ? " switching" : ""}`}>
 
+      {/*------------ Header ------------*/}
       <Header 
         boardName   = {boardTitle}
-        boardNum    = {selectedBoard}
         setShowMenu = {setShowMenu}
         showMenu    = {showMenu}
-        darkMode    = {darkMode}
+        darkMode    = {darkMode}  // For changing Header Logo Dark <-> Light
       />
 
       { database && <div className="app-container">
+          {/* ------------- SideBar ------------- */}
           <Sidebar 
-            boards      = {database}            
             showMenu    = {showMenu}
             setShowMenu = {setShowMenu}
-            darkMode    = {darkMode}
+            darkMode    = {darkMode}  // For Darkmode switching in menu
             setDarkMode = {setDarkMode}
-            selected    = {selectedBoard}
-            setSelected = {setSelectedBoard}
           />
 
           <div className="board-container">
+            
             <div className="board-body">
-              { database.boards.length == 0 ?
-                <EmptyBoards />
-                :
-                <Board board = {selectedBoard} />
+              { 
+                // ==================== Board ===========================
+                // ======================================================
+                database.boards.length == 0 ? <EmptyBoards/> : <Board/>
+                // ======================================================
               }
             </div>
+
+            {/*----- Attribution footer -----*/}
             <Attribution />
+
           </div>
         </div>
       }
 
-      { isTablet &&
-        <AnimatePresence mode='wait'>
+      {/*---------- Show Sidebar Button ----------*/}
+      { isTablet && <AnimatePresence mode='wait'>
           { !showMenu &&
             <motion.button className="show-sidebar"
               type='button' key="show-sidebar"
@@ -137,6 +142,7 @@ function App() {
         </AnimatePresence>
       }
       
+      {/* -------------------------------- Dialog Modals ------------------------------- */}
       { dialogsData && <div className="dialogs"><DialogLaunch data={dialogsData}/></div> }
     </main>
   )

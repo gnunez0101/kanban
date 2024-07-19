@@ -7,8 +7,11 @@ import useDatabase from '../hooks/useDatabase'
 function Task( {board, column, task} : {board: number, column: number, task: number} ) {
   const { database }     = useDatabase()
   const { dialogLaunch } = useDialogs()
+  
+  const [taskTitle, setTaskTitle] = useState("")
   const [countSubTaskCompleted, setCountSubTaskCompleted] = useState(0)
   const [countSubTaskTotal,     setCountSubTaskTotal]     = useState(0)
+
   const [taskViewOpen, setTaskViewOpen] = useState<boolean|null>(null)
 
   const taskData = database.boards[board].columns[column].tasks[task]
@@ -25,6 +28,7 @@ function Task( {board, column, task} : {board: number, column: number, task: num
   useEffect(() => {
     setCountSubTaskCompleted(subTasks.filter((c: any) => c.isCompleted).length)
     setCountSubTaskTotal(subTasks.length)
+    setTaskTitle(taskData.title)
   }, [taskViewOpen])
 
   function openWindow(value: boolean) {
@@ -51,7 +55,7 @@ function Task( {board, column, task} : {board: number, column: number, task: num
         dialogLaunch("taskView", board, column, task, openWindow)
       }}
     >
-      <div className = "task-title">{ taskData.title }</div>
+      <div className = "task-title">{ taskTitle }</div>
 
       <div className = "subtasks">
         { `${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }

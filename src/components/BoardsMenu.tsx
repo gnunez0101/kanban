@@ -1,21 +1,34 @@
 import './BoardsMenu.css'
 import Toggle from "./Toggle";
 import { motion, useAnimate, stagger } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import useDialogs from '../hooks/useDialogs';
+import useDialogs  from '../hooks/useDialogs';
+import useDatabase from '../hooks/useDatabase';
 
-function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, selected, setSelected }
+function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
                      : 
-                    { boards: any, darkMode: boolean, setDarkMode: any, showMenu?: boolean, setShowMenu?: any, selected: number, setSelected: any }) {
+                    { darkMode: boolean, setDarkMode: any, showMenu?: boolean, setShowMenu?: any }) {
 
-  const boardsCount = boards.boards.length
-  const { dialogLaunch } = useDialogs()
+  const { database }     = useDatabase() 
+  const { dialogLaunch, currentBoard, setCurrentBoard } = useDialogs()
+
+  const [boards, setBoards] = useState<string[]>()
+  const [boardsCount, setBoardsCount] = useState(0)
 
   const [scopeMenu, animateMenu] = useAnimate()
   const [scopeNav,  animateNav ] = useAnimate()
  
   const isTablet = useMediaQuery({ query: '( width > 375px )' })
+
+  useEffect(() => {
+    setBoards(database.boards.map(board => board.name))
+    setBoardsCount(database.boards.length)
+  }, [])
+
+  useEffect(() => {
+    setBoardsCount(database.boards.length)
+  }, [boards])
 
   useEffect(() => {
     if ( showMenu ) {
@@ -38,42 +51,44 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
     }
   }, [showMenu])
 
-  const secuence = [1, 1.5, 1, 1.3, 1]
-  const time = 0.5
-
   useEffect(() => {
+    const secuence = [1, 1.5, 1, 1.3, 1]
+    const time = 0.5
     animateNav( darkMode ? ".icon-moon" : ".icon-sun", { scale: secuence }, { duration: time } )
   }, [darkMode])
 
   return (
     <>
       <div className="menu" ref={scopeMenu}>
+        {/* Header with Count of Boards */}
         <section className="menu-opt all-boards">{`ALL BOARDS (${boardsCount})`}</section>
 
+        {/* List of Menu Options */}
         <section className="menu-options" >
-
-          { boards.boards &&
-            boards.boards.map( (board: any, i: number) => 
-              <motion.div className={`menu-opt items ${ i == selected ? "selected" : ""}`} 
-                key={i} onClick={() => setSelected(i)}
-                whileHover = { i !== selected ? { scale: [1, 1.04, 1, 1.02, 1] } : undefined }
-                whileTap   = { i !== selected ? { scale: 0.95 } : undefined }
+          { boards && boards.map( (board: string, i: number) => 
+              <motion.div className={`menu-opt items ${ i == currentBoard ? "selected" : ""}`} key={i} 
+                onClick    = { () => setCurrentBoard(i) }
+                whileHover = { i !== currentBoard ? { scale: [1, 1.04, 1, 1.02, 1] } : undefined }
+                whileTap   = { i !== currentBoard ? { scale: 0.95 } : undefined }
               >
                 <div className="menu-opt-icon"></div>
-                <div className="menu-opt-name">{ board.name }</div>
+                <div className="menu-opt-name">{ board }</div>
               </motion.div>
-          )}
-
+            )
+          }
         </section>
+
+        {/* Last Option on List for Creating New Board */}
         <motion.button className="menu-opt create-board" type="button"
-          onClick    = { () => dialogLaunch("boardAdd", selected, 0, 0) }
+          onClick    = { () => dialogLaunch("boardAdd", currentBoard!, 0, 0) }
           whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
           whileTap   = {{ scale: 0.9 }}
         >
           + Create New Board
         </motion.button>
       </div>
-      
+
+      {/* Toggle Switch for switching DarkMode */}
       <section className="nav-menu" ref={scopeNav}>
 
         <div className="toggle-dark">
@@ -96,6 +111,7 @@ function BoardsMenu({ boards, darkMode, setDarkMode, showMenu, setShowMenu, sele
             <div className="msg-hide-sidebar">Hide SideBar</div>
           </motion.button>
         }
+
       </section>
     </>
   );

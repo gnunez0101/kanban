@@ -38,7 +38,9 @@ type typeDialogs = [
 type typeValueDialogs = {
   dialogLaunch: (dialog: string, board?: number, column?: number, task?: number, callBack?: (param: any) => void) => void,
   dialogsData?:  typeDialogs,
-  setDialogsData: ([]: typeDialogs) => void
+  setDialogsData: ([]: typeDialogs) => void,
+  currentBoard: number | null,
+  setCurrentBoard: (board: number | null) => void
 }
 
 type StoreProps = { children: React.ReactNode }
@@ -51,6 +53,7 @@ export const ContextDialogs  = createContext<typeValueDialogs | undefined>(undef
 export const StoreProvider = ( props: StoreProps ) => {
   // const [ setDialog ]       = useState<any>(null)
   const [dialogsData, setDialogsData] = useState<typeDialogs | undefined>(undefined)
+  const [currentBoard, setCurrentBoard] = useState<number | null>(null)
    
   const [database, dispatch] = useReducer(dataReducer, data)
 
@@ -78,13 +81,15 @@ export const StoreProvider = ( props: StoreProps ) => {
   }
 
   const dialogsValue: typeValueDialogs = {
-    dialogLaunch:   launchDialog,
-    dialogsData:    dialogsData,
-    setDialogsData: setDialogsData
+    dialogLaunch:    launchDialog,
+    dialogsData:     dialogsData,
+    setDialogsData:  setDialogsData,
+    currentBoard:    currentBoard,
+    setCurrentBoard: setCurrentBoard
   }
   
   function launchDialog( dialog: string, board?: number, column?: number, task?: number, callBack?: (param: any) => void ) {
-    const _board  = board  ? board  : dialogsData ? dialogsData[1] : 0
+    const _board  = board != undefined ? board : dialogsData ? dialogsData[1] : 0
     // const _column = column ? column : 0
     // const _task   = task   ? task   : 0
     setDialogsData( [dialog, _board, column, task, callBack] )
