@@ -10,26 +10,32 @@ export default function Board() {
   const { database }                   = useDatabase()
   const { dialogLaunch, currentBoard } = useDialogs()
 
-  const [columns, setColumns] = useState<any>([])
+  // const [columns, setColumns] = useState<any>([])
 
   useEffect(() => {
     if(currentBoard! >= 0) {
-      setColumns(database.boards[currentBoard!].columns)
+      // setColumns(database.boards[currentBoard!].columns)
       console.log(">>>>> Num. Columnas:", currentBoard!, database.boards[currentBoard!].columns.length)
     }
-    else return
   }, [])
+
+  useEffect(() => {
+    console.log("Cambio de Board a:", currentBoard)
+  }, [currentBoard])
 
   return (
     <>
-      { columns.length == 0 
+      { database.boards[currentBoard!].columns.length == 0 
         ?
         <EmptyColumns />
         :
         <section className="board">
-          { columns.map( (_: any, index: number) => 
+          {/* Columns */}
+          { database.boards[currentBoard!].columns.map( (_: any, index: number) => 
             <Column board = {currentBoard!} column = {index} key = {index}/>
           )}
+
+          {/* New Column Add clickable area */}
           <motion.section className="column new"
             initial    = {{ scale: 1}}
             whileHover = {{ scale: [1.04, 1, 1.02], transition: {duration: 0.5} }}

@@ -6,19 +6,7 @@ import { useEffect, useState } from 'react'
 
 function Column({ board, column } : {board: number, column: number }) {
   const { database } = useDatabase()
-  const [taskCount, setTaskCount]   = useState(0)
-  const [columnName, setColumnName] = useState("")
-
-  useEffect(() => {
-    setTaskCount(database.boards[board].columns[column].tasks.length)
-    setColumnName(database.boards[board].columns[column].name)
-  }, [])
-
-  useEffect(() => {
-    setTaskCount(database.boards[board].columns[column].tasks.length)
-    setColumnName(database.boards[board].columns[column].name)
-  }, [taskCount, columnName])
-
+  
   const colors = [ "#49C4E5", "#8471F2", "#67E2AE" ]
   let colorIndex = column
   
@@ -29,7 +17,7 @@ function Column({ board, column } : {board: number, column: number }) {
     colorIndex = x
   }
 
-  // console.log("Board/Columna:", board, column)
+  // console.log("++++++ Board/Columna:", board, column, database.boards[board].columns[column].tasks.length, database.boards[board].columns[column].name)
 
   return (
     <motion.section className="column"
@@ -39,7 +27,7 @@ function Column({ board, column } : {board: number, column: number }) {
     >
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
-        <span className="text">{`${columnName} (${taskCount})`}</span>
+        <span className="text">{`${database.boards[board].columns[column].name} (${database.boards[board].columns[column].tasks.length})`}</span>
       </div>
       { database.boards[board].columns[column].tasks.map( (_, index: number) => 
         <Task board={board} column={column} task={index} key={index} />

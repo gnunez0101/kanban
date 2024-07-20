@@ -18,7 +18,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true)
   const [theme, setTheme] = useState('')
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(true)
   const [boardTitle, setBoardTitle] = useState("")
 
   const [switching, setSwitching] = useState(false)
@@ -111,7 +111,6 @@ function App() {
             <div className="board-body">
               { 
                 // ==================== Board ===========================
-                // ======================================================
                 database.boards.length == 0 ? <EmptyBoards/> : <Board/>
                 // ======================================================
               }
