@@ -17,8 +17,6 @@ function Column({ board, column } : {board: number, column: number }) {
     colorIndex = x
   }
 
-  // console.log("++++++ Board/Columna:", board, column, database.boards[board].columns[column].tasks.length, database.boards[board].columns[column].name)
-
   return (
     <motion.section className="column"
       initial    = "initial"

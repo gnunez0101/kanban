@@ -4,24 +4,10 @@ import Column from './Column';
 import EmptyColumns from './EmptyColumns';
 import useDatabase from '../hooks/useDatabase';
 import useDialogs  from '../hooks/useDialogs';
-import { useEffect, useState } from 'react';
 
 export default function Board() {
   const { database }                   = useDatabase()
   const { dialogLaunch, currentBoard } = useDialogs()
-
-  // const [columns, setColumns] = useState<any>([])
-
-  useEffect(() => {
-    if(currentBoard! >= 0) {
-      // setColumns(database.boards[currentBoard!].columns)
-      console.log(">>>>> Num. Columnas:", currentBoard!, database.boards[currentBoard!].columns.length)
-    }
-  }, [])
-
-  useEffect(() => {
-    console.log("Cambio de Board a:", currentBoard)
-  }, [currentBoard])
 
   return (
     <>
