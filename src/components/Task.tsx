@@ -25,11 +25,8 @@ function Task( {board, column, task} : {board: number, column: number, task: num
   }, [])
 
   useEffect(() => {
-    if(subTasks) {
-      console.log("subtasks:", subTasks)
-      setCountSubTaskCompleted(subTasks.filter((c: any) => c.isCompleted).length)
-      setCountSubTaskTotal(subTasks.length)
-    }
+    setCountSubTaskCompleted(subTasks.filter((c: any) => c.isCompleted).length)
+    setCountSubTaskTotal(subTasks.length)
   }, [taskViewOpen])
 
   function openWindow(value: boolean) {

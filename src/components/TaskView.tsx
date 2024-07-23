@@ -49,11 +49,6 @@ function TaskView( { board, column, task, openWindow }:
   }, [])
 
   useEffect(() => {
-    // taskDataRef.current = tasks
-  }, [tasks])
-
-  useEffect(() => {
-    // console.log("cambio subtasks...")
     if (subTasks) {
       setCountCompleted(subTasks.filter((c: any) => c.isCompleted).length)
       setCountTotal(subTasks.length)
@@ -67,7 +62,6 @@ function TaskView( { board, column, task, openWindow }:
   }
 
   function reorder(newOrder: any[]) {
-    // console.log(newOrder)
     setSubTasks(newOrder)
     subtaskAdmin("subtaskEdit", [board!, column!, task!], newOrder)
   }
@@ -110,7 +104,6 @@ function TaskView( { board, column, task, openWindow }:
           Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
         <div className="taskview__subtasks--items">
-          { subTasks &&
           <Reorder.Group axis="y" onReorder={reorder} values={subTasks}>
             { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
               <SubTask item = {subtask} key={subtask.title} 
@@ -118,7 +111,6 @@ function TaskView( { board, column, task, openWindow }:
               />)
             }
           </Reorder.Group>
-          }
         </div>
       </section>
       <section className="taskview__current-status">
