@@ -1,7 +1,9 @@
 import './EmptyDialogs.css'
 import { motion } from 'framer-motion';
+import useDialogs  from '../hooks/useDialogs';
 
 function EmptyColumns() {
+  const { dialogLaunch, currentBoard } = useDialogs()
   return ( 
     <>
       <div className="empty-container">
@@ -13,6 +15,7 @@ function EmptyColumns() {
             <motion.button type="button"
               whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
               whileTap   = {{ scale: 0.9 }}
+              onClick    = { () => dialogLaunch("boardEdit", currentBoard!, 0, 0)}
             >
               + Add New Column
             </motion.button>

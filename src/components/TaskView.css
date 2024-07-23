@@ -115,7 +115,7 @@
     display: flex;
     gap: 8px;
     
-    & li {
+    > li {
       border-radius: 4px;
       
       > .taskview__subtasks--items__subtask {

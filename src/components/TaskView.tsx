@@ -43,7 +43,7 @@ function TaskView( { board, column, task, openWindow }:
         // console.log(taskDataRef.current)
         // subtaskAdmin!("subtaskEdit", [board, column, task], taskDataRef.current)
         openWindow!(false)
-        console.log("-------------- TaskView desmontado!")
+        // console.log("-------------- TaskView desmontado!")
       // }
     }
   }, [])
@@ -66,10 +66,10 @@ function TaskView( { board, column, task, openWindow }:
     setSubTasks([..._subTasks])
   }
 
-  function ordenar(newOrder: any[]) {
+  function reorder(newOrder: any[]) {
     // console.log(newOrder)
-    let _subTasks = newOrder
-    setSubTasks([..._subTasks])
+    setSubTasks(newOrder)
+    subtaskAdmin("subtaskEdit", [board!, column!, task!], newOrder)
   }
 
   return (
@@ -110,13 +110,15 @@ function TaskView( { board, column, task, openWindow }:
           Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
         <div className="taskview__subtasks--items">
-          <Reorder.Group axis="y" onReorder={ordenar} values={subTasks}>
+          { subTasks &&
+          <Reorder.Group axis="y" onReorder={reorder} values={subTasks}>
             { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
               <SubTask item = {subtask} key={subtask.title} 
                 handleChange = { () => handleCheck(index) }
               />)
             }
           </Reorder.Group>
+          }
         </div>
       </section>
       <section className="taskview__current-status">
@@ -150,15 +152,15 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
   }, [])
 
   return (
-    <motion.div className="taskview__title--ellipsis-menu"
+    <motion.div className = "taskview__title--ellipsis-menu"
       initial    = {{ scaleY: 0 }}
       animate    = {{ scaleY: 1 }}
       exit       = {{ scaleY: 0 }}
       transition = {{ duration: 0.2 }}
       ref        = {refMenu}
     >
-      <div className="taskview__title--ellipsis-menu__option edit"
-        onClick={(e) => {
+      <div className = "taskview__title--ellipsis-menu__option edit"
+        onClick = {(e) => {
           e.stopPropagation()
           setShowMenuEllipsis(false)
           dialogLaunch("taskEdit", board, column, task)
@@ -166,8 +168,8 @@ function MenuEllipsis( { board, column, task, setShowMenuEllipsis }: { board?: n
       >
         Edit Task
       </div>
-      <div className="taskview__title--ellipsis-menu__option delete"
-        onClick={(e) => {
+      <div className = "taskview__title--ellipsis-menu__option delete"
+        onClick = {(e) => {
           e.stopPropagation()
           setShowMenuEllipsis(false)
           dialogLaunch("taskDelete", board, column, task)
@@ -184,9 +186,7 @@ function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: () =>
   const boxShadow = useRaisedShadow(y)
 
   return(
-    <Reorder.Item value={item} 
-      id={item.title} key={item.title}
-      style={{ boxShadow, y }}
+    <Reorder.Item value = {item} id={item.title} key={item.title} style={{ boxShadow, y }}
       // dragConstraints = {{ top: 10, bottom: -10 }}
     >
       <motion.div className={`taskview__subtasks--items__subtask`}
@@ -196,7 +196,6 @@ function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: () =>
         <Checkbox className = "taskview__subtasks--items__completed"
           isChecked    = { item.isCompleted }
           handleChange = { handleChange }
-          // label        = { item.title }
         />
         <span>{item.title}</span>
       </motion.div>

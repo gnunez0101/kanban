@@ -124,8 +124,7 @@ function dataReducer(state: typeData, action: typeAction): typeData {
 
     case 'subtaskEdit': {
       let _data = data
-      _data.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]] = action.values
-      console.log("task:", action.values)
+      _data.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]].subtasks = action.values
       return _data
     }
 

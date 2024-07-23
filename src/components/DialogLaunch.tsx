@@ -1,16 +1,16 @@
-import { AnimatePresence } from "framer-motion"
 import TaskAdd  from "./TaskAdd"
 import TaskView from "./TaskView"
 import { TaskDelete }  from "./TaskDelete"
 import { BoardAdd }    from "./BoardAdd"
 import { BoardDelete } from "./BoardDelete"
+import { AnimatePresence } from "framer-motion" 
 
 type typeDialogs = [
-  command: string,    // [0]: dialog name or command
-  board?: number,   // [1]: board number
+  command: string,   // [0]: dialog name or command
+  board?:  number,   // [1]: board number
   column?: number,   // [2]: columns number
-  task?: number,   // [3]: task number
-  callBack?: (param: any) => void,       // [4]: callback function
+  task?:   number,   // [3]: task number
+  callBack?: (param: any) => void, // [4]: callback function
 ]
 
 function DialogLaunch( { data }: { data: typeDialogs } ) {
