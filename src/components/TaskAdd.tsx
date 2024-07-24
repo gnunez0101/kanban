@@ -122,6 +122,10 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     setSubTasks(_subTasks)
   }
 
+  function handleChange_Status() {
+    console.log("Cambio de Status...")
+  }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     dialogLaunch("saveTask", board, column, task)
@@ -197,10 +201,11 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
           <div className="taskadd__current-status--items">
             { columns &&
               <Select 
-                defaultValue={columns[0]}
-                options={columns}
-                className='taskadd__current-status-select' 
-                classNamePrefix='taskadd__current-status-select'
+                defaultValue    = {{ value: status, label: status }}
+                options         = {columns}
+                className       = 'taskadd__current-status-select' 
+                classNamePrefix = 'taskadd__current-status-select'
+                onChange        = {handleChange_Status}
               />
             }
           </div>
