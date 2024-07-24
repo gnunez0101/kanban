@@ -18,8 +18,8 @@ function DialogLaunch( { data }: { data: typeDialogs } ) {
   return (
     <AnimatePresence mode="wait">
       { data[0] == 'taskView'    && <TaskView board={data[1]} column={data[2]} task={data[3]} openWindow={data[4]!} /> }
-      { data[0] == 'taskAdd'     && <TaskAdd  board={data[1]} /> }
-      { data[0] == 'taskEdit'    && <TaskAdd  board={data[1]} edit={true}/> }
+      { data[0] == 'taskAdd'     && <TaskAdd /> }
+      { data[0] == 'taskEdit'    && <TaskAdd edit={true}/> }
       { data[0] == 'boardAdd'    && <BoardAdd /> }
       { data[0] == 'boardEdit'   && <BoardAdd edit = {true} /> }
       { data[0] == 'boardDelete' && <BoardDelete board={data[1]} /> }

@@ -21,7 +21,8 @@ function TaskView( { board, column, task, openWindow }:
   const { database, subtaskAdmin } = useDatabase()
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<any>([])
-  const [tasks, setTasks]       = useState<any>([])
+  const [status, setStatus]     = useState("")
+  const [taskData, setTaskData]       = useState<any>([])
   const [subTasks, setSubTasks] = useState<any>([])
   const [countCompleted, setCountCompleted] = useState(0)
   const [countTotal, setCountTotal]         = useState(0)
@@ -34,18 +35,13 @@ function TaskView( { board, column, task, openWindow }:
       let cols = database.boards[board!].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
+      // console.log("Columnas:", cols)
       setColumns(cols)
-      setTasks(database.boards[board!].columns[column!].tasks[task!])
+      setStatus(cols[column!].value)
+      setTaskData(database.boards[board!].columns[column!].tasks[task!])
       setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
     }
-    return () => {
-      // if (taskDataRef.current.length) {
-        // console.log(taskDataRef.current)
-        // subtaskAdmin!("subtaskEdit", [board, column, task], taskDataRef.current)
-        openWindow!(false)
-        // console.log("-------------- TaskView desmontado!")
-      // }
-    }
+    return () => { openWindow!(false) }
   }, [])
 
   useEffect(() => {
@@ -63,16 +59,16 @@ function TaskView( { board, column, task, openWindow }:
 
   function reorder(newOrder: any[]) {
     setSubTasks(newOrder)
-    subtaskAdmin("subtaskEdit", [board!, column!, task!], newOrder)
+    subtaskAdmin("subtask_Modify", [board!, column!, task!], newOrder)
   }
 
   return (
-    <>{ tasks && <DialogModal>
+    <>{ taskData && <DialogModal>
       <section className="taskview__title">
         <textarea className="taskview__title--text" spellCheck={false}
           placeholder='Write a title...'
           readOnly = {true}
-          defaultValue = {tasks.title}
+          defaultValue = {taskData.title}
         />
         <div className="taskview__title--ellipsis">
           <motion.div className="taskview__title--ellipsis-toggle"
@@ -96,7 +92,7 @@ function TaskView( { board, column, task, openWindow }:
         <textarea spellCheck={false}
           placeholder  ='Write a description...'
           readOnly     = {true} 
-          defaultValue = {tasks.description}
+          defaultValue = {taskData.description}
         />
       </div>
       <section className="taskview__subtasks">
@@ -118,11 +114,11 @@ function TaskView( { board, column, task, openWindow }:
           Current Status
         </div>
         <div className="taskview__current-status--items">
-          { tasks.status && 
+          { status &&
             <Select options={columns}
               className       = "taskview__current-status-select"
               classNamePrefix = "taskview__current-status-select"
-              defaultValue    = {{ value: tasks.status, label: tasks.status }}
+              defaultValue    = {{ value: status, label: status }}
             />
           }
         </div>

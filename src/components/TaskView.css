@@ -32,6 +32,9 @@
     min-height: 32px;
 
     .taskview__title--ellipsis-toggle {
+      width: 100%;
+      text-align: right;
+      transform-origin: right;
 
       & img {
         height: 20px;

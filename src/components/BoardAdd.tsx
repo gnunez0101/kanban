@@ -28,12 +28,12 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     if (firstTime) {
       firstTime = false
       if(edit) {
-        const board = dialogsData[1]
-        setBoardName(database.boards[board].name)
-        if (database.boards[board].columns.length) {
+        const board = dialogsData![1]
+        setBoardName(database.boards[board!].name)
+        if (database.boards[board!].columns.length) {
           let count = counter
-          setTempColumns(database.boards[board].columns.map(column => {
-            console.log(count)
+          setTempColumns(database.boards[board!].columns.map(column => {
+            // console.log(count)
             return( {id: count++, name: column.name} )
           }))
           setCounter(count)
@@ -61,7 +61,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   }
 
   function createBoard() {
-    dialogLaunch("createBoard", dialogsData.length + 1, 0, 0)
+    dialogLaunch("createBoard", dialogsData!.length + 1, 0, 0)
   }
   
   return (

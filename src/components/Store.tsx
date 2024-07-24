@@ -21,10 +21,10 @@ type typeData = {
 
 type typeValueData = {
   database:     typeData,
-  boardAdmin?:  (command: string, coord: typeCoords) => void,
-  columnAdmin?: (command: string, coord: typeCoords) => void,
-  taskAdmin?:   (command: string, coord: typeCoords) => void,
-  subtaskAdmin: (command: string, coord: typeCoords, value: any) => void
+  boardAdmin:   (command: typeCommands, coord: typeCoords, value: any) => void,
+  columnAdmin:  (command: typeCommands, coord: typeCoords, value: any) => void,
+  taskAdmin:    (command: typeCommands, coord: typeCoords, value: any) => void,
+  subtaskAdmin: (command: typeCommands, coord: typeCoords, value: any) => void
 }
 
 type typeDialogs = [
@@ -57,19 +57,20 @@ export const StoreProvider = ( props: StoreProps ) => {
    
   const [database, dispatch] = useReducer(dataReducer, data)
 
-  function boardAdmin(command: string, coord: typeCoords) {
+  function boardAdmin(command: typeCommands, coord: typeCoords) {
     // dispatch( { type: 'boardAdd', name: 'Board de Prueba' } )
   }
 
-  function columnAdmin(command: string, coord: typeCoords) {
+  function columnAdmin(command: typeCommands, coord: typeCoords) {
     
   }
 
-  function taskAdmin(command: string, coord?: typeCoords) {
+  function taskAdmin(command: typeCommands, coord: typeCoords, values: any) {
+    dispatch( { type: command, coord: coord, values: values } )
   }
 
-  function subtaskAdmin(command: string, coord: typeCoords, values: any): void {
-    dispatch( { type: "subtaskEdit", coord: coord, values: values } )
+  function subtaskAdmin(command: typeCommands, coord: typeCoords, values: any) {
+    dispatch( { type: command, coord: coord, values: values } )
   }
 
   const databaseValue: typeValueData = {
@@ -104,7 +105,18 @@ export const StoreProvider = ( props: StoreProps ) => {
   )
 }
 
-type typeAction =  
+type typeCommands = 
+  | 'board_Add'   | 'board_Modify'   | 'board_Delete'
+  | 'column_Add'  | 'column_Modify'  | 'column_Delete'
+  | 'task_Add'    | 'task_Modify'    | 'task_Delete'
+  | 'subtask_Add' | 'subtask_Modify' | 'subtask_Delete'
+
+type typeAction =  {
+  type: typeCommands,
+  coord: number[],
+  values: any
+}
+
 // | { type: 'boardAdd',      name: string }
 // | { type: 'boardEdit',     index: number, name: string }
 // | { type: 'boardDelete',   index: number }
@@ -115,16 +127,22 @@ type typeAction =
 // | { type: 'taskEdit',      index: number, values?: [] }
 // | { type: 'taskDelete',    index: number }
 // | { type: 'subtaskAdd',    name: string }
-| { type: 'subtaskEdit',   coord: typeCoords, values: any }
+// | { type: 'subtaskEdit',   coord: typeCoords, values: any }
 // | { type: 'subtaskDelete', index: number }
 
 function dataReducer(state: typeData, action: typeAction): typeData {
   
   switch (action.type) {
 
-    case 'subtaskEdit': {
+    case 'subtask_Modify': {
       let _data = data
       _data.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]].subtasks = action.values
+      return _data
+    }
+
+    case 'task_Modify': {
+      let _data = data
+      _data.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]] = action.values
       return _data
     }
 

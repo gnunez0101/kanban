@@ -9,7 +9,7 @@ type typeProps = {
 
 export function Button ( props : typeProps ) {
   return (
-    <motion.button className={`button ${props.className}`} type="button"
+    <motion.button className={`button ${props.className}`}
       onClick    = { props.onClick }
       initial    = {{ scale: 1 }}
       whileHover = {{ scale: [1, 1.03, 1, 1.01, 1] }}
