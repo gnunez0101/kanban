@@ -89,6 +89,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     setTempSubTasks([...tempSubTasks, 
       {id: counter.toString(), text: "", placeholder: `New subtask ${counter}...`}])
     setCounter(counter + 1)
+    setSubTasks([...subTasks,
+      { title: `New subtask ${counter}...`, isCompleted: false }
+    ])
   }
 
   function deleteSubTask(index: number) {
@@ -180,7 +183,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
             </AnimatePresence>
             </LayoutGroup>
           </div>
-          <Button className="taskadd__btn-add secondary" onClick={addSubTask}>
+          <Button className="taskadd__btn-add secondary" onClick={addSubTask} type="button">
             + Add New Subtask
           </Button>
         </section>
