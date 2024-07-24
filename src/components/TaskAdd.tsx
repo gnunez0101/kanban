@@ -95,9 +95,14 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   }
 
   function deleteSubTask(index: number) {
+    // ----------------------------------
     const _tempSubTasks = tempSubTasks
     _tempSubTasks.splice(index, 1)
     setTempSubTasks([..._tempSubTasks])
+    // ----------------------------------
+    const _subTasks = subTasks
+    _subTasks.splice(index, 1)
+    setSubTasks([..._subTasks])
   }
 
   function handleChange_title(e: React.ChangeEvent<HTMLTextAreaElement>) {
