@@ -6,12 +6,12 @@ import useDatabase from '../hooks/useDatabase'
 
 function Task( {board, column, task} : {board: number, column: number, task: number} ) {
   const { database }     = useDatabase()
-  const { dialogLaunch } = useDialogs()
+  const { dialogLaunch, subtaskChange, setSubTaskChange } = useDialogs()
   
   const [countSubTaskCompleted, setCountSubTaskCompleted] = useState(0)
   const [countSubTaskTotal,     setCountSubTaskTotal]     = useState(0)
 
-  const [taskViewOpen, setTaskViewOpen] = useState<boolean|null>(null)
+  // const [taskViewOpen, setTaskViewOpen] = useState<boolean|null>(null)
 
   const taskData = database.boards[board].columns[column].tasks[task]
   const subTasks = taskData.subtasks
@@ -19,19 +19,18 @@ function Task( {board, column, task} : {board: number, column: number, task: num
   let firstTime = true
   useEffect(() => {
     if (firstTime) {
+      setSubTaskChange(true)
       firstTime = false
-      setTaskViewOpen(false)
     }
   }, [])
 
   useEffect(() => {
-    setCountSubTaskCompleted(subTasks.filter((c: any) => c.isCompleted).length)
-    setCountSubTaskTotal(subTasks.length)
-  }, [taskViewOpen])
-
-  function openWindow(value: boolean) {
-    setTaskViewOpen(value)
-  }
+    if(subtaskChange) {
+      setCountSubTaskCompleted(subTasks.filter((c: any) => c.isCompleted).length)
+      setCountSubTaskTotal(subTasks.length)
+      setSubTaskChange(false)
+    }
+  }, [subtaskChange])
 
   return (
     <motion.section className = "task"
@@ -50,7 +49,7 @@ function Task( {board, column, task} : {board: number, column: number, task: num
       whileHover = {{ scale: [1.05, 1, 1.02], transition: {duration: 0.5} }}
       whileTap   = {{ scale: 0.98 }}
       onClick    = { () => {
-        dialogLaunch("taskView", board, column, task, openWindow)
+        dialogLaunch("taskView", board, column, task)
       }}
     >
       <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>

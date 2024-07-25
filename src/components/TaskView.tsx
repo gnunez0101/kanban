@@ -15,33 +15,32 @@ type typeSubTask = {
   isCompleted: boolean
 }
 
-function TaskView( { board, column, task, openWindow }: 
-  { board?: number, column?: number, task?: number, openWindow: (isOpened: boolean) => void } ) {
+function TaskView( { board, column, task }: 
+  { board?: number, column?: number, task?: number } ) {
 
-  const { database, subtaskAdmin } = useDatabase()
+  const { database, subtaskAdmin }    = useDatabase()
+  const { subtaskChange, setSubTaskChange } = useDialogs()
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<any>([])
   const [status, setStatus]     = useState("")
-  const [taskData, setTaskData]       = useState<any>([])
+  const [taskData, setTaskData] = useState<any>([])
   const [subTasks, setSubTasks] = useState<any>([])
   const [countCompleted, setCountCompleted] = useState(0)
   const [countTotal, setCountTotal]         = useState(0)
 
   let firstTime = true
   useEffect(() => {
-    openWindow!(true)
     if (firstTime) {
       firstTime = false
       let cols = database.boards[board!].columns.map((column: any) => {
         return { value: column.name, label: column.name }
       })
-      // console.log("Columnas:", cols)
       setColumns(cols)
       setStatus(cols[column!].value)
       setTaskData(database.boards[board!].columns[column!].tasks[task!])
       setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
+      setSubTaskChange(true)
     }
-    return () => { openWindow!(false) }
   }, [])
 
   useEffect(() => {
@@ -49,12 +48,13 @@ function TaskView( { board, column, task, openWindow }:
       setCountCompleted(subTasks.filter((c: any) => c.isCompleted).length)
       setCountTotal(subTasks.length)
     }
-  }, [subTasks])
+  }, [subtaskChange])
 
   function handleCheck(index: number) {
     let _subTasks = subTasks
     _subTasks[index].isCompleted = !_subTasks[index].isCompleted
     setSubTasks([..._subTasks])
+    setSubTaskChange(true)
   }
 
   function reorder(newOrder: any[]) {

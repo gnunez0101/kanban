@@ -40,7 +40,9 @@ type typeValueDialogs = {
   dialogsData?:  typeDialogs,
   setDialogsData: ([]: typeDialogs) => void,
   currentBoard: number | null,
-  setCurrentBoard: (board: number | null) => void
+  setCurrentBoard: (board: number | null) => void,
+  subtaskChange: boolean,
+  setSubTaskChange: (isOpen: boolean) => void
 }
 
 type StoreProps = { children: React.ReactNode }
@@ -54,6 +56,7 @@ export const StoreProvider = ( props: StoreProps ) => {
   // const [ setDialog ]       = useState<any>(null)
   const [dialogsData, setDialogsData] = useState<typeDialogs | undefined>(undefined)
   const [currentBoard, setCurrentBoard] = useState<number | null>(null)
+  const [dialogOpen, setDialogOpen] = useState(false)
    
   const [database, dispatch] = useReducer(dataReducer, data)
 
@@ -82,11 +85,13 @@ export const StoreProvider = ( props: StoreProps ) => {
   }
 
   const dialogsValue: typeValueDialogs = {
-    dialogLaunch:    launchDialog,
-    dialogsData:     dialogsData,
-    setDialogsData:  setDialogsData,
-    currentBoard:    currentBoard,
-    setCurrentBoard: setCurrentBoard
+    dialogLaunch:     launchDialog,
+    dialogsData:      dialogsData,
+    setDialogsData:   setDialogsData,
+    currentBoard:     currentBoard,
+    setCurrentBoard:  setCurrentBoard,
+    subtaskChange:    dialogOpen,
+    setSubTaskChange: setDialogOpen
   }
   
   function launchDialog( dialog: string, board?: number, column?: number, task?: number, callBack?: (param: any) => void ) {

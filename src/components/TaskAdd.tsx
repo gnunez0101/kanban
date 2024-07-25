@@ -20,8 +20,8 @@ type typeTempColumns = {
 type typeTask = {
   title: string,
   description: string,
-  subtask: typeSubTask[],
-  status: string 
+  status: string,
+  subtasks: typeSubTask[],
 }
 
 type typeSubTask = {
@@ -37,7 +37,7 @@ type typeTempSubTask = {
 
 function TaskAdd( { edit = false }: { edit?: boolean } ) {
   const { database, taskAdmin }       = useDatabase()
-  const { dialogLaunch, dialogsData } = useDialogs()
+  const { dialogLaunch, dialogsData, setSubTaskChange } = useDialogs()
 
   // Load coordinates of selected Task:
   const board  = dialogsData![1]
@@ -52,12 +52,12 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   
   const [counter, setCounter] = useState(edit ? 0 : defaultSubTasks.length)
   const [columns, setColumns] = useState<typeTempColumns[]>()
+  const [selectedCol, setSelectedCol] = useState(column)
 
   const [title, setTitle]             = useState("")
   const [description, setDescription] = useState("")
   const [status,   setStatus]         = useState("")
   const [subTasks, setSubTasks]       = useState<typeSubTask[]>([])
-  // const [taskData, setTaskData]       = useState<typeTask>()
 
   let firstTime = true
   useEffect(() => {
@@ -77,8 +77,8 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       else {
         setTempSubTasks(defaultSubTasks)
       }
-      let cols: typeTempColumns[] = database.boards[board!].columns.map((column: any) => {
-        return { value: column.name, label: column.name }
+      let cols: typeTempColumns[] = database.boards[board!].columns.map((column: typeColumns, index: number) => {
+        return { value: index.toString(), label: column.name }
       })
       setStatus(cols[column!].value)
       setColumns(cols)
@@ -122,15 +122,22 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     setSubTasks(_subTasks)
   }
 
-  function handleChange_Status() {
-    console.log("Cambio de Status...")
+  function handleChange_Status(status: any) {
+    console.log("Cambio de Status a...", status.label, parseInt(status.value))
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    dialogLaunch("saveTask", board, column, task)
     let taskData = { title: title, description: description, status: status, subtasks: subTasks }
-    taskAdmin("task_Modify", [board!, column!, task!], taskData)
+    if(edit) {
+      dialogLaunch("saveTask", board, column, task)
+      taskAdmin("task_Modify", [board!, column!, task!], taskData)
+    }
+    else {
+      dialogLaunch("createTask", board, column, task)
+      taskAdmin("task_Add", [board!, column!, task!+1], taskData)
+    }
+    setSubTaskChange(true)
   }
 
   return (
