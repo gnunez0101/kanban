@@ -52,12 +52,14 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   
   const [counter, setCounter] = useState(edit ? 0 : defaultSubTasks.length)
   const [columns, setColumns] = useState<typeTempColumns[]>()
-  const [selectedCol, setSelectedCol] = useState(column)
 
   const [title, setTitle]             = useState("")
   const [description, setDescription] = useState("")
   const [status,   setStatus]         = useState("")
   const [subTasks, setSubTasks]       = useState<typeSubTask[]>([])
+
+  const [FormError, setFormError]   = useState(false)
+  const [titleError, setTitleError] = useState(false)
 
   let firstTime = true
   useEffect(() => {
@@ -106,6 +108,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   }
 
   function handleChange_title(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setTitleError(e.target.value.length === 0)   // if input is empty
     e.preventDefault()
     setTitle(e.target.value)
   }
@@ -123,7 +126,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   }
 
   function handleChange_Status(status: any) {
-    console.log("Cambio de Status a...", status.label, parseInt(status.value))
+    console.log("Cambio de Status de", column, "a ",status.label, parseInt(status.value))
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -152,6 +155,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
           <div className="taskadd__-title">Title</div>
           <div className="taskadd__-text">
             <textarea spellCheck={false}
+              className= { `taskadd_textarea ${titleError ? "error" : ""}` }
               placeholder='e.g. Take coffee break'
               defaultValue = {title}
               onChange={handleChange_title}
@@ -162,6 +166,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
           <div className="taskadd__-title">Description</div>
           <div className="taskadd__-text">
             <textarea spellCheck={false}
+              className='taskadd_textarea'
               placeholder='e.g. It´s always good to take a break. This 15 minute break will  recharge the batteries a little.'
               defaultValue = {description}
               style={{minHeight: "112px"}}
@@ -176,25 +181,15 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
             <AnimatePresence>
               { tempSubTasks.length ? (
                 tempSubTasks.map((subtask: typeTempSubTask, index: number) => 
-                  <motion.div className="taskadd__-text" key={subtask.id}
-                    layout     = {true}
-                    initial    = {{ opacity: 0, scale: 0 }}
-                    animate    = {{ opacity: 1, scale: 1, 
-                      transition: { type: "spring", damping: 20, stiffness: 250 } }}
-                    exit       = {{ opacity: 0, scale: 0.3 }}
-                    transition = {{ duration: 0.3 }}
-                  >
-                    <textarea spellCheck={false}
-                      placeholder  = {subtask.placeholder}
-                      defaultValue = {subtask.text}
-                      onChange     = {(e) => handleChange_subTask(e, index)}
-                    />
-                    <div className = "taskadd__delete"
-                      onClick={() => deleteSubTask(index)}
-                    >
-                    </div>
-                  </motion.div>
-              )) : <motion.div><h1 className='no-columns'>No Subtasks!</h1></motion.div>
+                  <SubTask index={index} key={subtask.id}
+                           defaultValue={subtask.text}
+                           placeholder={subtask.placeholder}
+                           handleChange={(e) => handleChange_subTask(e, index)}
+                           deleteSubTask={() => deleteSubTask(index) }
+                  />
+                )) 
+                :
+                <motion.div><h1 className='no-columns'>No Subtasks!</h1></motion.div>
               }
             </AnimatePresence>
             </LayoutGroup>
@@ -208,7 +203,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
           <div className="taskadd__current-status--items">
             { columns &&
               <Select 
-                defaultValue    = {{ value: status, label: status }}
+                defaultValue    = {columns[column!]}
                 options         = {columns}
                 className       = 'taskadd__current-status-select' 
                 classNamePrefix = 'taskadd__current-status-select'
@@ -228,3 +223,45 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   )
 }
 export default TaskAdd
+
+
+type typePropsSubTask = {
+  index: number, 
+  defaultValue: string, 
+  placeholder: string, 
+  handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void, 
+  deleteSubTask: (index: number) => void
+}
+
+function SubTask( props: typePropsSubTask ) {
+  const [error, setError] = useState(false)
+
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>, index: number) {
+    setError(e.target.value.length === 0)   // if input is empty
+    props.handleChange(e, index)
+    console.log(e.target.value.length, error)
+  }
+
+  return (
+    <motion.div className="taskadd__-text"
+      layout     = {true}
+      initial    = {{ opacity: 0, scale: 0 }}
+      animate    = {{ opacity: 1, scale: 1, 
+        transition: { type: "spring", damping: 20, stiffness: 250 } }}
+      exit       = {{ opacity: 0, scale: 0.3 }}
+      transition = {{ duration: 0.3 }}
+    >
+      <textarea spellCheck={false}
+        className    = { `taskadd_textarea ${error ? "error" : ""}` }
+        placeholder  = {props.placeholder}
+        defaultValue = {props.defaultValue}
+        onChange     = {(e) => handleChange(e, props.index)}
+      />
+      <div className = {`taskadd__delete ${error ? "error" : ""}`}
+        onClick={() => props.deleteSubTask(props.index)}
+      >
+      </div>
+      <div className={`inputError ${error ? "true" : ""}`}>Can't be empty</div>
+    </motion.div>
+  )
+}

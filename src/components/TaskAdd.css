@@ -53,13 +53,14 @@ form {
   }
 
   .taskadd__-text {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     line-height: 0;
     transform-origin: center top;
     
-    > textarea {
+    > .taskadd_textarea {
       width: 100%;
       appearance: none;
       outline: none;
@@ -78,6 +79,10 @@ form {
       max-height: 127px;
       overflow-y: auto;
 
+      &.error {
+        border: 1px solid var(--Destructive);
+      }
+
       &:hover {
         border: 1px solid var(--button-primary);
       }
@@ -93,6 +98,10 @@ form {
       background-color: var(--text-secondary);
       mask: url('../assets/icon-cross.svg') no-repeat center;
 
+      &.error {
+        background-color: var(--Destructive);
+      }
+
       &:hover {
         scale: 115%;
         background-color: var(--button-primary);
@@ -101,6 +110,20 @@ form {
 
       &:active {
         scale: 95%;
+      }
+    }
+
+    .inputError {
+      position: absolute;
+      right: 46px;
+      font-size:   var(--fs-Body-L);
+      font-weight: var(--fw-Body-L);
+      line-height: var(--fl-Body-L);
+      color: var(--Destructive);
+      opacity: 0;
+
+      &.true {
+        opacity: 1;
       }
     }
   }
