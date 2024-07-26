@@ -160,6 +160,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
               defaultValue = {title}
               onChange={handleChange_title}
             />
+            <div className={`inputError ${titleError ? "true" : ""}`}>Can't be empty</div>
           </div>
         </section>
         <section className="taskadd__description">
