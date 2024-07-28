@@ -32,7 +32,9 @@ type typeSubTask = {
 type typeTempSubTask = {
   id: string,
   text: string,
-  placeholder: string
+  placeholder: string,
+  isCompleted: boolean,
+  isEmpty: boolean
 }
 
 function TaskAdd( { edit = false }: { edit?: boolean } ) {
@@ -45,9 +47,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   const task   = dialogsData![3]
 
   const [tempSubTasks, setTempSubTasks] = useState<typeTempSubTask[]>([])
-  const defaultSubTasks = [
-    { id: '0', text: '', placeholder: 'e.g. Make Coffee' },
-    { id: '1', text: '', placeholder: 'e.g. Drink coffee & smile' },
+  const defaultSubTasks: typeTempSubTask[] = [
+    { id: '0', text: '', placeholder: 'e.g. Make Coffee',          isCompleted: false, isEmpty: false },
+    { id: '1', text: '', placeholder: 'e.g. Drink coffee & smile', isCompleted: false, isEmpty: false },
   ]
   
   const [counter, setCounter] = useState(edit ? 0 : defaultSubTasks.length)
@@ -56,9 +58,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   const [title, setTitle]             = useState("")
   const [description, setDescription] = useState("")
   const [status,   setStatus]         = useState("")
-  const [subTasks, setSubTasks]       = useState<typeSubTask[]>([])
 
-  const [FormError, setFormError]   = useState(false)
   const [titleError, setTitleError] = useState(false)
 
   let firstTime = true
@@ -68,11 +68,12 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       if(edit) {
         setTitle(database.boards[board!].columns[column!].tasks[task!].title)
         setDescription(database.boards[board!].columns[column!].tasks[task!].description)
-        setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
-        const _tempSubTasks = [...database.boards[board!].columns[column!].tasks[task!].subtasks]
+        // Deep clone of subtask elements on temp state with "JSON.stringify" method:
+        const _tempSubTasks: typeSubTask[] = 
+          JSON.parse(JSON.stringify(database.boards[board!].columns[column!].tasks[task!].subtasks))
         let _counter = 0
-        setTempSubTasks(_tempSubTasks.map(subTask => {
-                        return({ id: (_counter++).toString(), text: subTask.title, placeholder: "" })
+        setTempSubTasks(_tempSubTasks.map((subTask: typeSubTask) => {
+                        return({ id: (_counter++).toString(), text: subTask.title, placeholder: "", isCompleted: subTask.isCompleted, isEmpty: false })
                       }))
         setCounter(_counter)
       }
@@ -89,28 +90,20 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   
   function addSubTask() {
     setTempSubTasks([...tempSubTasks, 
-      {id: counter.toString(), text: "", placeholder: `New subtask ${counter}...`}])
+      { id: counter.toString(), text: "", placeholder: `New subtask ${counter}...`, isCompleted: false, isEmpty: false}])
     setCounter(counter + 1)
-    setSubTasks([...subTasks,
-      { title: `New subtask ${counter}...`, isCompleted: false }
-    ])
   }
 
   function deleteSubTask(index: number) {
-    // ----------------------------------
     const _tempSubTasks = tempSubTasks
     _tempSubTasks.splice(index, 1)
     setTempSubTasks([..._tempSubTasks])
-    // ----------------------------------
-    const _subTasks = subTasks
-    _subTasks.splice(index, 1)
-    setSubTasks([..._subTasks])
   }
 
   function handleChange_title(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    setTitleError(e.target.value.length === 0)   // if input is empty
     e.preventDefault()
     setTitle(e.target.value)
+    setTitleError(e.target.value.trim() === "")  // if input is empty
   }
 
   function handleChange_description(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -120,18 +113,52 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
 
   function handleChange_subTask(e: React.ChangeEvent<HTMLTextAreaElement>, index: number) {
     e.preventDefault()
-    let _subTasks = subTasks
-    _subTasks[index].title = e.target.value
-    setSubTasks(_subTasks)
+    const _tempSubTasks: typeTempSubTask[] = JSON.parse(JSON.stringify(tempSubTasks))
+    _tempSubTasks[index].text = e.target.value
+    _tempSubTasks[index].isEmpty = ( e.target.value.length === 0 )
+    setTempSubTasks(_tempSubTasks)
   }
 
   function handleChange_Status(status: any) {
+    // ----------------------------------------------------------------------------------
     console.log("Cambio de Status de", column, "a ",status.label, parseInt(status.value))
+    // ----------------------------------------------------------------------------------
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    let taskData = { title: title, description: description, status: status, subtasks: subTasks }
+    var emptyError = false
+    // Empty Title Validation:
+    if (title.trim().length === 0) { setTitleError(true); emptyError = true }
+    // No Subtasks Validation:
+    if (tempSubTasks.length === 0 ) {
+      for(let i = 0; i < tempSubTasks.length; i++) {
+        tempSubTasks[i].isEmpty = ( tempSubTasks[i].text.length === 0 )
+      }
+      return
+    }
+    else {
+      // Empty Subtask Validation:
+      const _tempSubTasks: typeTempSubTask[] = JSON.parse(JSON.stringify(tempSubTasks))
+      // var _tempSubTasks = tempSubTasks
+      for(let i = 0; i < _tempSubTasks.length; i++) {
+        if (_tempSubTasks[i].text.trim().length === 0) {
+          emptyError = true
+          _tempSubTasks[i].isEmpty = true
+        }
+      }
+      setTempSubTasks(_tempSubTasks)
+    }
+    if (emptyError) return
+
+    // Converting tempSubTask to subTasks:
+    let subTasks: typeSubTask[] = tempSubTasks.map( (subtask: typeTempSubTask) => (
+        { title: subtask.text, isCompleted: subtask.isCompleted } 
+      ))
+    // Constructing Task object:
+    let taskData = { title: title.trim(), description: description.trim(), status: status, subtasks: subTasks }
+
+    // Writing values to database:
     if(edit) {
       dialogLaunch("saveTask", board, column, task)
       taskAdmin("task_Modify", [board!, column!, task!], taskData)
@@ -151,16 +178,16 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       </section>
 
       <form onSubmit={handleSubmit}>
-        <section className="taskadd__title">
-          <div className="taskadd__-title">Title</div>
-          <div className="taskadd__-text">
+        <section className = "taskadd__title">
+          <div className = "taskadd__-title">Title</div>
+          <div className = { `taskadd__-text ${titleError ? "error" : ""}` } >
             <textarea spellCheck={false}
-              className= { `taskadd_textarea ${titleError ? "error" : ""}` }
-              placeholder='e.g. Take coffee break'
-              defaultValue = {title}
+              className   = "taskadd_textarea"
+              placeholder = 'e.g. Take coffee break'
+              value = {title}
               onChange={handleChange_title}
             />
-            <div className={`inputError ${titleError ? "true" : ""}`}>Can't be empty</div>
+            <div className="inputError">Can't be empty</div>
           </div>
         </section>
         <section className="taskadd__description">
@@ -169,7 +196,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
             <textarea spellCheck={false}
               className='taskadd_textarea'
               placeholder='e.g. It´s always good to take a break. This 15 minute break will  recharge the batteries a little.'
-              defaultValue = {description}
+              value = {description}
               style={{minHeight: "112px"}}
               onChange={handleChange_description}
             />
@@ -183,14 +210,15 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
               { tempSubTasks.length ? (
                 tempSubTasks.map((subtask: typeTempSubTask, index: number) => 
                   <SubTask index={index} key={subtask.id}
-                           defaultValue={subtask.text}
-                           placeholder={subtask.placeholder}
-                           handleChange={(e) => handleChange_subTask(e, index)}
-                           deleteSubTask={() => deleteSubTask(index) }
+                           defaultValue  = {subtask.text}
+                           placeholder   = {subtask.placeholder}
+                           handleChange  = {(e) => handleChange_subTask(e, index)}
+                           deleteSubTask = {() => deleteSubTask(index) }
+                           isEmpty       = {subtask.isEmpty}
                   />
                 )) 
                 :
-                <motion.div><h1 className='no-columns'>No Subtasks!</h1></motion.div>
+                <motion.div className='no-subtasks'>No Subtasks!</motion.div>
               }
             </AnimatePresence>
             </LayoutGroup>
@@ -231,20 +259,18 @@ type typePropsSubTask = {
   defaultValue: string, 
   placeholder: string, 
   handleChange: (e: React.ChangeEvent<HTMLTextAreaElement>, index: number) => void, 
-  deleteSubTask: (index: number) => void
+  deleteSubTask: (index: number) => void,
+  isEmpty: boolean
 }
 
 function SubTask( props: typePropsSubTask ) {
-  const [error, setError] = useState(false)
 
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>, index: number) {
-    setError(e.target.value.length === 0)   // if input is empty
     props.handleChange(e, index)
-    console.log(e.target.value.length, error)
   }
-
+  console.log(props.isEmpty)
   return (
-    <motion.div className="taskadd__-text"
+    <motion.div className = { `taskadd__-text ${ props.isEmpty ? "error" : ""}` }
       layout     = {true}
       initial    = {{ opacity: 0, scale: 0 }}
       animate    = {{ opacity: 1, scale: 1, 
@@ -253,16 +279,16 @@ function SubTask( props: typePropsSubTask ) {
       transition = {{ duration: 0.3 }}
     >
       <textarea spellCheck={false}
-        className    = { `taskadd_textarea ${error ? "error" : ""}` }
+        className    = "taskadd_textarea"
         placeholder  = {props.placeholder}
         defaultValue = {props.defaultValue}
         onChange     = {(e) => handleChange(e, props.index)}
       />
-      <div className = {`taskadd__delete ${error ? "error" : ""}`}
+      <div className = "taskadd__delete"
         onClick={() => props.deleteSubTask(props.index)}
       >
       </div>
-      <div className={`inputError ${error ? "true" : ""}`}>Can't be empty</div>
+      <div className = "inputError">Can't be empty</div>
     </motion.div>
   )
 }

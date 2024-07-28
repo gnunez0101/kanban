@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  font-size: var(--fs-Heading-L);
+  font-size:   var(--fs-Heading-L);
   font-weight: var(--fw-Heading-L);
   line-height: var(--fl-Heading-L);
   color: var(--text-primary);
@@ -31,6 +31,17 @@ form {
       flex-direction: column;
       gap: 12px;
       margin-bottom: 12px;
+
+      .no-subtasks {
+        text-align: center;
+        padding-block: 9px;
+        color: var(--Destructive);
+        border: 1px solid var(--Destructive);
+        border-radius: 4px;
+        font-size:   var(--fs-Heading-M);
+        font-weight: var(--fw-Heading-M);
+        line-height: var(--fl-Heading-M);
+      }
     }
   }
 
@@ -60,7 +71,7 @@ form {
     line-height: 0;
     transform-origin: center top;
     
-    > .taskadd_textarea {
+    .taskadd_textarea {
       width: 100%;
       appearance: none;
       outline: none;
@@ -79,10 +90,6 @@ form {
       max-height: 127px;
       overflow-y: auto;
 
-      &.error {
-        border: 1px solid var(--Destructive);
-      }
-
       &:hover {
         border: 1px solid var(--button-primary);
       }
@@ -98,19 +105,18 @@ form {
       background-color: var(--text-secondary);
       mask: url('../assets/icon-cross.svg') no-repeat center;
 
-      &.error {
-        background-color: var(--Destructive);
-      }
-
       &:hover {
         scale: 115%;
-        background-color: var(--button-primary);
         cursor: pointer;
       }
 
       &:active {
         scale: 95%;
       }
+    }
+
+    &:hover .taskadd__delete {
+      background-color: var(--button-primary);
     }
 
     .inputError {
@@ -120,10 +126,32 @@ form {
       font-weight: var(--fw-Body-L);
       line-height: var(--fl-Body-L);
       color: var(--Destructive);
-      opacity: 0;
+      display: none;
 
-      &.true {
-        opacity: 1;
+      &.true { display: block; }
+    }
+
+    &.error {
+
+      .taskadd_textarea {
+        border: 1px solid var(--Destructive);
+      }
+      .taskadd__delete{
+        background-color: var(--Destructive);
+      }
+      .inputError {
+        display: block;
+        color: var(--Destructive);
+      }
+
+      &:hover .taskadd_textarea {
+        border: 1px solid var(--Destructive-Hover);
+      }
+      &:hover .taskadd__delete{
+        background-color: var(--Destructive-Hover);
+      }
+      &:hover .inputError {
+        color: var(--Destructive-Hover);
       }
     }
   }
