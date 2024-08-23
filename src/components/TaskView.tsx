@@ -9,6 +9,9 @@ import DialogModal from './DialogModal'
 import Select from 'react-select';
 import { useClickAway } from 'simple-react-clickaway'
 import { AnimatePresence, Reorder, motion, useMotionValue } from 'framer-motion'
+// import { useImmer } from 'use-immer'
+import { produce } from 'immer'
+import { useImmer } from 'use-immer'
 
 type typeSubTask = {
   title: string,
@@ -18,13 +21,13 @@ type typeSubTask = {
 function TaskView( { board, column, task }: 
   { board?: number, column?: number, task?: number } ) {
 
-  const { database, subtaskAdmin }    = useDatabase()
+  const { database, dispatch }          = useDatabase()
   const { subtaskChange, setSubTaskChange } = useDialogs()
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<any>([])
   const [status, setStatus]     = useState("")
   const [taskData, setTaskData] = useState<any>([])
-  const [subTasks, setSubTasks] = useState<any>([])
+  const [subTasks, setSubTasks] = useImmer<typeSubTask[]>([])
   const [countCompleted, setCountCompleted] = useState(0)
   const [countTotal, setCountTotal]         = useState(0)
 
@@ -38,7 +41,7 @@ function TaskView( { board, column, task }:
       setColumns(cols)
       setStatus(cols[column!].value)
       setTaskData(database.boards[board!].columns[column!].tasks[task!])
-      setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks)
+      setSubTasks(database.boards[board!].columns[column!].tasks[task!].subtasks )
       setSubTaskChange(true)
     }
   }, [])
@@ -51,79 +54,90 @@ function TaskView( { board, column, task }:
   }, [subtaskChange])
 
   function handleCheck(index: number) {
-    let _subTasks = subTasks
-    _subTasks[index].isCompleted = !_subTasks[index].isCompleted
-    setSubTasks([..._subTasks])
+    const checkNewStatus = !subTasks[index].isCompleted
+    const valueSubTask = { title: subTasks[index].title, isCompleted: checkNewStatus }
+    // Write to local state:
+    setSubTasks(draft => { draft[index].isCompleted = checkNewStatus })
+    // Write to global state:
+    dispatch({ type: "subtask_Modify", coord: [board!, column!, task!, index], values: valueSubTask })
+    // Notify parent for rendering:
     setSubTaskChange(true)
   }
 
-  function reorder(newOrder: any[]) {
+  function handleReorder(newOrder: typeSubTask[]) {
     setSubTasks(newOrder)
-    subtaskAdmin("subtask_Modify", [board!, column!, task!], newOrder)
+    produce(database, draft => {
+      draft.boards[board!].columns[column!].tasks[task!].subtasks = newOrder
+    })
+    dispatch({ type: "task_Modify", coord: [board!, column!, task!], values: {...taskData, subtasks: newOrder} })
   }
 
   return (
-    <>{ taskData && <DialogModal>
-      <section className="taskview__title">
-        <textarea className="taskview__title--text" spellCheck={false}
-          placeholder='Write a title...'
-          readOnly = {true}
-          defaultValue = {taskData.title}
-        />
-        <div className="taskview__title--ellipsis">
-          <motion.div className="taskview__title--ellipsis-toggle"
-            onClick={(e) => {
-              e.stopPropagation()
-              setShowMenu(!showMenu)
-            }}
-            whileHover = {{ scale: [1, 1.4, 1, 1.2, 1] }}
-            whileTap   = {{ scale: 0.9 }}
-          >
-            <img src={ellipsis} alt="ellipsis" />
-          </motion.div>
-          <AnimatePresence>
-            { showMenu && <MenuEllipsis setShowMenuEllipsis={setShowMenu}
-                                        board={board} column={column} task={task}
-            /> }
-          </AnimatePresence>
+    <>{ taskData && 
+      <DialogModal>
+        <section className = "taskview__title">
+          <textarea className = "taskview__title--text" spellCheck = {false}
+            placeholder = 'Write a title...'
+            readOnly = {true}
+            defaultValue = {taskData.title}
+          />
+          <div className="taskview__title--ellipsis">
+            <motion.div className="taskview__title--ellipsis-toggle"
+              onClick = { (e) => {
+                e.stopPropagation()
+                setShowMenu(!showMenu)
+              }}
+              whileHover = {{ scale: [1, 1.4, 1, 1.2, 1] }}
+              whileTap   = {{ scale: 0.9 }}
+            >
+              <img src={ellipsis} alt="ellipsis" />
+            </motion.div>
+            <AnimatePresence>
+              { showMenu && 
+                <MenuEllipsis setShowMenuEllipsis={setShowMenu}
+                              board={board} column={column} task={task}
+                />
+              }
+            </AnimatePresence>
+          </div>
+        </section>
+        <div className="taskview__description">
+          <textarea spellCheck={false}
+            placeholder  ='Write a description...'
+            readOnly     = {true} 
+            defaultValue = {taskData.description}
+          />
         </div>
-      </section>
-      <div className="taskview__description">
-        <textarea spellCheck={false}
-          placeholder  ='Write a description...'
-          readOnly     = {true} 
-          defaultValue = {taskData.description}
-        />
-      </div>
-      <section className="taskview__subtasks">
-        <div className="taskview__subtasks--title">
-          Subtasks {`(${countCompleted} of ${countTotal})`}
-        </div>
-        <div className="taskview__subtasks--items">
-          <Reorder.Group axis="y" onReorder={reorder} values={subTasks}>
-            { subTasks && subTasks.map((subtask: typeSubTask, index: number) => 
-              <SubTask item = {subtask} key={subtask.title} 
-                handleChange = { () => handleCheck(index) }
-              />)
+        <section className="taskview__subtasks">
+          <div className="taskview__subtasks--title">
+            Subtasks {`(${countCompleted} of ${countTotal})`}
+          </div>
+          <div className="taskview__subtasks--items">
+            <Reorder.Group axis = "y" onReorder = {handleReorder} values = {subTasks}>
+              { subTasks &&
+                subTasks.map((subtask: typeSubTask, index: number) =>
+                  <SubTask item = {subtask} key={subtask.title}
+                    handleChange = { () => handleCheck(index) }
+                  />)
+              }
+            </Reorder.Group>
+          </div>
+        </section>
+        <section className="taskview__current-status">
+          <div className="taskview__current-status--title">
+            Current Status
+          </div>
+          <div className="taskview__current-status--items">
+            { status &&
+              <Select options = {columns}
+                className       = "taskview__current-status-select"
+                classNamePrefix = "taskview__current-status-select"
+                defaultValue    = {{ value: status, label: status }}
+              />
             }
-          </Reorder.Group>
-        </div>
-      </section>
-      <section className="taskview__current-status">
-        <div className="taskview__current-status--title">
-          Current Status
-        </div>
-        <div className="taskview__current-status--items">
-          { status &&
-            <Select options={columns}
-              className       = "taskview__current-status-select"
-              classNamePrefix = "taskview__current-status-select"
-              defaultValue    = {{ value: status, label: status }}
-            />
-          }
-        </div>
-      </section>
-    </DialogModal>
+          </div>
+        </section>
+      </DialogModal>
     }</>
   )
 }

@@ -2,7 +2,6 @@ import './Column.css'
 import Task from './Task'
 import useDatabase from '../hooks/useDatabase'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 
 function Column({ board, column } : {board: number, column: number }) {
   const { database } = useDatabase()

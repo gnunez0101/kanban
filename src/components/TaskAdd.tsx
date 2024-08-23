@@ -38,7 +38,7 @@ type typeTempSubTask = {
 }
 
 function TaskAdd( { edit = false }: { edit?: boolean } ) {
-  const { database, taskAdmin }       = useDatabase()
+  const { database, dispatch }       = useDatabase()
   const { dialogLaunch, dialogsData, setSubTaskChange } = useDialogs()
 
   // Load coordinates of selected Task:
@@ -57,7 +57,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
 
   const [title, setTitle]             = useState("")
   const [description, setDescription] = useState("")
-  const [status,   setStatus]         = useState("")
+  const [status, setStatus]           = useState("")
 
   const [titleError, setTitleError] = useState(false)
 
@@ -83,7 +83,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       let cols: typeTempColumns[] = database.boards[board!].columns.map((column: typeColumns, index: number) => {
         return { value: index.toString(), label: column.name }
       })
-      setStatus(cols[column!].value)
+      setStatus(cols[column!].label)
       setColumns(cols)
     }
   }, [])
@@ -120,8 +120,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   }
 
   function handleChange_Status(status: any) {
+    setStatus(status.label)
     // ----------------------------------------------------------------------------------
-    console.log("Cambio de Status de", column, "a ",status.label, parseInt(status.value))
+    console.log("Cambio de Status de", column, "a ", status.label, parseInt(status.value))
     // ----------------------------------------------------------------------------------
   }
 
@@ -152,22 +153,34 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     if (emptyError) return
 
     // Converting tempSubTask to subTasks:
-    let subTasks: typeSubTask[] = tempSubTasks.map( (subtask: typeTempSubTask) => (
+    const subTasks: typeSubTask[] = tempSubTasks.map( (subtask: typeTempSubTask) => (
         { title: subtask.text, isCompleted: subtask.isCompleted } 
       ))
     // Constructing Task object:
-    let taskData = { title: title.trim(), description: description.trim(), status: status, subtasks: subTasks }
+    const taskData: typeTask = { 
+      title: title.trim(), 
+      description: description.trim(), 
+      status: status, 
+      subtasks: subTasks 
+    }
 
     // Writing values to database:
-    if(edit) {
+    // ====================================================================================================
+    if ( edit ) {
+      // Modify an existing Task:
       dialogLaunch("saveTask", board, column, task)
-      taskAdmin("task_Modify", [board!, column!, task!], taskData)
+      // taskAdmin( "task_Modify", [board!, column!], taskData )
+      dispatch({ type: "task_Modify", coord: [board!, column!], values: taskData })
     }
     else {
+      // Create a New Task:
       dialogLaunch("createTask", board, column, task)
-      taskAdmin("task_Add", [board!, column!, task!+1], taskData)
+      // taskAdmin("task_Add", [board!, column!], taskData)
+      dispatch({ type: "task_Add", coord: [board!, column!], values: taskData })
+      console.log("Tarea agregada!")
     }
     setSubTaskChange(true)
+    // ====================================================================================================
   }
 
   return (
@@ -268,7 +281,6 @@ function SubTask( props: typePropsSubTask ) {
   function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>, index: number) {
     props.handleChange(e, index)
   }
-  console.log(props.isEmpty)
   return (
     <motion.div className = { `taskadd__-text ${ props.isEmpty ? "error" : ""}` }
       layout     = {true}

@@ -1,5 +1,5 @@
-import { ContextDatabase } from '../components/Store'
 import { useContext } from "react"
+import { ContextDatabase } from '../components/Store'
 
 export default function useDatabase() {
   const dbContext = useContext(ContextDatabase)

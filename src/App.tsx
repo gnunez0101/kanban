@@ -80,7 +80,7 @@ function App() {
     }
   }, [currentBoard])
   // ----------------------------------------------------------
-  console.log(`Board: ${currentBoard} => Data: ${dialogsData}`)
+  // console.log(`Board: ${currentBoard} => Data: ${dialogsData}`)
   // ----------------------------------------------------------
   
   if ( currentBoard === null ) return
