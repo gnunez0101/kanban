@@ -6,10 +6,12 @@ import useDatabase from '../hooks/useDatabase';
 
 export function TaskDelete( { board, column, task } : { board?: number, column?: number, task?: number } ) {
   const { dialogLaunch } = useDialogs()
-  const { database } = useDatabase()
+  const { database, dispatch } = useDatabase()
 
+  if (!database.boards[board!].columns[column!].tasks[task!]) return
+  
   const taskTitle = database.boards[board!].columns[column!].tasks[task!].title
-
+  
   return (
     <DialogModal>
       <section className="taskdelete_dialog--title">
@@ -20,10 +22,13 @@ export function TaskDelete( { board, column, task } : { board?: number, column?:
       </section>
       <section className="taskdelete__dialog--buttons">
         <Button className="taskdelete__btn-delete"
-          onClick = { () => dialogLaunch("delete", board, 0, 0) }
+          onClick = { () => {
+            dialogLaunch("delete", board, column, task)
+            dispatch({ type: "task_Delete", coord: [board!, column!, task!] })
+          }}
         >Delete</Button>
         <Button className="taskdelete__btn-cancel"
-          onClick = { () => dialogLaunch("cancel", board, 0, 0) }
+          onClick = { () => dialogLaunch("taskView", board, column, task)  }
         >Cancel</Button>
       </section>
     </DialogModal>

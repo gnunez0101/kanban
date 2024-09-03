@@ -7,7 +7,7 @@
   padding-inline: 16px;
   background-color: var(--background-primary);
   border-radius: 8px;
-  transition: scale 0.2s ease-in-out;
+  /* transition: scale 0.2s ease-in-out; */
   
   .task-title {
     flex-shrink: 0;

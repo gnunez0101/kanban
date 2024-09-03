@@ -1,99 +1,7 @@
-import React, { createContext, useState } from "react";
+import './types'
+import { createContext, useState } from "react";
 import { useImmerReducer } from "use-immer"
 import data from '../assets/data.json'
-
-type typeData = { 
-  boards: Array<{
-    name: string,
-    columns: Array<{ 
-      name: string,
-        tasks: Array<{ 
-          title: string,
-          description: string,
-          status: string,
-          subtasks: Array<{
-            title: string,
-            isCompleted: boolean
-          }>
-        }>
-    }>
-  }>
-}
-
-type typeValueData = {
-  database:     typeData,
-  dispatch:     React.Dispatch<typeAction>
-}
-
-type typeDialogs = [
-  dialog: string,
-  board:  number | undefined,
-  column: number | undefined,
-  task:   number | undefined,
-  callBack: ((param: any) => void) | undefined
-] | undefined
-
-type typeValueDialogs = {
-  dialogLaunch: (dialog: string, board?: number, column?: number, task?: number, callBack?: (param: any) => void) => void,
-  dialogsData?:  typeDialogs,
-  setDialogsData: ([]: typeDialogs) => void,
-  currentBoard: number | null,
-  setCurrentBoard: (board: number | null) => void,
-  subtaskChange: boolean,
-  setSubTaskChange: (isOpen: boolean) => void
-}
-
-type StoreProps = { children: React.ReactNode }
-
-type typeCoords = number[]
-
-type typeBoard = {
-  name: string,
-  columns: typeColumn
-}
-
-type typeColumn = {
-  name: string,
-  tasks: typeTask[]
-}
-
-type typeTask = {
-  title: string,
-  description: string,
-  status: string,
-  subtasks: typeSubTask[],
-}
-
-type typeSubTask = {
-  title: string,
-  isCompleted: boolean
-}
-
-type typeBoardAction = {
-  type:   'board_Add'|'board_Modify'|'board_Delete',
-  coord:  typeCoords,
-  values: typeBoard
-}
-
-type typeColumnAction = {
-  type:   'column_Add'|'column_Modify'|'column_Delete',
-  coord:  typeCoords,
-  values: typeColumn
-}
-
-type typeTaskAction = {
-  type: 'task_Add'|'task_Modify'|'task_Delete',
-  coord: typeCoords,
-  values: typeTask
-}
-
-type typeSubTaskAction = {
-  type: 'subtask_Add'|'subtask_Modify'|'subtask_Delete',
-  coord: typeCoords,
-  values: typeSubTask
-}
-
-type typeAction = typeBoardAction | typeColumnAction | typeTaskAction | typeSubTaskAction
 
 export const ContextDatabase = createContext<typeValueData    | undefined>(undefined)
 export const ContextDialogs  = createContext<typeValueDialogs | undefined>(undefined)
@@ -144,6 +52,16 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
 
   switch (action.type) {
     
+    case 'board_Add' : {
+      draft.boards = [...draft.boards, action.values]
+      return draft
+    }
+
+    case 'board_Modify' : {
+      draft.boards[action.coord[0]] = action.values
+      return draft
+    }
+
     case 'task_Add' : {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks = 
         [ ...draft.boards[action.coord[0]].columns[action.coord[1]].tasks, action.values ]
@@ -153,6 +71,24 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
     case 'task_Modify': {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]] = action.values
       console.log("Tarea modificada...")
+      return draft
+    }
+
+    case 'task_Move' : {
+      // Copy current Task:
+      const taskToMove = draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]]
+      // Delete Task from original column:
+      draft.boards[action.coord[0]].columns[action.coord[1]].tasks.splice(action.coord[2], 1)
+      // Add Task to destination column, at last position:
+      draft.boards[action.coord[0]].columns[action.dest].tasks = 
+        [ ...draft.boards[action.coord[0]].columns[action.dest].tasks, taskToMove ]
+      console.log("Task movida!")
+      return draft
+    }
+
+    case 'task_Delete' : {
+      draft.boards[action.coord[0]].columns[action.coord[1]].tasks.splice(action.coord[2], 1)
+      console.log("Tarea borrada!")
       return draft
     }
 

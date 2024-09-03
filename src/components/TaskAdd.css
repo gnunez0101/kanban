@@ -8,7 +8,7 @@
   color: var(--text-primary);
 }
 
-form {
+.taskadd__form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,6 +21,15 @@ form {
     width: 100%;
   }
 
+  .taskadd__-title {
+    font-size:   var(--fs-Heading-S);
+    font-weight: var(--fw-Heading-S);
+    line-height: var(--fl-Heading-S);
+    color: var(--text-terciary);
+    padding-bottom: 8px;
+    line-height: 1;
+  }
+  
   .taskadd__subtasks {
     display: flex;
     flex-direction: column;
@@ -51,16 +60,7 @@ form {
   }
 
   .taskadd__btn-add, .taskadd__btn-create {
-    height: 40px;
-  }
-
-  .taskadd__-title {
-    font-size:   var(--fs-Heading-S);
-    font-weight: var(--fw-Heading-S);
-    line-height: var(--fl-Heading-S);
-    color: var(--text-terciary);
-    padding-bottom: 8px;
-    line-height: 1;
+    /* height: 40px; */
   }
 
   .taskadd__-text {
@@ -127,8 +127,6 @@ form {
       line-height: var(--fl-Body-L);
       color: var(--Destructive);
       display: none;
-
-      &.true { display: block; }
     }
 
     &.error {

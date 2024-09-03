@@ -2,91 +2,128 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  font-size: var(--fs-Heading-L);
+  font-size:   var(--fs-Heading-L);
   font-weight: var(--fw-Heading-L);
   line-height: var(--fl-Heading-L);
   color: var(--text-primary);
 }
 
-div[class$='--title'] {
-  font-size:   var(--fs-Heading-S);
-  font-weight: var(--fw-Heading-S);
-  line-height: var(--fl-Heading-S);
-  color: var(--text-terciary);
-  padding-bottom: 8px;
-  line-height: 1;
-}
-
-.boardadd__name {                        
+.boardadd__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  row-gap: 24px;
   width: 100%;
 
-  .boardadd__name--input {
+  .boardadd__name, .boardadd__columns {
     width: 100%;
-    height: 40px;
-    outline: none;
-    background-color: transparent;
-    border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-    border-radius: 4px;
-    padding-inline: 16px;
-    color: var(--text-primary);
-
-    &:hover {
-      border: 1px solid var(--button-primary);
-    }
   }
-}
 
-.boardadd__columns {
-  width: 100%;
+  .boardadd__-title {
+    font-size:   var(--fs-Heading-S);
+    font-weight: var(--fw-Heading-S);
+    line-height: var(--fl-Heading-S);
+    color: var(--text-terciary);
+    padding-bottom: 8px;
+    line-height: 1;
+  }
 
-  .boardadd__columns--items {
+  .boardadd__name--text {
     position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
-    
-    .boardadd__column--body {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    transform-origin: center top;
+
+    .boardadd__name--input {
       width: 100%;
-      transform-origin: center top;
+      height: 40px;
+      outline: none;
+      background-color: transparent;
+      border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
+      border-radius: 4px;
+      padding-inline: 16px;
+      color: var(--text-primary);
 
-      .boardadd__column--name {
-        width: 100%;
-        height: 40px;
-        background-color: transparent;
-        border: 1px solid color-mix(in oklab, var(--text-secondary) 25%, transparent);
-        border-radius: 4px;
-        padding-inline: 16px;
-        outline: none;
-        color: var(--text-primary);
+      &:hover {
+        border: 1px solid var(--button-primary);
+      }
+    }
 
-        &:hover, &:focus {
-          border: 1px solid var(--button-primary);
-        }
+    .boardadd__column--delete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width:  15px;
+      height: 15px;
+      margin-left: 16px;
+      background-color: var(--text-secondary);
+      mask: url('../assets/icon-cross.svg') no-repeat center;
+
+      &:hover {
+        scale: 115%;
+        background-color: var(--button-primary);
+        cursor: pointer;
       }
 
-      .boardadd__column--delete {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width:  15px;
-        height: 15px;
-        margin-left: 16px;
-        background-color: var(--text-secondary);
-        mask: url('../assets/icon-cross.svg') no-repeat center;
+      &:active {
+        scale: 95%;
+      }
+    }
+
+    .inputError {
+      position: absolute;
+      right: 46px;
+      font-size:   var(--fs-Body-L);
+      font-weight: var(--fw-Body-L);
+      line-height: var(--fl-Body-L);
+      color: var(--Destructive);
+      display: none;
+    }
   
-        &:hover {
-          scale: 105%;
-          background-color: var(--button-primary);
-          cursor: pointer;
-        }
+    &.error {
   
-        &:active {
-          scale: 95%;
-        }
+      .boardadd__name--input {
+        border: 1px solid var(--Destructive);
+      }
+      .boardadd__column--delete{
+        background-color: var(--Destructive);
+      }
+      .inputError {
+        display: block;
+        color: var(--Destructive);
+      }
+  
+      &:hover .boardadd__name--input {
+        border: 1px solid var(--Destructive-Hover);
+      }
+      &:hover .boardadd__column--delete{
+        background-color: var(--Destructive-Hover);
+      }
+      &:hover .inputError {
+        color: var(--Destructive-Hover);
       }
     }
   }
-}
+
+    .boardadd__columns--items {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      
+      .no-columns {
+        text-align: center;
+        padding-block: 9px;
+        color: var(--Destructive);
+        border: 1px solid var(--Destructive);
+        border-radius: 4px;
+        font-size:   var(--fs-Heading-M);
+        font-weight: var(--fw-Heading-M);
+        line-height: var(--fl-Heading-M);
+      }
+    }
+  }

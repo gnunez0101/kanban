@@ -1,6 +1,6 @@
 import './Task.css'
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, LayoutGroup, motion, stagger } from 'framer-motion'
 import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase'
 
@@ -12,7 +12,7 @@ function Task( {board, column, task} : {board: number, column: number, task: num
   const [countSubTaskTotal,     setCountSubTaskTotal]     = useState(0)
 
   const taskData = database.boards[board].columns[column].tasks[task]
-  const subTasks = taskData.subtasks
+  const subTasks = taskData ? taskData.subtasks : []
 
   let firstTime = true
   useEffect(() => {
@@ -30,20 +30,20 @@ function Task( {board, column, task} : {board: number, column: number, task: num
     }
   }, [subtaskChange])
 
+  if (!taskData) return  // When Task is deleted
+
+  const variantTask = {
+    init: { scale: 0.5, y: 50, opacity: 0 },
+    show: { scale: 1,   y:  0, opacity: 1, transition: { duration: 1 } },
+    hide: { scale: 0,   y: 50, opacity: 0, transition: { duration: 2 } }
+  }
+
   return (
     <motion.section className = "task"
-      variants={{
-        initial: {
-          scale: 0.5,
-          y: 50,
-          opacity: 0,
-        },
-        animate: {
-          scale: 1,
-          y: 0,
-          opacity: 1,
-        },
-      }}
+      variants = {variantTask}
+      initial  = "init"
+      animate  = "show"
+      exit     = "hide"
       whileHover = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
       whileTap   = { { scale: 0.98 } }
       onClick    = { () => {
