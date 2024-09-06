@@ -58,7 +58,7 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
     }
 
     case 'board_Modify' : {
-      draft.boards[action.coord[0]] = action.values
+      draft.boards[action.coord![0]] = action.values
       return draft
     }
 

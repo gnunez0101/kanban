@@ -11,7 +11,7 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
                     { darkMode: boolean, setDarkMode: any, showMenu?: boolean, setShowMenu?: any }) {
 
   const { database }     = useDatabase() 
-  const { dialogLaunch, currentBoard, setCurrentBoard } = useDialogs()
+  const { dialogLaunch, currentBoard, setCurrentBoard, dialogsData } = useDialogs()
 
   const [boards, setBoards] = useState<string[]>()
   const [boardsCount, setBoardsCount] = useState(0)

@@ -74,7 +74,7 @@ type typeSubTask = {
 
 type typeBoardAction = {
   type:   'board_Add'|'board_Modify'|'board_Delete',
-  coord:  typeCoords,
+  coord?:  typeCoords,
   values: typeBoard
 }
 

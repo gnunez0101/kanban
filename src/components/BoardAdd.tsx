@@ -16,7 +16,7 @@ type typeTempColumn = {
 
 export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   const { database, dispatch } = useDatabase()
-  const { dialogLaunch, dialogsData } = useDialogs()
+  const { dialogLaunch, dialogsData, setCurrentBoard } = useDialogs()
   const [boardName, setBoardName] = useState("")
   const [board, setBoard] = useState(-1)
   
@@ -76,10 +76,6 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     setNameError(e.target.value.trim() === "")  // if input is empty
   }
 
-  function createBoard() {
-    dialogLaunch("createBoard", dialogsData!.length + 1, 0, 0)
-  }
-
   function handleChange_Column(e: React.ChangeEvent<HTMLInputElement>, index: number) {
     e.preventDefault()
     const _tempColumns: typeTempColumn[] = JSON.parse(JSON.stringify(tempColumns))
@@ -131,8 +127,9 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     }
     else {
       // Create a New Board:
-      dialogLaunch("createBoard", board + 1)
-      dispatch({ type: "board_Add", coord: [board + 1], values: boardData })
+      dialogLaunch("createBoard", database.boards.length)
+      dispatch({ type: "board_Add", values: boardData })
+      setCurrentBoard(database.boards.length)   // Select new Board on Menu
     }
   }
   
