@@ -31,6 +31,11 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
   }, [boards])
 
   useEffect(() => {
+    setBoards(database.boards.map(board => board.name))
+    setBoardsCount(database.boards.length)
+  }, [database.boards])
+
+  useEffect(() => {
     if ( showMenu ) {
       animateMenu([
         [ ".menu-opt", { opacity: 1, scale: 1, filter: "blur(0px)" }, { delay: stagger(0.03, { startDelay: 0.2 }) } ],

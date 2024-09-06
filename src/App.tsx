@@ -79,6 +79,13 @@ function App() {
       dialogLaunch("loadingDB")
     }
   }, [currentBoard])
+
+  useEffect(() => {
+    if (currentBoard != null) {
+      setBoardTitle(database.boards[currentBoard].name)
+    }
+  }, [database.boards])
+  
   // ----------------------------------------------------------
   // console.log(`Board: ${currentBoard} => Data: ${dialogsData}`)
   // ----------------------------------------------------------
