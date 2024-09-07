@@ -53,12 +53,17 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
   switch (action.type) {
     
     case 'board_Add' : {
-      draft.boards = [...draft.boards, action.values]
+      draft.boards = [...draft.boards, action.values!]
       return draft
     }
 
     case 'board_Modify' : {
-      draft.boards[action.coord![0]] = action.values
+      draft.boards[action.coord![0]] = action.values!
+      return draft
+    }
+
+    case 'board_Delete' : {
+      draft.boards.splice(action.coord![0], 1)
       return draft
     }
 
@@ -88,13 +93,11 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
 
     case 'task_Delete' : {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks.splice(action.coord[2], 1)
-      console.log("Tarea borrada!")
       return draft
     }
 
     case 'subtask_Modify': {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]].subtasks[action.coord[3]] = action.values
-      // console.log("Subtarea modificada...")
       return draft
     }
 

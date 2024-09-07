@@ -9,7 +9,6 @@ export default function Board() {
   const { database }                   = useDatabase()
   const { dialogLaunch, currentBoard } = useDialogs()
 
-  console.log("Board:", currentBoard, database.boards[currentBoard!])
   return (
     <>
       { database.boards[currentBoard!].columns.length == 0 

@@ -82,7 +82,7 @@ function App() {
 
   useEffect(() => {
     if (currentBoard != null) {
-      setBoardTitle(database.boards[currentBoard].name)
+      if (database.boards.length) setBoardTitle(database.boards[currentBoard].name)
     }
   }, [database.boards])
   
