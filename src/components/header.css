@@ -20,6 +20,7 @@
   }
 
   .title-set {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,7 +55,6 @@
     }
 
     .nav {
-      position: relative;
       display: flex;
       align-items: center;
       height: 32px;

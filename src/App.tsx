@@ -17,7 +17,7 @@ function App() {
 
   const [darkMode, setDarkMode] = useState(true)
   const [theme, setTheme] = useState('')
-  const [showMenu, setShowMenu] = useState(true)
+  const [showMenu, setShowMenu] = useState(false)
   const [boardTitle, setBoardTitle] = useState("")
 
   const [switching, setSwitching] = useState(false)

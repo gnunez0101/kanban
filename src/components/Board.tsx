@@ -24,15 +24,15 @@ export default function Board() {
             )}
 
             {/* New Column Add clickable area */}
-            <motion.section className="column new"
-              initial    = {{ scale: 1 }}
-              whileHover = {{ scale: [1.04, 1, 1.02], transition: {duration: 0.5} }}
-              whileTap   = {{ scale: 0.98 }}
-              onClick    = {() => dialogLaunch("boardEdit", currentBoard!, 0, 0)}
-            >
+            <section className="column new" onClick = {() => dialogLaunch("boardEdit", currentBoard!, 0, 0)}>
               <div className="backdrop__new-column"></div>
-              <div className='text'>+ New Column</div>
-            </motion.section>
+              <motion.div className='text'
+                initial    = {{ scale: 1 }}
+                whileHover = {{ scale: [1.2, 1, 1.1, 1], transition: {duration: 0.5} }}
+                whileTap   = {{ scale: 0.98 }}
+              >+ New Column
+              </motion.div>
+            </section>
 
           </motion.section>
         </AnimatePresence>

@@ -75,7 +75,6 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
 
     case 'task_Modify': {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]] = action.values
-      console.log("Tarea modificada...")
       return draft
     }
 

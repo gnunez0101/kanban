@@ -33,7 +33,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
   const logoTabletVariants = {
     show: {
-      width: 261, borderBottom: "1px solid currentColor",
+      width: 261,
       transition: { ease: "backInOut", duration: 0.5 }
     },
     hide: { 
@@ -44,7 +44,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
   const logoDesktopVariants = {
     show: {
-      width: 300, borderBottom: "1px solid currentColor",
+      width: 300,
       transition: { ease: "backInOut", duration: 0.5 }
     },
     hide: { 
