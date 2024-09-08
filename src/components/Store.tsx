@@ -13,9 +13,14 @@ export const StoreProvider = ( props: StoreProps ) => {
   const [dialogOpen, setDialogOpen]     = useState(false)
 
   // ------------------------------------------------------------------------------------
-  const [database, dispatch] = useImmerReducer(dataReducer, data)
+  const [database, dispatch] = useImmerReducer(dataReducer, data, loadData)
   // ------------------------------------------------------------------------------------
   
+  function loadData(data: typeData) {
+    const kanbanData = localStorage.getItem("kanban_data")
+    return kanbanData ? JSON.parse(kanbanData) : data
+  }
+
   const databaseValue: typeValueData = {
     database: database,
     dispatch: dispatch,
@@ -54,27 +59,32 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
     
     case 'board_Add' : {
       draft.boards = [...draft.boards, action.values!]
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 
     case 'board_Modify' : {
       draft.boards[action.coord![0]] = action.values!
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 
     case 'board_Delete' : {
       draft.boards.splice(action.coord![0], 1)
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 
     case 'task_Add' : {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks = 
         [ ...draft.boards[action.coord[0]].columns[action.coord[1]].tasks, action.values ]
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 
     case 'task_Modify': {
       draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]] = action.values
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 
@@ -86,7 +96,7 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
       // Add Task to destination column, at last position:
       draft.boards[action.coord[0]].columns[action.dest].tasks = 
         [ ...draft.boards[action.coord[0]].columns[action.dest].tasks, taskToMove ]
-      console.log("Task movida!")
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
 

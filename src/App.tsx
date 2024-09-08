@@ -141,7 +141,7 @@ function App() {
               whileHover = {{ scale: [1, 1.2, 1, 1.1, 1] }}
               whileTap   = {{ scale: 0.9 }}
               onClick    = {() => setShowMenu(true)}>
-              <img src={showSideBar} alt="show" />
+              <img src   = {showSideBar} alt = "show" />
             </motion.button>
           }
         </AnimatePresence>
