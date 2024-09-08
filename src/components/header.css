@@ -75,8 +75,12 @@
 
         & img { height: 16px; }
         
-        &:hover { 
+        &:hover:not(:disabled) { 
           cursor: pointer; 
+        }
+
+        &:disabled {
+          opacity: 25%;
         }
       }
       
@@ -105,7 +109,6 @@
           &:hover {
             transform-origin: left;
             text-shadow: 1px 1px 3px var(--button-primary);
-            scale: 110%;
             cursor: pointer;
           }
         }

@@ -12,7 +12,6 @@ import useDialogs  from './hooks/useDialogs'
 import DialogLaunch from './components/DialogLaunch'
 
 function App() {
-  // const database = { "boards" : [] }
   const { database }    = useDatabase()
   const { dialogsData, dialogLaunch, currentBoard, setCurrentBoard } = useDialogs()
 
@@ -64,7 +63,7 @@ function App() {
   }, [darkMode])
 
   useEffect(() => {
-    if (database && currentBoard != null && currentBoard >= 0) {
+    if (currentBoard != null) {
       if (database.boards.length > 0) {
         setBoardTitle(database.boards[currentBoard!].name)
         dialogLaunch("changeBoard", currentBoard!)

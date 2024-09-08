@@ -7,7 +7,7 @@ export const ContextDatabase = createContext<typeValueData    | undefined>(undef
 export const ContextDialogs  = createContext<typeValueDialogs | undefined>(undefined)
 
 export const StoreProvider = ( props: StoreProps ) => {
-  
+  // const data = { boards: [] }
   const [dialogsData, setDialogsData]   = useState<typeDialogs | undefined>(undefined)
   const [currentBoard, setCurrentBoard] = useState<number | null>(null)
   const [dialogOpen, setDialogOpen]     = useState(false)

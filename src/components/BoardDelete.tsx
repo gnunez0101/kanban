@@ -5,9 +5,11 @@ import useDialogs  from "../hooks/useDialogs";
 import useDatabase from '../hooks/useDatabase';
 
 export function BoardDelete( { board } : { board?: number } ) {
-  const { dialogLaunch } = useDialogs()
+  const { dialogLaunch, setCurrentBoard } = useDialogs()
   const { database, dispatch } = useDatabase()
 
+  if(database.boards[board!] === undefined) return
+  
   const boardName = database.boards.length ? database.boards[board!].name : "No hay Board"
 
   return (
@@ -22,6 +24,7 @@ export function BoardDelete( { board } : { board?: number } ) {
         <Button className="boarddelete__btn-delete"
           onClick = { () => {
             dialogLaunch("delete", board, 0, 0)
+            if(board == database.boards.length-1) setCurrentBoard(board-1)
             dispatch({ type: "board_Delete", coord: [board!] })
           }}
         >Delete</Button>

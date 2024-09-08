@@ -30,17 +30,22 @@
     font-weight: var(--fw-Body-M);
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     cursor: pointer;
   }
 
-  &:is(.primary):hover { 
+  &:is(.primary):hover:not(:disabled) { 
     background-color: var(--button-primary-hover);
   }
 
-  &:is(.secondary):hover {
+  &:is(.secondary):hover:not(:disabled) {
     background-color: var(--button-secondary-hover);
   }
 
   & p { color: inherit; }
+
+  &:disabled {
+    /* background-color: red; */
+    opacity: 25%;
+  }
 }

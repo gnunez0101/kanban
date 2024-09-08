@@ -10,7 +10,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useClickAway } from 'simple-react-clickaway';
 import { Button } from './Button'
-import useDialogs from '../hooks/useDialogs'
+import useDatabase from '../hooks/useDatabase'
+import useDialogs  from '../hooks/useDialogs'
 
 
 function Header({boardName, setShowMenu, showMenu, darkMode} : 
@@ -22,6 +23,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()
   const [showMenuEllipsis, setShowMenuEllipsis] = useState(false)
+  const { database } = useDatabase()
   const { dialogLaunch, currentBoard } = useDialogs()
 
   const handleMenu = () => {
@@ -56,6 +58,8 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
   }, [boardName])
 
   const space = <>&nbsp;</>
+
+  const boards = database.boards.length
 
   return (
     <header className="header">
@@ -99,25 +103,27 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
         <nav className="nav">
           <Button className="add button primary large"
-            onClick={ () => dialogLaunch("taskAdd", currentBoard!, 0, 0) }
+            onClick  = { () => dialogLaunch("taskAdd", currentBoard!, 0, 0) }
+            disabled = { database.boards.length == 0 || database.boards[currentBoard!].columns.length == 0 }
           >
             <img src={plusSign} alt="plus" />
             <p className="message">+ Add New Task</p>
           </Button>
 
           <motion.button className="ellipsis" type="button"
-            whileHover={{ scale: [1, 1.5, 1, 1.3, 1] }}
-            whileTap  ={{ scale: 0.9 }}
-            onClick={(e) => {
+            whileHover = {{ scale: boards ? [1, 1.5, 1, 1.3, 1] : 1 }}
+            whileTap   = {{ scale: boards ? 0.9 : 1}}
+            onClick    = {(e) => {
               e.stopPropagation()
               setShowMenuEllipsis(!showMenuEllipsis)
             }}
+            disabled = { !boards }
           >
             <img src={ellipsis} alt='ellipsis' />
           </motion.button>
           <AnimatePresence>
             { showMenuEllipsis && 
-              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={currentBoard!}/>
+              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={currentBoard!} disabled={database.boards.length == 0}/>
             }
           </AnimatePresence>
         </nav>
@@ -129,7 +135,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 export default Header
 
 
-function MenuEllipsis( { setShowMenuEllipsis, board }: { setShowMenuEllipsis: any, board: number } ) {
+function MenuEllipsis( { setShowMenuEllipsis, board, disabled }: { setShowMenuEllipsis: (show: false) => void, board: number, disabled: boolean } ) {
   
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))

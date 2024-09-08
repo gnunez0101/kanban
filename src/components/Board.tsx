@@ -11,7 +11,7 @@ export default function Board() {
 
   return (
     <>
-      { database.boards[currentBoard!].columns.length == 0 
+      { database.boards[currentBoard!].columns.length == 0
         ?
         <EmptyColumns />
         :
