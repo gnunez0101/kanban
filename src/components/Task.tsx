@@ -1,10 +1,14 @@
 import './Task.css'
 import { useEffect, useState } from 'react'
-import { AnimatePresence, LayoutGroup, motion, stagger } from 'framer-motion'
+import { motion } from 'framer-motion'
 import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase'
+import { DropIndicator } from './DropIndicator'
 
-function Task( {board, column, task} : {board: number, column: number, task: number} ) {
+function Task( {board, column, task, handleDragStart} : 
+  {board: number, column: number, task: number, 
+    handleDragStart: Function
+  } ) {
   const { database }     = useDatabase()
   const { dialogLaunch, subtaskChange, setSubTaskChange } = useDialogs()
   
@@ -39,23 +43,31 @@ function Task( {board, column, task} : {board: number, column: number, task: num
   }
 
   return (
-    <motion.section className = "task"
-      variants = {variantTask}
-      initial  = "init"
-      animate  = "show"
-      exit     = "hide"
-      whileHover = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
-      whileTap   = { { scale: 0.98 } }
-      onClick    = { () => {
-        dialogLaunch("taskView", board, column, task)
-      }}
-    >
-      <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>
+    <>
+      <DropIndicator beforeId={task} column={column}/>
+      <motion.section className = "task"
+        layout layoutId={`${column}_${task}`}
+        variants = {variantTask}
+        initial  = "init"
+        animate  = "show"
+        exit     = "hide"
+        whileHover = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
+        whileTap   = { { scale: 0.98 } }
+        onClick    = { () => {
+          dialogLaunch("taskView", board, column, task)
+        }}
+        draggable
+        onDragStart = { (e) => handleDragStart(e, board, column, task) }
+      >
+        <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>
 
-      <div className = "subtasks">
-        { `${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }
-      </div>
-    </motion.section>
+        <div className = "subtasks">
+          { `${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }
+        </div>
+      </motion.section>
+    </>
   )
 }
 export default Task;
+
+

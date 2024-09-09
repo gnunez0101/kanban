@@ -176,6 +176,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
           <div className = "taskadd__-title">Title</div>
           <div className = { `taskadd__-text ${titleError ? "error" : ""}` } >
             <textarea spellCheck={false}
+              autoFocus
               className   = "taskadd_textarea"
               placeholder = 'e.g. Take coffee break'
               value = {title}

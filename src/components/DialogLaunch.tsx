@@ -14,7 +14,6 @@ type typeDialogs = [
 ]
 
 function DialogLaunch( { data }: { data: typeDialogs } ) {
-  // console.log("Data:", data)
   return (
     <AnimatePresence mode="wait">
       { data[0] == 'taskView'    && <TaskView board={data[1]} column={data[2]} task={data[3]} /> }

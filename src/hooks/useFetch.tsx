@@ -10,10 +10,7 @@ export function useFetch(url: string) {
       fetch(url)
         .then((response) => response.json())
         .then((data)     => setData(data))
-        .catch((error)   => {
-          setError(error)
-          // console.log(error)
-        })
+        .catch((error)   => {setError(error)})
         .finally(()      => setLoading(false));
     }, []);
     return { data, loading, error };

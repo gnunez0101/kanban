@@ -14,8 +14,9 @@ import { useImmer } from 'use-immer'
 function TaskView( { board, column, task }: 
   { board?: number, column?: number, task?: number } ) {
 
-  const { database, dispatch }          = useDatabase()
+  const { database, dispatch }              = useDatabase()
   const { subtaskChange, setSubTaskChange } = useDialogs()
+  
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<typeSelectColumns[]>([])
   const [status, setStatus]     = useState("")

@@ -25,7 +25,7 @@
   }
 
   &:hover {
-    cursor: pointer;
+    cursor: grab;
 
     .task-title {
       color: var(--text-button-secondary);
@@ -34,5 +34,12 @@
 
   &:active {
     /* scale: 98%; */
+    cursor: grabbing;
   }
+}
+
+.drop-indicator {
+  height: 2px;
+  background-color: var(--button-primary);
+  opacity: 0;
 }
