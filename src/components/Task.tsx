@@ -5,9 +5,10 @@ import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase'
 import { DropIndicator } from './DropIndicator'
 
-function Task( {board, column, task, handleDragStart} : 
+function Task( {board, column, task, handleDragStart, handleDragEnd} : 
   {board: number, column: number, task: number, 
-    handleDragStart: Function
+    handleDragStart: Function,
+    handleDragEnd: Function
   } ) {
   const { database }     = useDatabase()
   const { dialogLaunch, subtaskChange, setSubTaskChange } = useDialogs()
@@ -57,7 +58,8 @@ function Task( {board, column, task, handleDragStart} :
           dialogLaunch("taskView", board, column, task)
         }}
         draggable
-        onDragStart = { (e) => handleDragStart(e, board, column, task) }
+        onDragStart = { (e) => handleDragStart(e, [board, column, task]) }
+        onDragEnd   = { handleDragEnd }
       >
         <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>
 
