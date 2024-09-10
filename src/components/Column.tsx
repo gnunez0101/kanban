@@ -41,6 +41,8 @@ function Column({ board, column } : {board: number, column: number }) {
     e.target.classList.remove("dragging")
     setActive(false)
     clearIndicators()
+
+
     
   }
 
@@ -106,7 +108,7 @@ function Column({ board, column } : {board: number, column: number }) {
       { database.boards[board].columns[column].tasks.map( (_, index: number) => 
         <Task board={board} column={column} task={index} key={index} 
           handleDragStart = {(e: any) => handleDragStart(e, [board, column, index])}
-          handleDragEnd   = {(e: any) => handleDragEnd(e) }
+          handleDragEnd   = { handleDragEnd }
         />
       )}
       <DropIndicator beforeId={null} column={column} />

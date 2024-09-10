@@ -8,7 +8,7 @@ import { DropIndicator } from './DropIndicator'
 function Task( {board, column, task, handleDragStart, handleDragEnd} : 
   {board: number, column: number, task: number, 
     handleDragStart: Function,
-    handleDragEnd: Function
+    handleDragEnd:   Function
   } ) {
   const { database }     = useDatabase()
   const { dialogLaunch, subtaskChange, setSubTaskChange } = useDialogs()
