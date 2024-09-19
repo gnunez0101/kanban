@@ -37,12 +37,28 @@ function Column({ board, column } : {board: number, column: number }) {
   }
 
   function handleDragEnd(e: any) {
-    const taskCoord = e.dataTransfer.getData("taskCoord")
+    const taskCoordOri = e.dataTransfer.getData("taskCoord").split('|')
     e.target.classList.remove("dragging")
     setActive(false)
     clearIndicators()
 
+    const indicators = getIndicators()
+    const { element } = getNearestIndicator(e, indicators)
+    const columnOri  = taskCoordOri[1]
+    const columnDest = element.dataset.column
+    const taskOri   = taskCoordOri[2]
+    const taskDest  = element.dataset.before || "-1"
+    // -----------------------------------------------------------
+    console.log(">>>> ", columnOri, taskOri, "|", columnDest, taskDest )
+    // -----------------------------------------------------------
+    if (taskDest < taskOri) {
+      console.log("Move Up!")
 
+    }
+    if(taskDest > (parseInt(taskOri)+1).toString()) {
+      console.log("Move Down!")
+
+    }
     
   }
 
@@ -89,6 +105,9 @@ function Column({ board, column } : {board: number, column: number }) {
     )
   }
 
+  const tasks = database.boards[board].columns[column].tasks.length
+  const name  = database.boards[board].columns[column].name
+  
   return (
     <motion.section className = {`column ${active ? "active" : ""}`}
       layout layoutId={`${column}`}
@@ -103,15 +122,14 @@ function Column({ board, column } : {board: number, column: number }) {
     >
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
-        <span className="text">{`${database.boards[board].columns[column].name} (${database.boards[board].columns[column].tasks.length})`}</span>
+        <span className="text">{`${name} (${tasks})`}</span>
       </div>
       { database.boards[board].columns[column].tasks.map( (_, index: number) => 
         <Task board={board} column={column} task={index} key={index} 
           handleDragStart = {(e: any) => handleDragStart(e, [board, column, index])}
-          handleDragEnd   = { handleDragEnd }
         />
       )}
-      <DropIndicator beforeId={null} column={column} />
+      <DropIndicator beforeId={tasks} column={column} />
     </motion.section>
   )
 }

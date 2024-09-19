@@ -5,12 +5,11 @@ import useDialogs  from '../hooks/useDialogs'
 import useDatabase from '../hooks/useDatabase'
 import { DropIndicator } from './DropIndicator'
 
-function Task( {board, column, task, handleDragStart, handleDragEnd} : 
+function Task( {board, column, task, handleDragStart} : 
   {board: number, column: number, task: number, 
     handleDragStart: Function,
-    handleDragEnd:   Function
   } ) {
-  const { database }     = useDatabase()
+  const { database } = useDatabase()
   const { dialogLaunch, subtaskChange, setSubTaskChange } = useDialogs()
   
   const [countSubTaskCompleted, setCountSubTaskCompleted] = useState(0)
@@ -59,7 +58,6 @@ function Task( {board, column, task, handleDragStart, handleDragEnd} :
         }}
         draggable
         onDragStart = { (e) => handleDragStart(e, [board, column, task]) }
-        onDragEnd   = { handleDragEnd }
       >
         <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>
 
