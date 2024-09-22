@@ -90,10 +90,16 @@ type typeTaskAction = {
   values: typeTask
 }
 
-type typeTaskActionMove = {
-  type: 'task_Move',
+type typeTaskActionMoveCol = {
+  type: 'task_MoveColumn'
   coord: typeCoords,
   dest: number
+}
+
+type typeTaskActionMove = {
+  type: 'task_Move'
+  from: typeCoords,
+  to:   typeCoords
 }
 
 type typeTaskActionDelete = {
@@ -110,5 +116,5 @@ type typeSubTaskAction = {
 type typeAction = 
   | typeBoardAction 
   | typeColumnAction 
-  | typeTaskAction | typeTaskActionMove | typeTaskActionDelete
+  | typeTaskAction | typeTaskActionMoveCol | typeTaskActionMove | typeTaskActionDelete
   | typeSubTaskAction

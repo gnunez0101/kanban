@@ -67,7 +67,7 @@ function TaskView( { board, column, task }:
 
   function handleStatus (selectedStatus: any) {
     // Move Task to different column:
-    dispatch({ type: 'task_Move', coord: [board!, column!, task!], dest: parseInt(selectedStatus.value) })
+    dispatch({ type: 'task_MoveColumn', coord: [board!, column!, task!], dest: parseInt(selectedStatus.value) })
   }
 
   return (

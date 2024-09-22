@@ -6,7 +6,7 @@ import { DropIndicator } from './DropIndicator'
 import { useState } from 'react'
 
 function Column({ board, column } : {board: number, column: number }) {
-  const { database } = useDatabase()
+  const { database, dispatch } = useDatabase()
   const [active, setActive] = useState(false)
   
   const colors = [ "#49C4E5", "#8471F2", "#67E2AE" ]
@@ -20,9 +20,8 @@ function Column({ board, column } : {board: number, column: number }) {
   }
 
   function handleDragStart( e: any, coord: [board: number, column: number, task: number]  ) {
-    const taskCoord = coord.join('|')
-    e.dataTransfer.setData("taskCoord", taskCoord)
-    e.target.classList.add("dragging")
+    e.dataTransfer.setData("taskCoord", coord.join('|'))
+    // e.target.classList.add("dragging")
   }
 
   function handleDragOver( e: any ) {
@@ -38,28 +37,26 @@ function Column({ board, column } : {board: number, column: number }) {
 
   function handleDragEnd(e: any) {
     const taskCoordOri = e.dataTransfer.getData("taskCoord").split('|')
-    e.target.classList.remove("dragging")
+    // e.target.classList.remove("dragging")
     setActive(false)
     clearIndicators()
 
     const indicators = getIndicators()
     const { element } = getNearestIndicator(e, indicators)
+
+    const board      = taskCoordOri[0]
     const columnOri  = taskCoordOri[1]
     const columnDest = element.dataset.column
-    const taskOri   = taskCoordOri[2]
-    const taskDest  = element.dataset.before || "-1"
-    // -----------------------------------------------------------
-    console.log(">>>> ", columnOri, taskOri, "|", columnDest, taskDest )
-    // -----------------------------------------------------------
-    if (taskDest < taskOri) {
-      console.log("Move Up!")
+    const taskOri    = taskCoordOri[2]
+    let   taskDest   = element.dataset.before!
 
+    if ( columnOri != columnDest || 
+       ( columnOri === columnDest && (taskDest < taskOri || taskDest > (parseInt(taskOri)+1).toString()) ) ) {
+        if ( columnDest === columnOri && taskDest > taskOri ) {
+          taskDest = (parseInt(taskDest) - 1).toString()
+        }
+      dispatch({ type: 'task_Move', from: [board, columnOri, taskOri], to: [board, columnDest, taskDest] })
     }
-    if(taskDest > (parseInt(taskOri)+1).toString()) {
-      console.log("Move Down!")
-
-    }
-    
   }
 
   function clearIndicators(els?: HTMLElement[]) {
@@ -109,12 +106,12 @@ function Column({ board, column } : {board: number, column: number }) {
   const name  = database.boards[board].columns[column].name
   
   return (
-    <motion.section className = {`column ${active ? "active" : ""}`}
-      layout layoutId={`${column}`}
-      initial    = {{ scaleY: 0, opacity: 0 }}
-      animate    = {{ scaleY: 1, opacity: 1, 
-                      transition: { 
-                        staggerChildren: 0 } }}
+    <section className = {`column ${active ? "active" : ""}`}
+      // layout layoutId={`${column}`}
+      // initial    = {{ scaleY: 0, opacity: 0 }}
+      // animate    = {{ scaleY: 1, opacity: 1, 
+                      // transition: { 
+                        // staggerChildren: 0 } }}
       // transition = {{ staggerChildren: 0.05 }}
       onDragOver  = { (e) => handleDragOver(e) }
       onDragLeave = { handleDragLeave }
@@ -130,7 +127,7 @@ function Column({ board, column } : {board: number, column: number }) {
         />
       )}
       <DropIndicator beforeId={tasks} column={column} />
-    </motion.section>
+    </section>
   )
 }
 export default Column;

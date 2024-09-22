@@ -16,7 +16,7 @@ export default function Board() {
         <EmptyColumns />
         :
         <AnimatePresence>
-          <motion.section className="board" layout>
+          <motion.section className="board">
 
             {/* Columns */}
             { database.boards[currentBoard!].columns.map( (_: any, index: number) => 

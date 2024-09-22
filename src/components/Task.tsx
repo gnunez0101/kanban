@@ -47,10 +47,10 @@ function Task( {board, column, task, handleDragStart} :
       <DropIndicator beforeId={task} column={column}/>
       <motion.section className = "task"
         layout layoutId={`${column}_${task}`}
-        variants = {variantTask}
-        initial  = "init"
-        animate  = "show"
-        exit     = "hide"
+        // variants = {variantTask}
+        // initial  = "init"
+        // animate  = "show"
+        // exit     = "hide"
         whileHover = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
         whileTap   = { { scale: 0.98 } }
         onClick    = { () => {

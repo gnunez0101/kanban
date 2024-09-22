@@ -2,6 +2,7 @@ import './types'
 import { createContext, useState } from "react";
 import { useImmerReducer } from "use-immer"
 import data from '../assets/data.json'
+import { act } from 'react-dom/test-utils';
 
 export const ContextDatabase = createContext<typeValueData    | undefined>(undefined)
 export const ContextDialogs  = createContext<typeValueDialogs | undefined>(undefined)
@@ -88,7 +89,7 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
       return draft
     }
 
-    case 'task_Move' : {
+    case 'task_MoveColumn' : {
       // Copy current Task:
       const taskToMove = draft.boards[action.coord[0]].columns[action.coord[1]].tasks[action.coord[2]]
       // Delete Task from original column:
@@ -96,6 +97,17 @@ function dataReducer(draft: typeData, action: typeAction): typeData {
       // Add Task to destination column, at last position:
       draft.boards[action.coord[0]].columns[action.dest].tasks = 
         [ ...draft.boards[action.coord[0]].columns[action.dest].tasks, taskToMove ]
+      localStorage.setItem("kanban_data", JSON.stringify(draft))
+      return draft
+    }
+
+    case 'task_Move' : {
+      // Copy current Task:
+      const taskToMove = draft.boards[action.from[0]].columns[action.from[1]].tasks[action.from[2]]
+      // Delete Task from original position:
+      draft.boards[action.from[0]].columns[action.from[1]].tasks.splice(action.from[2], 1)
+      // Add Task to destination position:
+      draft.boards[action.to[0]].columns[action.to[1]].tasks.splice(action.to[2], 0, taskToMove)
       localStorage.setItem("kanban_data", JSON.stringify(draft))
       return draft
     }
