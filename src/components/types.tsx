@@ -1,26 +1,12 @@
 // ==================== TYPE FOR TYPESCRIPT ====================
 
-type typeData = { 
-  boards: Array<{
-    name: string,
-    columns: Array<{ 
-      name: string,
-        tasks: Array<{ 
-          title: string,
-          description: string,
-          status: string,
-          subtasks: Array<{
-            title: string,
-            isCompleted: boolean
-          }>
-        }>
-    }>
-  }>
-}
+type typeData = { boards: typeBoard[] }
 
 type typeValueData = {
   database:     typeData,
-  dispatch:     React.Dispatch<typeAction>
+  dispatch:     React.Dispatch<typeAction>,
+  taskCounter:  number,
+  setTaskCounter: any
 }
 
 type typeDialogs = [
@@ -61,6 +47,7 @@ type typeSelectColumns = {
 }
 
 type typeTask = {
+  id?: string,
   title: string,
   description: string,
   status: string,

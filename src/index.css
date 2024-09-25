@@ -70,8 +70,8 @@ ul, li {
   --Destructive-Hover:  hsla(0, 100%, 79.8%, 1);
 
   /* Shadows */ 
-  --shadow-1:           rgba(54, 78, 126, 0.25) 0px 10px 20px 0px;
-  --shadow-2:           rgba(54, 78, 126, 0.25) 0px  4px  6px 0px;
+  --shadow-1:           rgba(54, 78, 126, 0.1015) 0px 10px 20px 0px;
+  --shadow-2:           rgba(54, 78, 126, 0.1015) 0px  4px  6px 0px;
   --linear-1:           linear-gradient(hsla(199, 12%, 19%, 100%), hsla(235, 12%, 19%, 50%));
   --linear-2:           linear-gradient(hsla(219, 63%, 95%, 100%), hsla(218, 66%, 95%, 50%));
 }

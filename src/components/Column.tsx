@@ -1,7 +1,6 @@
 import './Column.css'
 import Task from './Task'
 import useDatabase from '../hooks/useDatabase'
-import { motion } from 'framer-motion'
 import { DropIndicator } from './DropIndicator'
 import { useState } from 'react'
 
@@ -19,12 +18,13 @@ function Column({ board, column } : {board: number, column: number }) {
     colorIndex = x
   }
 
-  function handleDragStart( e: any, coord: [board: number, column: number, task: number]  ) {
+  function handleDragStart(e: any, coord: [board: number, column: number, task: number]) {
     e.dataTransfer.setData("taskCoord", coord.join('|'))
-    // e.target.classList.add("dragging")
+    e.dataTransfer.effectAllowed = "move"
+    e.target.classList.add("dragging")
   }
 
-  function handleDragOver( e: any ) {
+  function handleDragOver(e: any) {
     e.preventDefault()
     showIndicator(e)
     setActive(true)
@@ -37,11 +37,12 @@ function Column({ board, column } : {board: number, column: number }) {
 
   function handleDragEnd(e: any) {
     const taskCoordOri = e.dataTransfer.getData("taskCoord").split('|')
-    // e.target.classList.remove("dragging")
     setActive(false)
     clearIndicators()
+    
+    if (taskCoordOri.length === 1) return   // If there's any problem with dataTransfer
 
-    const indicators = getIndicators()
+    const indicators  = getIndicators()
     const { element } = getNearestIndicator(e, indicators)
 
     const board      = taskCoordOri[0]
@@ -106,27 +107,23 @@ function Column({ board, column } : {board: number, column: number }) {
   const name  = database.boards[board].columns[column].name
   
   return (
-    <section className = {`column ${active ? "active" : ""}`}
-      // layout layoutId={`${column}`}
-      // initial    = {{ scaleY: 0, opacity: 0 }}
-      // animate    = {{ scaleY: 1, opacity: 1, 
-                      // transition: { 
-                        // staggerChildren: 0 } }}
-      // transition = {{ staggerChildren: 0.05 }}
-      onDragOver  = { (e) => handleDragOver(e) }
-      onDragLeave = { handleDragLeave }
-      onDrop      = { handleDragEnd }
-    >
+    <section className = "column">
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
         <span className="text">{`${name} (${tasks})`}</span>
       </div>
-      { database.boards[board].columns[column].tasks.map( (_, index: number) => 
-        <Task board={board} column={column} task={index} key={index} 
-          handleDragStart = {(e: any) => handleDragStart(e, [board, column, index])}
-        />
-      )}
-      <DropIndicator beforeId={tasks} column={column} />
+      <div className= {`column-items ${active ? "active" : ""}`}
+        onDragOver  = { (e) => handleDragOver(e) }
+        onDragLeave = { handleDragLeave }
+        onDrop      = { handleDragEnd }
+      >
+        { database.boards[board].columns[column].tasks.map( (_task: typeTask, index: number) => 
+          <Task board={board} column={column} task={index} key={_task.id} 
+            handleDragStart = {handleDragStart}
+          />
+        )}
+        <DropIndicator beforeId={tasks} column={column} />
+      </div>
     </section>
   )
 }

@@ -15,8 +15,8 @@ export default function Board() {
         ?
         <EmptyColumns />
         :
-        <AnimatePresence>
-          <motion.section className="board">
+        // <AnimatePresence>
+          <section className="board">
 
             {/* Columns */}
             { database.boards[currentBoard!].columns.map( (_: any, index: number) => 
@@ -34,8 +34,8 @@ export default function Board() {
               </motion.div>
             </section>
 
-          </motion.section>
-        </AnimatePresence>
+          </section>
+        // </AnimatePresence>
       }
     </>
   );

@@ -2,10 +2,11 @@ import './types'
 import { createContext, useState } from "react";
 import { useImmerReducer } from "use-immer"
 import data from '../assets/data.json'
-import { act } from 'react-dom/test-utils';
 
 export const ContextDatabase = createContext<typeValueData    | undefined>(undefined)
 export const ContextDialogs  = createContext<typeValueDialogs | undefined>(undefined)
+
+var taskCounter = -1
 
 export const StoreProvider = ( props: StoreProps ) => {
   // const data = { boards: [] }
@@ -18,13 +19,31 @@ export const StoreProvider = ( props: StoreProps ) => {
   // ------------------------------------------------------------------------------------
   
   function loadData(data: typeData) {
-    const kanbanData = localStorage.getItem("kanban_data")
-    return kanbanData ? JSON.parse(kanbanData) : data
+    // Load data from Local Storage, if exist:
+    const kanbanStored = localStorage.getItem("kanban_data")
+    taskCounter = 0    // Reset Counter for Task ID's
+    const kanbanData: typeData = kanbanStored ? JSON.parse(kanbanStored) : data   // Load data
+    // Adding IDs to tasks:
+    kanbanData.boards.map((board: typeBoard) => 
+      board.columns.map((column: typeColumn) => 
+        column.tasks.map((task: typeTask) => {
+          task.id = taskCounter.toString()
+          taskCounter++
+        })
+      )
+    )
+    return kanbanData
+  }
+
+  function setTaskCounter(count: number) {
+    taskCounter = count
   }
 
   const databaseValue: typeValueData = {
     database: database,
     dispatch: dispatch,
+    taskCounter:    taskCounter,
+    setTaskCounter: setTaskCounter
   }
 
   const dialogsValue: typeValueDialogs = {

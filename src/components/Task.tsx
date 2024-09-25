@@ -42,32 +42,34 @@ function Task( {board, column, task, handleDragStart} :
     hide: { scale: 0,   y: 50, opacity: 0, transition: { duration: 2 } }
   }
 
+  function handleDrop(e: any) {
+    e.target.classList.remove("dragging")
+  }
+
   return (
     <>
       <DropIndicator beforeId={task} column={column}/>
       <motion.section className = "task"
-        layout layoutId={`${column}_${task}`}
+        layout
+        layoutId  = {taskData.id}
+        draggable = "true"
         // variants = {variantTask}
         // initial  = "init"
         // animate  = "show"
         // exit     = "hide"
-        whileHover = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
-        whileTap   = { { scale: 0.98 } }
-        onClick    = { () => {
-          dialogLaunch("taskView", board, column, task)
-        }}
-        draggable
+        initial     = { { scale: 1 } }
+        whileHover  = { { scale: [1.05, 1, 1.02], transition: {duration: 0.5} } }
+        whileTap    = { { scale: 0.98 } }
+        onClick     = { () => {dialogLaunch("taskView", board, column, task)} }
         onDragStart = { (e) => handleDragStart(e, [board, column, task]) }
+        onDragEnd   = { handleDrop }
       >
         <div className = "task-title">{ database.boards[board].columns[column].tasks[task].title }</div>
-
         <div className = "subtasks">
-          { `${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }
+          { `[${taskData.id}] ${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }
         </div>
       </motion.section>
     </>
   )
 }
-export default Task;
-
-
+export default Task

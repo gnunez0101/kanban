@@ -22,7 +22,7 @@ type typeTempSubTask = {
 }
 
 function TaskAdd( { edit = false }: { edit?: boolean } ) {
-  const { database, dispatch }       = useDatabase()
+  const { database, dispatch, taskCounter, setTaskCounter }       = useDatabase()
   const { dialogLaunch, dialogsData, setSubTaskChange } = useDialogs()
 
   // Load coordinates of selected Task:
@@ -43,6 +43,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   const [title, setTitle]             = useState("")
   const [description, setDescription] = useState("")
   const [status, setStatus]           = useState<typeTempColumns>()
+  const [taskID, setTaskID]           = useState("")
 
   const [titleError, setTitleError] = useState(false)
 
@@ -51,6 +52,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     if (firstTime) {
       firstTime = false
       if(edit) {
+        setTaskID(database.boards[board!].columns[column!].tasks[task!].id!)
         setTitle(database.boards[board!].columns[column!].tasks[task!].title)
         setDescription(database.boards[board!].columns[column!].tasks[task!].description)
         // Deep clone of subtask elements on temp state with "JSON.stringify" method:
@@ -140,7 +142,8 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       title: title.trim(), 
       description: description.trim(), 
       status: status!.label, 
-      subtasks: _subTasks 
+      subtasks: _subTasks,
+      id: edit ? taskID : (taskCounter+1).toString()
     }
 
     // Writing values to database:
@@ -151,13 +154,14 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
       // Save changes on current Task:
       dispatch({ type: "task_Modify", coord: [board!, column!, task!], values: taskData })
       if(column !== selectedColumn) {  // Move to different column if status has been changed:
-        dispatch({ type: 'task_Move', coord: [board!, column!, task!], dest: selectedColumn })
+        dispatch({ type: 'task_MoveColumn', coord: [board!, column!, task!], dest: selectedColumn })
       }
     }
     else {
       // Create a New Task:
       dialogLaunch("createTask", board, column, task)
       dispatch({ type: "task_Add", coord: [board!, selectedColumn], values: taskData })
+      setTaskCounter(taskCounter+1)
     }
     setSubTaskChange(true)
     // ====================================================================================================

@@ -2,8 +2,10 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  min-width: 280px;
+  max-width: 280px;
   box-shadow: var(--shadow-2);
-  padding-block:  23px;
+  padding-block:  23.7px;
   padding-inline: 16px;
   background-color: var(--background-primary);
   border-radius: 8px;
@@ -34,7 +36,13 @@
 
   &:active {
     /* scale: 98%; */
+    /* cursor: grabbing; */
+  }
+
+  &.dragging {
     cursor: grabbing;
+    outline: 1px solid var(--Lines);
+    z-index: 100;
   }
 }
 
