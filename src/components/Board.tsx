@@ -15,7 +15,7 @@ export default function Board() {
         ?
         <EmptyColumns />
         :
-        // <AnimatePresence>
+        <AnimatePresence>
           <section className="board">
 
             {/* Columns */}
@@ -35,7 +35,7 @@ export default function Board() {
             </section>
 
           </section>
-        // </AnimatePresence>
+        </AnimatePresence>
       }
     </>
   );

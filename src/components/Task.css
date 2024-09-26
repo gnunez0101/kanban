@@ -1,4 +1,6 @@
 .task {
+  position: relative;
+  z-index: 0;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -34,15 +36,9 @@
     }
   }
 
-  &:active {
-    /* scale: 98%; */
-    /* cursor: grabbing; */
-  }
-
   &.dragging {
     cursor: grabbing;
     outline: 1px solid var(--Lines);
-    z-index: 100;
   }
 }
 

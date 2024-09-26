@@ -85,10 +85,6 @@ function App() {
     }
   }, [database.boards])
   
-  // ----------------------------------------------------------
-  // console.log(`Board: ${currentBoard} => Data: ${dialogsData}`)
-  // ----------------------------------------------------------
-  
   if ( currentBoard === null ) return
 
   return (
@@ -158,8 +154,8 @@ function Attribution() {
   const Space = <span>&nbsp;</span>
   return (
     <div className="attribution">
-    Challenge by{Space}<a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by{Space}<a href="https://linkedin.com/in/gnunez0101">Gonzalo M. Núñez</a>.
+    Challenge by{Space}{Space}<a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by{Space}{Space}<a href="https://linkedin.com/in/gnunez0101">Gonzalo M. Núñez</a>.
   </div>
   )
 }

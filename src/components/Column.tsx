@@ -113,7 +113,7 @@ function Column({ board, column } : {board: number, column: number }) {
         <span className="text">{`${name} (${tasks})`}</span>
       </div>
       <div className= {`column-items ${active ? "active" : ""}`}
-        onDragOver  = { (e) => handleDragOver(e) }
+        onDragOver  = { handleDragOver }
         onDragLeave = { handleDragLeave }
         onDrop      = { handleDragEnd }
       >
