@@ -123,7 +123,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
           </motion.button>
           <AnimatePresence>
             { showMenuEllipsis && 
-              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={currentBoard!} disabled={database.boards.length == 0}/>
+              <MenuEllipsis setShowMenuEllipsis={setShowMenuEllipsis} board={currentBoard!}/>
             }
           </AnimatePresence>
         </nav>
@@ -135,7 +135,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 export default Header
 
 
-function MenuEllipsis( { setShowMenuEllipsis, board, disabled }: { setShowMenuEllipsis: (show: false) => void, board: number, disabled: boolean } ) {
+function MenuEllipsis( { setShowMenuEllipsis, board }: { setShowMenuEllipsis: (show: false) => void, board: number } ) {
   
   const refMenu = useRef(null)
   const { disable, enable } = useClickAway(refMenu, () => setShowMenuEllipsis(false))
