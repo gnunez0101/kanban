@@ -19,7 +19,7 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
   const [scopeMenu, animateMenu] = useAnimate()
   const [scopeNav,  animateNav ] = useAnimate()
  
-  const isTablet = useMediaQuery({ query: '( width > 375px )' })
+  const isTablet = useMediaQuery({ query: '( width > 376px )' })
 
   useEffect(() => {
     setBoards(database.boards.map(board => board.name))

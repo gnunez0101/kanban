@@ -33,8 +33,8 @@
 
       > .title {
         display: flex;
-        font-size:   var(--fs-Heading-XL);
-        font-weight: var(--fw-Heading-XL);
+        font-size:   var(--fs-Heading-L);
+        font-weight: var(--fw-Heading-L);
         color: var(--text-primary);
         transform-origin: left;
 
@@ -117,7 +117,7 @@
   }
 }
 
-@media (width > 375px) {
+@media (width > 376px) {
   .header {
     height: 81px;
 
@@ -183,8 +183,17 @@
   }
 }
 
-@media (width > 768px) {
+@media (width > 769px) {
   .header {
     height: 96px;
+
+    .title-set {
+      .board-name {
+        > .title {
+          font-size:   var(--fs-Heading-XL);
+          font-weight: var(--fw-Heading-XL);
+        }
+      }
+    }
   }
 }

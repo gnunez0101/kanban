@@ -23,7 +23,7 @@ function App() {
   const [switching, setSwitching] = useState(false)
   const timer = useRef<number | undefined>(undefined)
 
-  const isTablet = useMediaQuery({ query: '( width > 375px )' })
+  const isTablet = useMediaQuery({ query: '( width > 376px )' })
   
   const buttonVariants = {
     hidden: { 

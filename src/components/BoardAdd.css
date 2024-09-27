@@ -108,22 +108,22 @@
     }
   }
 
-    .boardadd__columns--items {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 12px;
-      
-      .no-columns {
-        text-align: center;
-        padding-block: 9px;
-        color: var(--Destructive);
-        border: 1px solid var(--Destructive);
-        border-radius: 4px;
-        font-size:   var(--fs-Heading-M);
-        font-weight: var(--fw-Heading-M);
-        line-height: var(--fl-Heading-M);
-      }
+  .boardadd__columns--items {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    
+    .no-columns {
+      text-align: center;
+      padding-block: 9px;
+      color: var(--Destructive);
+      border: 1px solid var(--Destructive);
+      border-radius: 4px;
+      font-size:   var(--fs-Heading-M);
+      font-weight: var(--fw-Heading-M);
+      line-height: var(--fl-Heading-M);
     }
+  }
   }

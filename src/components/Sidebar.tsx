@@ -39,8 +39,8 @@ function Sidebar ( { showMenu, setShowMenu, darkMode, setDarkMode }
                    { showMenu: boolean, setShowMenu?:any, darkMode: boolean, setDarkMode: any }
                   ) {
   
-  const isTablet  = useMediaQuery({ query: '( width > 375px )' })
-  const isDesktop = useMediaQuery({ query: '( width > 768px )' })
+  const isTablet  = useMediaQuery({ query: '( width > 376px )' })
+  const isDesktop = useMediaQuery({ query: '( width > 769px )' })
 
   return (
     <>

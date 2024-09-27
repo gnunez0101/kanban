@@ -17,8 +17,8 @@ import useDialogs  from '../hooks/useDialogs'
 function Header({boardName, setShowMenu, showMenu, darkMode} : 
                 {boardName: string, setShowMenu: any, showMenu: boolean, darkMode: boolean}) {
 
-  const isTablet  = useMediaQuery({ query: '( width > 375px )' })
-  const isDesktop = useMediaQuery({ query: '( width > 768px )' })
+  const isTablet  = useMediaQuery({ query: '( width > 376px )' })
+  const isDesktop = useMediaQuery({ query: '( width > 769px )' })
   
   const [rotate, setRotate] = useState(0)
   const [scopeTitle, animateTitle] = useAnimate()

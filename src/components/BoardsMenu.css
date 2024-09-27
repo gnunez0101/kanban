@@ -149,7 +149,7 @@
   .hide-desktop-sidebar { display: none; }
 }
 
-@media (width > 375px) {
+@media (width > 376px) {
 
   .nav-menu {
 

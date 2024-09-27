@@ -23,7 +23,7 @@
   opacity: 0;
 }
 
-@media ( width > 375px ) {
+@media ( width > 376px ) {
   .sidebar-mobile-backdrop { 
     display: none;
     opacity: 0;
@@ -44,7 +44,7 @@
   }
 }
 
-@media (width > 768px) {
+@media (width > 769px) {
   .sidebar-desktop {
     width: 300px;
   }

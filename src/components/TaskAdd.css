@@ -59,10 +59,6 @@
     flex-direction: column;
   }
 
-  .taskadd__btn-add, .taskadd__btn-create {
-    /* height: 40px; */
-  }
-
   .taskadd__-text {
     position: relative;
     display: flex;

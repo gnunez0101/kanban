@@ -36,7 +36,7 @@
   }
 }
 
-@media (width > 375px) {
+@media (width > 376px) {
   .taskdelete__dialog--buttons {
     flex-wrap: nowrap;
   }

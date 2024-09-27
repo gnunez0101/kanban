@@ -68,7 +68,7 @@
   & > .show-sidebar { display: none; opacity: 0; }
 }
 
-@media (width > 375px) {
+@media (width > 376px) {
   .main {
     
     .show-sidebar {
