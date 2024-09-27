@@ -6,11 +6,11 @@ export default function Toggle({ isToggled, onToggle, isDisabled = false, label 
   const spring = {
     type: "spring",
     stiffness: 700,
-    damping: 30
+    damping: 30 
   }
 
   return (
-    <motion.div className='toggle'
+    <motion.div className = 'toggle'
       whileHover={{ scale: [1, 1.1, 1, 1.05, 1] }}
     >
       <div className="switch" data-toggled={isToggled} data-disabled={isDisabled} onClick={onToggle}>

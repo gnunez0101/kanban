@@ -1,7 +1,8 @@
 /*
   CSS Styles for Toggle Control with Framer Motion Library
-  Framer Motion Version: 11.0.8
+  Framer Motion Version: 11.0.8.
 */
+
 .switch {
   display: flex;
   justify-content: flex-start;
