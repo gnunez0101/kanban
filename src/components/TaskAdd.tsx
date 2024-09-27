@@ -78,7 +78,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   
   function addSubTask() {
     setTempSubTasks([...tempSubTasks, 
-      { id: counter.toString(), text: "", placeholder: `New subtask ${counter}...`, isCompleted: false, isEmpty: false}])
+      { id: counter.toString(), text: "", placeholder: "New subtask...", isCompleted: false, isEmpty: false}])
     setCounter(counter + 1)
   }
 
