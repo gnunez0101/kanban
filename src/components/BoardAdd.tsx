@@ -146,7 +146,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
           <div className="boardadd__-title">Board Name</div>
           <div className = { `boardadd__name--text ${nameError ? "error" : ""}` }>
             <input type="text" className = "boardadd__name--input"
-              autoFocus
+              autoFocus maxLength = {20}
               placeholder='e.g. Web Design'
               defaultValue={boardName}
               onChange={handleChange_Name}

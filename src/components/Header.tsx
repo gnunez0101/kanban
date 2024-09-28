@@ -55,11 +55,22 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
   useEffect(() => {
     animateTitle( ".letter", { scale: [1, 1.3, 1] }, { duration: 0.3, delay: stagger(0.05) } )
+    const fSize = getFontSize(boardName.length)
+    console.log(fSize)
   }, [boardName])
 
   const space = <>&nbsp;</>
 
   const boards = database.boards.length
+
+  function getFontSize(textLength: number) {
+    const baseSize = 9
+    if (textLength >= baseSize) {
+      textLength = baseSize - 2
+    }
+    const fontSize = baseSize - textLength
+    return `${fontSize}vw`
+  }
 
   return (
     <header className="header">
