@@ -64,7 +64,7 @@
         width:  48px;
         height: 32px;
         
-        & p { display: none; } 
+        > span { display: none; } 
       }
 
       .ellipsis {
@@ -168,7 +168,7 @@
             display: none;
           }
 
-          & p {
+          > span {
             display: block;
           }
         }

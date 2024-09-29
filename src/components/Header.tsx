@@ -111,7 +111,7 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
             disabled = { database.boards.length == 0 || database.boards[currentBoard!].columns.length == 0 }
           >
             <img src={plusSign} alt="plus" />
-            <p className="message">+ Add New Task</p>
+            <span className="message">+ Add New Task</span>
           </Button>
 
           <motion.button className="ellipsis" type="button"
