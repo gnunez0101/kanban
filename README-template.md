@@ -52,13 +52,14 @@ Users should be able to:
 
 ## My process
 
+My process began with making all layouts with HTML, then, working from top to bottom with styling for mobile layout first. I styled every element statically just for laying out the UI, taking the sizes and styles from the example images provided on Figma file. The rest was put everything to work with buttons and controls and managing the JSON file to keep changes on Localstorage.
+
 ### Built with
 
 - Semantic HTML5 markup
 - Pure CSS3 with latest updates
 - CSS custom properties
 - CSS Flexbox
-- CSS Grid
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library.
 - [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling.
@@ -70,27 +71,10 @@ Users should be able to:
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+On this challenge I learned:
 
-To see how you can add code snippets, see below:
-
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
-```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+- Layout components from Figma designs. This was my first GURU challenge and the first using a Figma file as reference.
+- A lot of react-select control. New for me. It was a real challenge to customize this with CSS.
 
 ### Continued development
 
