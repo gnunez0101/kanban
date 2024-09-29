@@ -13,7 +13,6 @@ This is my solution to the [Kanban task management web app challenge on Frontend
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
-  - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
 - [Acknowledgments](#acknowledgments)
@@ -62,25 +61,24 @@ My process began with making all layouts with HTML, then, working from top to bo
 - CSS Flexbox
 - Mobile-first workflow
 - [React](https://reactjs.org/) - JS library.
-- [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling.
 - [Typescript](https://www.typescriptlang.org/) - TypeScript is JavaScript with syntax for types.
+- [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling.
 - [Framer Motion](https://www.framer.com/motion/) - A production-ready motion library for React.
 - [Immer](https://immerjs.github.io/immer/) - Tiny package that allows you to work with immutable state in a more convenient way.
 - [React Select](https://react-select.com/home) - A flexible and beautiful Select Input control for ReactJS with multiselect, autocomplete, async and creatable support.
 - [Simple React Clickaway Hook](https://github.com/ViveDevelopment/simple-react-clickaway) - Simple react useClickAway hook, which listens for clicks outside the element.
+- [Figma](https://www.figma.com/) - Versatile web design tool that enables real-time collaboration for building interactive user interface prototypes.
 
 ### What I learned
 
 On this challenge I learned:
 
-- Layout components from Figma designs. This was my first GURU challenge and the first using a Figma file as reference.
-- A lot of react-select control. New for me. It was a real challenge to customize this with CSS.
-
-### Continued development
-
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
+- Working from [Figma](https://www.figma.com/) designs. This was my first GURU challenge and the first using a Figma file as reference for the UI.
+- Using very complex and deeply nested *JSON* data structures.
+- Manage complex data structures with [Immer](https://immerjs.github.io/immer/) library.
+- Manage complex states with React `useContext` hook to keep the JSON data global and accesible to all components on application.
+- Using `useReducer` hook to replace useState for really complex states.
+- Drag & Drop operations with native HTML API and events and also using `Reorder` feature of [Framer Motion](https://www.framer.com/motion/).
 
 ### Useful resources
 
