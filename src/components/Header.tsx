@@ -27,7 +27,6 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
   const { dialogLaunch, currentBoard } = useDialogs()
 
   const handleMenu = () => {
-    setRotate(showMenu ? 0 : 180)
     setShowMenu(!showMenu)
   }
 
@@ -55,9 +54,11 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
   useEffect(() => {
     animateTitle( ".letter", { scale: [1, 1.3, 1] }, { duration: 0.3, delay: stagger(0.05) } )
-    const fSize = getFontSize(boardName.length)
-    console.log(fSize)
   }, [boardName])
+
+  useEffect(() => {
+    setRotate(showMenu ? 0 : 180)
+  }, [showMenu])
 
   const space = <>&nbsp;</>
 
@@ -104,7 +105,8 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
           </motion.h1>
 
           <button className="toggle-menu" type='button'
-            onClick={handleMenu}>
+            onClick={handleMenu}
+          >
             <motion.img src={chevronDown} alt="menu"
               animate = {{ rotate }}
             />

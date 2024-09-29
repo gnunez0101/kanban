@@ -196,7 +196,9 @@ function SubTask({ item, handleChange }: {item: typeSubTask, handleChange: () =>
           isChecked    = { item.isCompleted }
           handleChange = { handleChange }
         />
-        <span>{item.title}</span>
+        <span className = {`title ${item.isCompleted ? "completed" : ""}`}>
+          {item.title}
+        </span>
       </motion.div>
     </Reorder.Item>
   )

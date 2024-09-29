@@ -72,7 +72,10 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
         <section className="menu-options" >
           { boards && boards.map( (board: string, i: number) => 
               <motion.div className={`menu-opt items ${ i == currentBoard ? "selected" : ""}`} key={i} 
-                onClick    = { () => setCurrentBoard(i) }
+                onClick    = { () => {
+                  setCurrentBoard(i)
+                  setShowMenu(false)
+                }}
                 whileHover = { i !== currentBoard ? { scale: [1, 1.04, 1, 1.02, 1] } : undefined }
                 whileTap   = { i !== currentBoard ? { scale: 0.95 } : undefined }
               >
@@ -85,7 +88,10 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
 
         {/* Last Option on List for Creating New Board */}
         <motion.button className="menu-opt create-board" type="button"
-          onClick    = { () => dialogLaunch("boardAdd", currentBoard!, 0, 0) }
+          onClick    = { () => {
+              dialogLaunch("boardAdd", currentBoard!, 0, 0)
+              setShowMenu(false)
+            } }
           whileHover = {{ scale: [1, 1.1, 1, 1.05, 1] }}
           whileTap   = {{ scale: 0.9 }}
         >

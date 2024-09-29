@@ -66,6 +66,7 @@ function Sidebar ( { showMenu, setShowMenu, darkMode, setDarkMode }
               darkMode    = { darkMode }
               setDarkMode = { setDarkMode }
               showMenu    = { showMenu }
+              setShowMenu = { setShowMenu }
             />
           </motion.aside>
         </motion.div>

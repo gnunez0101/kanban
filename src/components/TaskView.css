@@ -142,6 +142,10 @@
               var(--button-primary) 25%, transparent 100%);
           }
         }
+
+        .title.completed {
+          text-decoration: line-through;
+        }
       }
     }
   }

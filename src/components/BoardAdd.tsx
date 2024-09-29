@@ -92,7 +92,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
     if (boardName.trim().length === 0) { setNameError(true); emptyError = true }
 
     // No Columns Validation:
-    if (tempColumns.length === 0 ) return
+    // if (tempColumns.length === 0 ) return
     
     // Empty Column Validation:
     const _tempColumns: typeTempColumn[] = JSON.parse(JSON.stringify(tempColumns))
@@ -180,9 +180,8 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
           </div>
         </section>
 
-        <Button className="boardadd__btn-createboard primary"
-          // onClick={createBoard}
-        >{`${edit ? "Save Changes" : "Create New Board"}`}
+        <Button className="boardadd__btn-createboard primary">
+          {`${edit ? "Save Changes" : "Create New Board"}`}
         </Button>
 
       </form>

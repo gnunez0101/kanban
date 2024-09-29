@@ -120,7 +120,7 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
     if (title.trim().length === 0) { setTitleError(true); emptyError = true }
     
     // No Subtasks Validation:
-    if (tempSubTasks.length === 0 ) return
+    // if (tempSubTasks.length === 0 ) return
     
     // Empty Subtask Validation:
     const _tempSubTasks: typeTempSubTask[] = JSON.parse(JSON.stringify(tempSubTasks))
