@@ -46,8 +46,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://github.com/gnunez0101/kanban)
-- Live Site URL: [Add live site URL here](https://gnunez0101.github.io/kanban/)
+- Solution URL: [https://github.com/gnunez0101/kanban](https://github.com/gnunez0101/kanban)
+- Live Site URL: [https://gnunez0101.github.io/kanban/](https://gnunez0101.github.io/kanban/)
 
 ## My process
 
