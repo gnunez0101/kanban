@@ -64,15 +64,6 @@ function Header({boardName, setShowMenu, showMenu, darkMode} :
 
   const boards = database.boards.length
 
-  function getFontSize(textLength: number) {
-    const baseSize = 9
-    if (textLength >= baseSize) {
-      textLength = baseSize - 2
-    }
-    const fontSize = baseSize - textLength
-    return `${fontSize}vw`
-  }
-
   return (
     <header className="header">
 
