@@ -146,8 +146,18 @@ function MenuEllipsis( { setShowMenuEllipsis, board }: { setShowMenuEllipsis: (s
   const { dialogLaunch } = useDialogs()
   
   useEffect(() => {
+    // Listening ESC Key to close dialogs:
+    function handleEsc(event: KeyboardEvent) {
+      if ( event.key === 'Escape' ) 
+        setShowMenuEllipsis(false)
+    }
     enable()
-    return () => disable() 
+    window.addEventListener("keydown", handleEsc)
+
+    return () => { 
+      window.removeEventListener('keydown', handleEsc) 
+      disable() 
+    }
   }, [])
 
   return (

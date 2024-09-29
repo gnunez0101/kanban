@@ -118,7 +118,7 @@ function Column({ board, column } : {board: number, column: number }) {
         onDrop      = { handleDragEnd }
       >
         { database.boards[board].columns[column].tasks.map( (_task: typeTask, index: number) => 
-          <Task board={board} column={column} task={index} key={_task.id} 
+          <Task board={board} column={column} task={index} key={_task.id}
             handleDragStart = {handleDragStart}
           />
         )}

@@ -1,6 +1,7 @@
 import './DialogModal.css'
 import useDialogs from '../hooks/useDialogs'
 import { motion } from "framer-motion"
+import { useEffect } from 'react'
 
 type typeBackdrop = {
   children: React.ReactNode
@@ -15,8 +16,18 @@ export default function DialogModal ( props: typeBackdrop ) {
     exit: { scale: 0, rotate: "0deg", transition: { ease: "backOut", duration: 0.3 }},
   }
 
+  useEffect(() => {
+    // Listening ESC Key to close dialogs:
+    function handleEsc(event: KeyboardEvent) {
+      if ( event.key === 'Escape' ) 
+        dialogLaunch("close")
+    }
+    window.addEventListener("keydown", handleEsc)
+    return () => { window.removeEventListener('keydown', handleEsc) }
+  }, [])
+
   return (
-    <motion.div className="backdrop"
+    <motion.div className="backdrop" id='backdrop'
       initial = {{ opacity: 0 }}
       animate = {{ opacity: 1 }}
       exit    = {{ opacity: 0 }}

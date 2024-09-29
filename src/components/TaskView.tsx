@@ -15,7 +15,7 @@ function TaskView( { board, column, task }:
   { board?: number, column?: number, task?: number } ) {
 
   const { database, dispatch }              = useDatabase()
-  const { subtaskChange, setSubTaskChange } = useDialogs()
+  const { subtaskChange, setSubTaskChange, dialogLaunch } = useDialogs()
   
   const [showMenu, setShowMenu] = useState(false)
   const [columns, setColumns]   = useState<typeSelectColumns[]>([])
@@ -68,6 +68,8 @@ function TaskView( { board, column, task }:
   function handleStatus (selectedStatus: any) {
     // Move Task to different column:
     dispatch({ type: 'task_MoveColumn', coord: [board!, column!, task!], dest: parseInt(selectedStatus.value) })
+    // Close dialog to avoid messing with new coordinates while dialog is open
+    dialogLaunch("close")
   }
 
   return (
