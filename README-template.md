@@ -50,7 +50,7 @@ Users should be able to:
 
 ## My process
 
-My process began with making all layouts with HTML, then, working from top to bottom with styling for mobile layout first. I styled every element statically just for laying out the UI, taking the sizes and styles from the example images provided on Figma file. The rest was put everything to work with buttons and controls and managing the JSON file to keep changes on Localstorage.
+My process began with making all layouts with HTML and CSS, then, working from top to bottom with styling for mobile layout first. I styled every element statically just for laying out the UI, taking the sizes and styles from the example images provided on Figma file. The rest was put everything to work with buttons and controls and managing the JSON file to keep changes on Localstorage. useContext and Immer package were used all the time for managing global states.
 
 ### Built with
 
@@ -76,7 +76,7 @@ On this challenge I learned:
 - Using very complex and deeply nested *JSON* data structures.
 - Manage complex data structures with [Immer](https://immerjs.github.io/immer/) library.
 - Manage complex states with React `useContext` hook to keep the JSON data global and accesible to all components on application.
-- Using `useReducer` hook to replace useState for really complex states.
+- Using `useReducer` hook to replace `useState` for really complex states.
 - Drag & Drop operations with native HTML API and events and also using `Reorder` feature of [Framer Motion](https://www.framer.com/motion/).
 
 ### Useful resources
