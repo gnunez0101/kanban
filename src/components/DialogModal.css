@@ -4,7 +4,8 @@
   background-color: color-mix(in oklab, black 50%, transparent 50%);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: safe center;
+  overflow: auto;
   z-index: 3;
  
   .dialog-modal {
