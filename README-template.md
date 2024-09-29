@@ -8,7 +8,7 @@ This is my solution to the [Kanban task management web app challenge on Frontend
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
+  - [Screenshots](#screenshots)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -55,15 +55,18 @@ Users should be able to:
 ### Built with
 
 - Semantic HTML5 markup
+- Pure CSS3 with latest updates
 - CSS custom properties
-- Flexbox
+- CSS Flexbox
 - CSS Grid
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
+- [React](https://reactjs.org/) - JS library.
+- [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling.
+- [Typescript](https://www.typescriptlang.org/) - TypeScript is JavaScript with syntax for types.
+- [Framer Motion](https://www.framer.com/motion/) - A production-ready motion library for React.
+- [Immer](https://immerjs.github.io/immer/) - Tiny package that allows you to work with immutable state in a more convenient way.
+- [React Select](https://react-select.com/home) - A flexible and beautiful Select Input control for ReactJS with multiselect, autocomplete, async and creatable support.
+- [Simple React Clickaway Hook](https://github.com/ViveDevelopment/simple-react-clickaway) - Simple react useClickAway hook, which listens for clicks outside the element.
 
 ### What I learned
 
