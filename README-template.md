@@ -38,10 +38,12 @@ Users should be able to:
 
 ![](./screenshots/Dark-Desktop-Main-with-Open-Sidebar-No-Browser.jpeg)
 ![](./screenshots/Light-Desktop-Main-with-Open-Sidebar-No-Browser.jpeg)
+![](./screenshots/Dark-Desktop-Task-View.png)
+![](./screenshots/Light-Desktop-Task-View.png)
 <img src="./screenshots/Dark-Mobile-Main-with-Open-Sidebar.png" width="375">
 <img src="./screenshots/Light-Mobile-Main-with-Open-Sidebar.png" width="375">
-<img src="./screenshots/" width="375">
-![](./screenshots/)
+<img src="./screenshots/Dark-Mobile-Main-with-Closed-Sidebar.png" width="375">
+<img src="./screenshots/Light-Mobile-Main-with-Closed-Sidebar.png" width="375">
 
 ### Links
 
