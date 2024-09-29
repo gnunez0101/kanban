@@ -118,8 +118,8 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
             whileHover = { showMenu ? { scale: [1, 1.08, 1, 1.05, 1] } : undefined }
             whileTap   = { showMenu ? { scale: 0.95 } : undefined }
             >
-            <div className="icon-hide-sidebar"></div>
-            <div className="msg-hide-sidebar">Hide SideBar</div>
+            <span className="icon-hide-sidebar"></span>
+            <span className="msg-hide-sidebar">Hide Sidebar</span>
           </motion.button>
         }
 
