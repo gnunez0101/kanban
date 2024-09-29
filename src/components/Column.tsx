@@ -107,7 +107,7 @@ function Column({ board, column } : {board: number, column: number }) {
   const name  = database.boards[board].columns[column].name
   
   return (
-    <section className = "column">
+    <div className = "column">
       <div className="column-name">
         <span className="bullet" style={{backgroundColor: colors[colorIndex]}}></span>
         <span className="text">{`${name} (${tasks})`}</span>
@@ -124,7 +124,7 @@ function Column({ board, column } : {board: number, column: number }) {
         )}
         <DropIndicator beforeId={tasks} column={column} />
       </div>
-    </section>
+    </div>
   )
 }
 export default Column;

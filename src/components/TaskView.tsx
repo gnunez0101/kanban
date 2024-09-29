@@ -74,7 +74,7 @@ function TaskView( { board, column, task }:
 
   return (
     <DialogModal>
-      <section className = "taskview__title">
+      <div className = "taskview__title">
         <textarea className = "taskview__title--text" spellCheck = {false}
           placeholder = 'Write a title...'
           readOnly = {true}
@@ -99,7 +99,7 @@ function TaskView( { board, column, task }:
             }
           </AnimatePresence>
         </div>
-      </section>
+      </div>
       <div className="taskview__description">
         <textarea spellCheck={false}
           placeholder  ='Write a description...'
@@ -107,7 +107,7 @@ function TaskView( { board, column, task }:
           defaultValue = {taskData.description}
         />
       </div>
-      <section className="taskview__subtasks">
+      <div className="taskview__subtasks">
         <div className="taskview__subtasks--title">
           Subtasks {`(${countCompleted} of ${countTotal})`}
         </div>
@@ -121,8 +121,8 @@ function TaskView( { board, column, task }:
             }
           </Reorder.Group>
         </div>
-      </section>
-      <section className="taskview__current-status">
+      </div>
+      <div className="taskview__current-status">
         <div className="taskview__current-status--title">
           Current Status
         </div>
@@ -136,7 +136,7 @@ function TaskView( { board, column, task }:
             />
           }
         </div>
-      </section>
+      </div>
     </DialogModal>
   )
 }

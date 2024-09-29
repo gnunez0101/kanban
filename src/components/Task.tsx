@@ -43,7 +43,7 @@ function Task( {board, column, task, handleDragStart} :
   return (
     <>
       <DropIndicator beforeId={task} column={column}/>
-      <motion.section className = "task"
+      <motion.div className = "task"
         layout
         layoutId   = {taskData.id}
         draggable  = "true"
@@ -58,7 +58,7 @@ function Task( {board, column, task, handleDragStart} :
         <div className = "subtasks">
           { `${countSubTaskCompleted} of ${countSubTaskTotal} subtasks` }
         </div>
-      </motion.section>
+      </motion.div>
     </>
   )
 }

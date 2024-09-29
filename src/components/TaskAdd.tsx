@@ -170,13 +170,13 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
   return (
     <DialogModal>
 
-      <section className="taskadd__dialog--title">
+      <div className="taskadd__dialog--title">
         {`${edit ? "Edit Task" : "Add New Task"}`}
-      </section>
+      </div>
 
       <form onSubmit={handleSubmit} className='taskadd__form'>
 
-        <section className = "taskadd__title">
+        <div className = "taskadd__title">
           <div className = "taskadd__-title">Title</div>
           <div className = { `taskadd__-text ${titleError ? "error" : ""}` } >
             <textarea spellCheck={false}
@@ -188,9 +188,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
             />
             <div className="inputError">Can't be empty</div>
           </div>
-        </section>
+        </div>
 
-        <section className="taskadd__description">
+        <div className="taskadd__description">
           <div className="taskadd__-title">Description</div>
           <div className="taskadd__-text">
             <textarea spellCheck={false}
@@ -201,9 +201,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
               onChange={handleChange_description}
             />
           </div>
-        </section>
+        </div>
 
-        <section className="taskadd__subtasks">
+        <div className="taskadd__subtasks">
           <div className="taskadd__-title">Subtasks</div>
           <div className="taskadd__subtasks--items">
             <LayoutGroup>
@@ -228,9 +228,9 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
             onClick={addSubTask}
           >+ Add New Subtask
           </Button>
-        </section>
+        </div>
 
-        <section className="taskadd__status">
+        <div className="taskadd__status">
           <div className="taskadd__-title">Status</div>
           <div className="taskadd__current-status--items">
             { columns &&
@@ -243,13 +243,13 @@ function TaskAdd( { edit = false }: { edit?: boolean } ) {
               />
             }
           </div>
-        </section>
+        </div>
 
-        <section className="taskadd__create">
+        <div className="taskadd__create">
           <Button className="taskadd__btn-create primary">
             {`${edit ? "Save Changes" : "Create Task"}`}
           </Button>
-        </section>
+        </div>
         
       </form>
 

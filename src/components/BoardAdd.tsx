@@ -136,13 +136,13 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
   return (
     <DialogModal>
 
-      <section className="boardadd__dialog--title">
+      <div className="boardadd__dialog--title">
         {`${edit ? "Edit Board" : "Add New Board"}`}
-      </section>
+      </div>
 
       <form onSubmit={handleSubmit} className='boardadd__form'>
 
-        <section className="boardadd__name">
+        <div className="boardadd__name">
           <div className="boardadd__-title">Board Name</div>
           <div className = { `boardadd__name--text ${nameError ? "error" : ""}` }>
             <input type="text" className = "boardadd__name--input"
@@ -153,9 +153,9 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
             />
             <div className="inputError">Can't be empty</div>
           </div>
-        </section>
+        </div>
 
-        <section className="boardadd__columns">
+        <div className="boardadd__columns">
           <div className="boardadd__-title">Board Columns</div>
           <div className="boardadd__columns--items">
             <LayoutGroup>
@@ -178,7 +178,7 @@ export function BoardAdd ( { edit = false }: { edit?: boolean } ) {
             >+ Add New Column
             </Button>
           </div>
-        </section>
+        </div>
 
         <Button className="boardadd__btn-createboard primary">
           {`${edit ? "Save Changes" : "Create New Board"}`}

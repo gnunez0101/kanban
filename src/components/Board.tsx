@@ -16,7 +16,7 @@ export default function Board() {
         <EmptyColumns />
         :
         <AnimatePresence>
-          <section className="board">
+          <div className="board">
 
             {/* Columns */}
             { database.boards[currentBoard!].columns.map( (_: any, index: number) => 
@@ -24,7 +24,7 @@ export default function Board() {
             )}
 
             {/* New Column Add clickable area */}
-            <section className="column new" onClick = {() => dialogLaunch("boardEdit", currentBoard!, 0, 0)}>
+            <div className="column new" onClick = {() => dialogLaunch("boardEdit", currentBoard!, 0, 0)}>
               <div className="backdrop__new-column"></div>
               <motion.div className='text'
                 initial    = {{ scale: 1 }}
@@ -32,9 +32,9 @@ export default function Board() {
                 whileTap   = {{ scale: 0.98 }}
               >+ New Column
               </motion.div>
-            </section>
+            </div>
 
-          </section>
+          </div>
         </AnimatePresence>
       }
     </>

@@ -14,13 +14,13 @@ export function TaskDelete( { board, column, task } : { board?: number, column?:
   
   return (
     <DialogModal>
-      <section className="taskdelete_dialog--title">
+      <div className="taskdelete_dialog--title">
         Delete this task?
-      </section>
-      <section className="taskdelete__dialog--description">
+      </div>
+      <div className="taskdelete__dialog--description">
         {`Are you sure you want to delete the ‘${taskTitle}’ task and its subtasks? This action cannot be reversed.`}
-      </section>
-      <section className="taskdelete__dialog--buttons">
+      </div>
+      <div className="taskdelete__dialog--buttons">
         <Button className="taskdelete__btn-delete"
           onClick = { () => {
             dialogLaunch("delete", board, column, task)
@@ -30,7 +30,7 @@ export function TaskDelete( { board, column, task } : { board?: number, column?:
         <Button className="taskdelete__btn-cancel"
           onClick = { () => dialogLaunch("taskView", board, column, task)  }
         >Cancel</Button>
-      </section>
+      </div>
     </DialogModal>
   )
 }

@@ -66,10 +66,10 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
     <>
       <div className="menu" ref={scopeMenu}>
         {/* Header with Count of Boards */}
-        <section className="menu-opt all-boards">{`ALL BOARDS (${boardsCount})`}</section>
+        <div className="menu-opt all-boards">{`ALL BOARDS (${boardsCount})`}</div>
 
         {/* List of Menu Options */}
-        <section className="menu-options" >
+        <div className="menu-options" >
           { boards && boards.map( (board: string, i: number) => 
               <motion.div className={`menu-opt items ${ i == currentBoard ? "selected" : ""}`} key={i} 
                 onClick    = { () => {
@@ -84,7 +84,7 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
               </motion.div>
             )
           }
-        </section>
+        </div>
 
         {/* Last Option on List for Creating New Board */}
         <motion.button className="menu-opt create-board" type="button"
@@ -100,7 +100,7 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
       </div>
 
       {/* Toggle Switch for switching DarkMode */}
-      <section className="nav-menu" ref={scopeNav}>
+      <div className="nav-menu" ref={scopeNav}>
 
         <div className="toggle-dark">
           <div className="toggle-box">
@@ -123,7 +123,7 @@ function BoardsMenu({ darkMode, setDarkMode, showMenu, setShowMenu }
           </motion.button>
         }
 
-      </section>
+      </div>
     </>
   );
 }
