@@ -1,4 +1,4 @@
-// ==================== TYPE FOR TYPESCRIPT ====================
+// ==================== TYPES FOR TYPESCRIPT ====================
 
 type typeData = { boards: typeBoard[] }
 
