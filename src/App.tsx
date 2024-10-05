@@ -45,7 +45,8 @@ function App() {
     if (firstTime) {
       firstTime = false
       setCurrentBoard(0)     // Select Board first Board by Default
-      setDarkMode(localStorage.getItem("dark-mode") === "enabled") // Check and set dark mode
+      let dark = localStorage.getItem("dark-mode")
+      setDarkMode( dark ? (dark === "enabled" ? true : false) : darkMode ) // Check and set dark mode
       dialogLaunch("init")
     }
   }, [])
